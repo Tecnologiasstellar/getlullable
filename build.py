@@ -407,7 +407,7 @@ def build():
              "weather, folklore — read warmly and quieter every minute.", f"{SITE}/stories/", body))
 
     # ---- sitemap / rss / robots / llms
-    urls = ([f"{SITE}/", f"{SITE}/sleep/", f"{SITE}/stories/"]
+    urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/sleep/", f"{SITE}/stories/"]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories])
     sm = "\n".join(f"<url><loc>{u}</loc></url>" for u in urls)
