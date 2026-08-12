@@ -546,7 +546,11 @@ def next_topic():
     published = {parse(p)["slug"]: parse(p).get("type", "") for p in (ROOT / "posts").glob("*.md")}
     last_type = ""
     if published:
-        newest = max((ROOT / "posts").glob("*.md"), key=lambda p: p.stem[:10])
+        # tie-break by mtime: on catch-up days several posts share a date, and
+        # glob order is filesystem-dependent — without this the rotation rule
+        # silently compared against an arbitrary one of them (found 2026-08-12).
+        newest = max((ROOT / "posts").glob("*.md"),
+                     key=lambda p: (p.stem[:10], p.stat().st_mtime))
         last_type = parse(newest).get("type", "")
     pending = [t for t in data["topics"] if t["slug"] not in published]
     if not pending:
