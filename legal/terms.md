@@ -36,13 +36,13 @@ Lullable reads true, gently uninteresting material and slow stories aloud, warml
 
 ## 4. Your account
 
-Some parts of the Service will require an account. Keep your login details to yourself, tell us if you think someone else has them, and give us accurate information. You're responsible for what happens under your account.
+The app requires an account, created with Sign in with Apple. Keep control of the Apple ID behind it, tell us if you think someone else has access, and don't share the account. You're responsible for what happens under it.
 
-You can delete your account at any time — from inside the app once it launches, or by writing to [info@getlullable.com](mailto:info@getlullable.com). Deleting an account deletes the personal data described in the [Privacy Policy](/privacy/). Deleting an account does **not** by itself cancel a subscription bought through an app store; see the next section.
+You can delete your account at any time, from inside the app in its settings — or by writing to [info@getlullable.com](mailto:info@getlullable.com) if you'd rather we did it. Deleting an account erases the personal data described in the [Privacy Policy](/privacy/), including your listening history, and it cannot be undone. Deleting an account does **not** by itself cancel a subscription bought through an app store; cancel that separately, as described in the next section.
 
 ## 5. Subscriptions, billing, and cancelling
 
-Some content may be free and some may require a paid subscription. When we sell subscriptions, these rules apply:
+Some content is free and some requires a paid subscription. These rules apply to it:
 
 - **Price and terms are shown before you pay.** No charge happens without you confirming it at that screen.
 - **Subscriptions renew automatically** at the end of each period — monthly or yearly, as chosen — at the then-current price, until you cancel.

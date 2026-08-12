@@ -24,7 +24,7 @@ Everything below is the same promise, said carefully, because some of it has to 
 - Email: [info@getlullable.com](mailto:info@getlullable.com)
 - Website: [getlullable.com](https://getlullable.com)
 
-This policy covers the getlullable.com website, the Lullable newsletter, and the Lullable app when it launches. It is written to satisfy Mexico's Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), the EU and UK GDPR, and the California Consumer Privacy Act as amended. A Spanish-language *aviso de privacidad* is at the bottom of this page.
+This policy covers the getlullable.com website, the Lullable newsletter, and the Lullable app. It is written to satisfy Mexico's Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), the EU and UK GDPR, and the California Consumer Privacy Act as amended. A Spanish-language *aviso de privacidad* is at the bottom of this page.
 
 ## What we collect
 
@@ -38,7 +38,7 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 
 **What we never collect.** No health data — we do not ask how you slept, and Lullable is not a sleep tracker. No precise location. No contacts, photos, or microphone access. No sensitive data of any kind as Mexican and European law define it.
 
-**The app, when it exists.** The Lullable app has not launched. When it does, this section will describe exactly what it collects — expected to be an email address for your account, your listening progress so playback resumes where you left off, and your subscription status. Payments will be handled by Apple or Google; we will never see your card. We will update this page before the app ships, not after, and the App Store privacy label will match this text.
+**In the app.** A separate section below describes the app in full, because it collects different things than the website does.
 
 ## Cookies, and how to refuse them
 
@@ -58,6 +58,33 @@ A banner asks you on your first visit. Until you answer it, nothing in the optio
 - Or email [info@getlullable.com](mailto:info@getlullable.com) and we'll handle it.
 
 Refusing costs you nothing. There is no paywall, no nag, no reduced version of the site.
+
+## The Lullable app
+
+**Signing in.** The app uses Sign in with Apple. Apple gives us an identifier for your account and an email address — which is Apple's private relay address if you chose to hide yours, and we're glad when you do. We never see your Apple password, and there is no separate Lullable password for anyone to lose.
+
+**What we store on our servers.** Your listening progress: which story you were in and how far you got. That is what resumes playback where you drifted off, and what makes "the last fact you heard" possible — it is the entire reason the app exists instead of a podcast feed.
+
+**What stays on your device.** Downloaded audio and your playback preferences — volume, fade length, timers. Those never reach us.
+
+**What the app does not contain.** No third-party SDKs of any kind: no analytics SDK, no crash-reporting SDK, no advertising or attribution SDK. Nothing in the app follows you across other apps or websites, which is why you will never see an App Tracking Transparency prompt from us — there is nothing for us to ask permission for. The analytics and advertising cookies described above are on the website only, and never in the app.
+
+**Payments.** Subscriptions are sold and processed by Apple. We never see your card number and never receive your billing address. Apple tells us whether an account is entitled to premium content, and nothing else.
+
+**Health data.** None. The app does not read HealthKit, does not track your sleep, and never asks how you slept.
+
+### Deleting your account
+
+You can delete your account from inside the app, in its settings. No email, no form, no support conversation, and no waiting for us to approve it.
+
+Deleting removes your account record, the email or relay address attached to it, and your entire listening history from our servers straight away. Copies sitting in encrypted backups are overwritten within 30 days. It cannot be undone.
+
+Two things worth knowing before you tap it:
+
+- **Deleting your account does not cancel your subscription.** Only Apple can do that — Settings, your name, Subscriptions, on your device. Cancel there first, or you will go on being charged for an account that no longer exists.
+- Records we are legally required to keep, such as an invoice Apple issued, survive deletion for as long as Mexican tax law demands and are used for nothing else.
+
+If you'd rather we did it for you, write to [info@getlullable.com](mailto:info@getlullable.com).
 
 ## Why we use it, and what's optional
 
@@ -87,7 +114,7 @@ We use a small number of providers, each doing one job, each bound to process da
 - **Google** — Fonts on every page; Analytics 4 and Google Ads measurement only with your consent (United States and elsewhere).
 - **Meta and TikTok** — advertising measurement and retargeting, only with your consent (United States and elsewhere).
 - **Our cookieless analytics provider** — aggregate visit counts, with no cookie and no personal identifier.
-- **Apple and Google** — app distribution and subscription payments, when the app launches.
+- **Apple** — app distribution, Sign in with Apple, and subscription payments.
 
 That is the complete list. We do not sell personal data for money, and we have no interest in doing so. We disclose data to authorities only where a valid legal order requires it.
 
@@ -97,7 +124,7 @@ That is the complete list. We do not sell personal data for money, and we have n
 
 ## How long we keep it
 
-Your email stays on the list until you unsubscribe or ask us to delete it, and it is removed within 30 days of either. Server logs roll off within 30 days at our host's default. Analytics data is kept for no more than 14 months. Data held by the advertising platforms follows their own retention periods, which are described in their policies and are typically shorter. Records we're legally required to retain — invoices, tax documents — are kept for the period Mexican law demands and no longer.
+Your email stays on the list until you unsubscribe or ask us to delete it, and it is removed within 30 days of either. Your app account and listening history are kept while the account exists and are erased the moment you delete it, with backup copies overwritten within 30 days. Server logs roll off within 30 days at our host's default. Analytics data is kept for no more than 14 months. Data held by the advertising platforms follows their own retention periods, which are described in their policies and are typically shorter. Records we're legally required to retain — invoices, tax documents — are kept for the period Mexican law demands and no longer.
 
 ## Your rights
 
@@ -129,7 +156,9 @@ If we change something that matters — a new tool, a new purpose — we'll upda
 
 **Tecnologías Stellar, S.A. de C.V.**, con domicilio en Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
 
-**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); y, únicamente si usted lo autoriza mediante el aviso de cookies, datos de uso e identificadores publicitarios recabados por herramientas de analítica y publicidad. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros.
+**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta.
+
+**Eliminación de su cuenta.** Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato su cuenta, su correo electrónico y todo su historial de escucha. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.
 
 **Finalidades necesarias.** Enviarle el boletín y el aviso de lanzamiento que solicitó; operar y proteger el sitio; atender sus mensajes; cumplir obligaciones legales y fiscales.
 
