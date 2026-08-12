@@ -12,7 +12,7 @@ engines — what shipped, what silently broke, and why.
 python3 build.py next        # picks the next topic (rotation applied), scaffolds the file, prints the brief
 # write the post — or hand the printed brief to Claude with the voice contract below
 python3 build.py             # validate (hard gates) + regenerate everything
-vercel deploy --prod
+python3 build.py ship "Daily post: the title"   # build + commit + push; Vercel builds main
 # then BROWSER-VERIFY the new URL. A 200 from the deploy is not a rendered page.
 ```
 
@@ -47,7 +47,7 @@ python3 build.py story the-story-slug    # scaffold catalog/the-story-slug.md
 # fill it: metadata from the app (title, narrator, mins, genre, mood, premium),
 #          blurb, a mid-clause `sample:` ending in an em-dash, the first minute,
 #          and "why this one works at night"
-python3 build.py && vercel deploy --prod
+python3 build.py ship "Story page: the-story-slug"
 # browser-verify /stories/the-story-slug/
 ```
 

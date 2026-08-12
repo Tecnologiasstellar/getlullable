@@ -8,6 +8,7 @@ The Sleep Library + Story pages — static generator. Zero runtime dependencies
                                      #   rules applied) and scaffold its post
     python3 build.py new <slug>      # scaffold an off-queue post
     python3 build.py story <slug>    # scaffold a story page (new app upload)
+    python3 build.py ship "msg"      # build + commit + push = deployed to production
 
 Pipeline principles, imported from SAUNAS.MX and SIMPLE.MX and recorded here
 so they survive refactors:
@@ -282,8 +283,10 @@ def page(title, desc, canonical, body, extra_head=""):
 </header>
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
-· <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a></footer>
+· <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
+<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
+<script src="/consent.js" defer></script>
 </body>
 </html>"""
 
@@ -474,8 +477,26 @@ def build():
         page(f"Sleep stories — {BRAND}", "Every sleep story in the Lullable app: slow fiction, nature and "
              "weather, folklore — read warmly and quieter every minute.", f"{SITE}/stories/", body))
 
+    # ---- legal pages (/privacy/, /terms/) — same claim gate as the essays,
+    # since "not a medical device" is the one sentence we cannot get wrong.
+    legal = [parse_story(p) for p in sorted((ROOT / "legal").glob("*.md"))]
+    for l in legal:
+        hits = prohibited_claims_in(l["body"])
+        if hits:
+            sys.exit(f"HARD FAIL {l['path']}: prohibited claim(s) {hits}")
+        url = f"{SITE}/{l['slug']}/"
+        out = ROOT / l["slug"]
+        out.mkdir(exist_ok=True)
+        head_band = (f'<div class="post-head"><p class="eyebrow">{BRAND}</p>'
+                     f"<h1>{html.escape(l['title'])}</h1>"
+                     f'<p class="post-meta">Last updated <time datetime="{l["updated"]}">'
+                     f'{pretty(l["updated"])}</time></p></div>')
+        body = f'<article>\n{head_band}\n<div class="measure">\n{md(l["body"])}\n</div>\n</article>'
+        (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
+
     # ---- sitemap / rss / robots / llms
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/sleep/", f"{SITE}/stories/"]
+            + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories])
     sm = "\n".join(f"<url><loc>{u}</loc></url>" for u in urls)
@@ -588,6 +609,21 @@ Two or three sentences on the mechanism — what this story gives a racing mind 
 """)
     print(f"created {path.relative_to(ROOT)}")
 
+def ship(message):
+    """Build, commit, push. That is the entire deploy.
+
+    Vercel's GitHub integration owns getlullable.com and builds `main` to
+    production on every push — there is no CLI to install, no dashboard to
+    visit, and `vercel deploy` would create a SECOND, domain-less project.
+    The build runs first so a failed claim gate stops the push, not the site."""
+    import subprocess
+    build()
+    subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
+    if subprocess.run(["git", "commit", "-m", message], cwd=ROOT).returncode:
+        print("nothing new to commit — pushing whatever is already committed")
+    subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
+    print(f"pushed. vercel builds main -> production in ~30s: {SITE}")
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if args and args[0] == "new" and len(args) > 1:
@@ -596,5 +632,7 @@ if __name__ == "__main__":
         next_topic()
     elif args and args[0] == "story" and len(args) > 1:
         scaffold_story(args[1])
+    elif args and args[0] == "ship":
+        ship(args[1] if len(args) > 1 else f"Site update {date.today().isoformat()}")
     else:
         build()

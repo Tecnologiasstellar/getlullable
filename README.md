@@ -23,7 +23,8 @@ SEQUENCE.md       onboarding letters 2–5 + the numbers that decide whether eac
 Daily post habit (see PRODUCTION.md):
 
 ```bash
-python3 build.py next && python3 build.py && vercel deploy --prod
+python3 build.py next          # scaffold, write it, then:
+python3 build.py ship "Daily post: the title"
 ```
 
 New story uploaded to the app:
@@ -68,10 +69,19 @@ Both are at the top of the `<script>` in [index.html](index.html):
 ## Deploy
 
 ```bash
-npm i -g vercel && vercel deploy --prod
+python3 build.py ship "what changed"
 ```
 
-Static file, no framework detection needed. Costs $0.
+That's it — build, commit, push. **Vercel's GitHub integration owns the domain and
+builds `main` to production on every push**, in about 30 seconds. There is no CLI to
+install and no dashboard to visit.
+
+Do *not* run `vercel deploy` here: this folder was never linked with the CLI, so it
+would create a second, domain-less project and leave you wondering why getlullable.com
+didn't change. Rollback, if a deploy is bad, is the Instant Rollback button on the
+Vercel dashboard, or `git revert` + ship again.
+
+Costs $0.
 
 ## Cost sheet
 

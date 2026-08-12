@@ -21,7 +21,7 @@ posts/*.md               source of truth — one markdown file per post
 build.py                 turns posts/ into all of the above
 ```
 
-Deploy is `vercel deploy --prod` on a static folder. Cost: $0. Failure modes: approximately none — there is nothing to go down except Vercel itself.
+Deploy is `python3 build.py ship "what changed"` — build, commit, push. Vercel's GitHub integration builds `main` to production automatically; the CLI is not installed and is not the mechanism. Cost: $0. Failure modes: approximately none — there is nothing to go down except Vercel itself.
 
 ### Why not Neon + Prisma + Next.js (yet)
 
@@ -73,8 +73,7 @@ Three rotating types, all downstream of what the app actually contains:
 ```bash
 python3 build.py new the-post-slug     # scaffold posts/2026-08-12-the-post-slug.md
 # write it (or have Claude write it — the voice rules live in NEWSLETTER-01.md)
-python3 build.py                       # regenerate /sleep/, sitemap, rss, llms.txt
-vercel deploy --prod
+python3 build.py ship "Daily post: the title"   # build + commit + push = live
 ```
 
 One file, two commands. If this takes more than 20 minutes a day, the posts are too long.
