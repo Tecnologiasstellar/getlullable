@@ -19,45 +19,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
 <style>
 /* ---------------------------------------------------------------
-   "Nightfall" design system — imported from the Claude Design
-   project (design/tokens/colors.json). Dark canonical appearance.
-   The system's one hard rule: AMBER marks the playback / conversion
-   path only (play, progress, selected plan); IRIS marks navigation
-   and atmosphere (overlines, glows). They never share a job.
-   Governing site rule stays: nothing bright enough to wake someone.
-   Newsreader is the system serif (display=swap; Georgia fallback).
+   "Nightfall" design system — from the Claude Design project
+   (design/tokens/colors.json). AMBER = playback/conversion path
+   only. IRIS = navigation + atmosphere. They never share a job.
+   Redesign 2026-08: app-mirror hero, ~250-word budget, science
+   cards. Full manifesto moved to /manifesto/.
    --------------------------------------------------------------- */
 :root{
-  --ink:#0E0F16;        /* ground */
-  --ink-2:#171823;      /* surface: cards, fields */
-  --ink-3:#1F2130;      /* raised: sheets, inputs */
-  --haze:#262937;       /* line: dividers, hairlines */
-  --text:#EDE7DE;       /* text primary — warm ivory, never #FFF */
-  --dim:#9B97A8;        /* text secondary */
-  --dimmer:#6C6879;     /* text tertiary — small labels only, never body */
-  --amber:#DFAF83;      /* playback + conversion path only */
-  --amber-soft:rgba(223,175,131,.28);
-  --iris:#A79FD9;       /* navigation + atmosphere */
-  --iris-dim:#9C93CE;   /* overlines */
-  --err:#C97B7B;        /* playback failure only */
+  --ink:#0E0F16;--ink-2:#171823;--ink-3:#1F2130;--haze:#262937;
+  --text:#EDE7DE;--dim:#9B97A8;--dimmer:#6C6879;
+  --amber:#DFAF83;--amber-soft:rgba(223,175,131,.28);
+  --iris:#A79FD9;--iris-dim:#9C93CE;--err:#C97B7B;
   --serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
   --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
-  --measure:34rem;      /* reading width, never exceeded */
-  --pad:1.5rem;
+  --measure:34rem;--pad:1.5rem;
 }
 *{box-sizing:border-box;margin:0}
 html{-webkit-text-size-adjust:100%}
-body{
-  background:var(--ink);color:var(--text);
-  font:400 17px/1.65 var(--sans);
-  letter-spacing:.005em;
-  -webkit-font-smoothing:antialiased;
-}
-/* atmosphere is iris, per the system — a slow violet dusk at the top */
-body::before{
-  content:"";position:fixed;inset:0 0 auto;height:60vh;pointer-events:none;z-index:0;
-  background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.08),transparent 62%);
-}
+body{background:var(--ink);color:var(--text);font:400 17px/1.65 var(--sans);letter-spacing:.005em;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:60vh;pointer-events:none;z-index:0;
+  background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.08),transparent 62%)}
 main,header,footer{position:relative;z-index:1}
 .wrap{max-width:64rem;margin:0 auto;padding:0 var(--pad)}
 .narrow{max-width:var(--measure);margin-inline:auto}
@@ -78,87 +59,101 @@ header{padding:1.75rem 0}
 .navbtn:hover{opacity:.85;color:var(--ink)}
 @media(max-width:560px){.bar nav a:first-child{display:none}}
 
-/* ---------- app CTAs (every .app-link flips to the store URL on launch day) ---------- */
-.getapp{
-  display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;
-  background:var(--amber);color:var(--ink);border-radius:11px;
-  padding:.85rem 1.5rem;font-size:.98rem;transition:opacity .3s;
-}
+/* ---------- app CTAs ---------- */
+.getapp{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;background:var(--amber);color:var(--ink);
+  border-radius:11px;padding:.85rem 1.5rem;font-size:.98rem;transition:opacity .3s}
 .getapp:hover{opacity:.85}
 .cta-line{text-align:center;margin-top:3.25rem}
 .cta-line .hint{display:block;font-size:.8rem;color:var(--dimmer);margin-top:.8rem}
 
-/* ---------- testimonials ---------- */
-.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
-.quote{background:linear-gradient(160deg,#26242C,#131318);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between}
-.quote p{font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.65;color:var(--dim)}
-.quote .who{font-size:.78rem;color:var(--dimmer);margin-top:1.25rem}
-@media(max-width:760px){.quotes{grid-template-columns:1fr}}
-
-/* ---------- hero ---------- */
-.hero{padding:5rem 0 4rem;text-align:center}
-.kicker{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.75rem}
-.hero h1{font-size:clamp(2.3rem,6.5vw,3.9rem);margin-bottom:1.5rem}
+/* ---------- hero: app-mirror ---------- */
+.hero{padding:4rem 0 5rem}
+.hgrid{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:center}
+@media(max-width:860px){.hgrid{grid-template-columns:1fr;gap:3rem}.phone{margin:0 auto}}
+.kicker{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.3rem,5.5vw,3.6rem);margin-bottom:1.25rem}
 .hero h1 em{font-style:italic;color:var(--amber)}
-.sub{font-size:1.15rem;color:var(--dim);max-width:32rem;margin:0 auto 2.5rem}
-.ctas{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
-.badge{
-  display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;
-  background:var(--ink-2);border:1px solid var(--haze);border-radius:11px;
-  padding:.7rem 1.15rem;text-align:left;transition:border-color .4s;
-}
+.sub{font-size:1.1rem;color:var(--dim);max-width:28rem;margin-bottom:2rem}
+.ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:2.25rem}
+.badge{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;background:var(--ink-2);
+  border:1px solid var(--haze);border-radius:14px;padding:.7rem 1.15rem;text-align:left;transition:border-color .4s}
 .badge:hover{border-color:var(--amber-soft)}
 .badge svg{width:22px;height:22px;fill:var(--dim);flex:none}
 .badge .b1{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer)}
 .badge .b2{display:block;font-size:.95rem;color:var(--text)}
-.ghost{
-  display:inline-flex;align-items:center;text-decoration:none;font-size:.95rem;color:var(--dim);
-  padding:.7rem .5rem;border-bottom:1px solid var(--haze);
-}
+.ghost{display:inline-flex;align-items:center;text-decoration:none;font-size:.9rem;color:var(--dim);
+  padding:.7rem .2rem;border-bottom:1px solid var(--haze)}
 .ghost:hover{color:var(--text);border-color:var(--amber-soft)}
 
-/* ---------- player ---------- */
-.player{
-  background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;
-  padding:1.4rem;max-width:32rem;margin:0 auto;text-align:left;
-  box-shadow:0 12px 30px rgba(0,0,0,.5);
-}
-.p-row{display:flex;align-items:center;gap:1rem}
-.p-btn{
-  width:52px;height:52px;flex:none;border-radius:50%;cursor:pointer;
-  background:var(--amber);border:0;color:var(--ink);
-  display:grid;place-items:center;transition:opacity .3s;
-}
-.p-btn:hover{opacity:.85}
-.p-btn svg{width:18px;height:18px;fill:currentColor}
-.p-meta{flex:1;min-width:0}
-.p-title{font-size:.94rem;color:var(--text)}
-.p-sub{font-size:.8rem;color:var(--dimmer);margin-top:.15rem}
-.p-track{height:3px;background:var(--haze);border-radius:2px;margin-top:1.1rem;overflow:hidden}
-.p-fill{height:100%;width:0;background:var(--amber);transition:width .4s linear}
-.p-caption{
-  font-family:var(--serif);font-size:.95rem;line-height:1.6;color:var(--dim);
-  margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--haze);min-height:3.2em;
-}
-.hero .after{font-size:.82rem;color:var(--dimmer);margin-top:1.5rem}
+/* ---------- the phone (decorative mirror of the app) ---------- */
+.phone{width:300px;flex:none;background:#0B0C12;border:1px solid #2E3242;border-radius:38px;
+  padding:14px;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05);user-select:none}
+.screen{background:radial-gradient(110% 80% at 50% 0%,#221E2B 0%,#0E0F16 60%);border-radius:26px;
+  padding:1.15rem 1rem 0;overflow:hidden;height:520px;display:flex;flex-direction:column;position:relative}
+.ph-time{font:500 .68rem/1 var(--sans);color:var(--dimmer);display:flex;justify-content:space-between;margin-bottom:1.1rem}
+.ph-hello{font-family:var(--serif);font-size:1.35rem;color:var(--text);margin-bottom:.2rem}
+.ph-sub{font-size:.72rem;color:var(--dimmer);margin-bottom:1rem}
+.ph-label{font:500 .6rem/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--iris-dim);margin:0 0 .6rem}
+.ph-cont{background:var(--ink-2);border:1px solid var(--haze);border-radius:14px;padding:.7rem;display:flex;gap:.7rem;align-items:center;margin-bottom:1.1rem}
+.ph-cover{width:44px;height:44px;border-radius:10px;flex:none}
+.ph-c1{background:linear-gradient(150deg,#2B5064,#111D29)}
+.ph-c2{background:linear-gradient(150deg,#2A2333,#191622)}
+.ph-c3{background:linear-gradient(150deg,#4C3760,#1B1628)}
+.ph-t{flex:1;min-width:0}
+.ph-t .a{font-size:.78rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--serif)}
+.ph-t .b{font-size:.64rem;color:var(--dimmer);margin-top:.15rem}
+.ph-bar{height:2.5px;background:var(--haze);border-radius:2px;margin-top:.5rem;overflow:hidden}
+.ph-bar i{display:block;height:100%;width:62%;background:var(--amber)}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.ph-tile .ph-cover{width:100%;height:86px;margin-bottom:.45rem}
+.ph-tile .a{font-size:.74rem;color:var(--text);font-family:var(--serif)}
+.ph-tile .b{font-size:.62rem;color:var(--dimmer);margin-top:.1rem}
+.ph-mini{position:absolute;left:.7rem;right:.7rem;bottom:.7rem;background:rgba(31,33,48,.92);
+  border:1px solid var(--haze);border-radius:13px;padding:.6rem .75rem;display:flex;align-items:center;gap:.6rem;backdrop-filter:blur(6px)}
+.ph-mini .a{flex:1;font-size:.72rem;font-family:var(--serif);color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-play{width:28px;height:28px;flex:none;border-radius:50%;background:var(--amber);display:grid;place-items:center}
+.ph-play svg{width:10px;height:10px;fill:var(--ink)}
 
-/* ---------- section furniture ---------- */
-section{padding:5.5rem 0}
+/* ---------- player (sampler) ---------- */
+.player{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.25rem;
+  box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.p-row{display:flex;align-items:center;gap:1rem}
+.p-btn{width:48px;height:48px;flex:none;border-radius:50%;cursor:pointer;background:var(--amber);border:0;color:var(--ink);
+  display:grid;place-items:center;transition:opacity .3s}
+.p-btn:hover{opacity:.85}
+.p-btn svg{width:17px;height:17px;fill:currentColor}
+.p-meta{flex:1;min-width:0}
+.p-title{font-size:.92rem;color:var(--text)}
+.p-sub{font-size:.78rem;color:var(--dimmer);margin-top:.15rem}
+.p-track{height:3px;background:var(--haze);border-radius:2px;margin-top:1rem;overflow:hidden}
+.p-fill{height:100%;width:0;background:var(--amber);transition:width .4s linear}
+.p-caption{font-family:var(--serif);font-size:.92rem;line-height:1.6;color:var(--dim);
+  margin-top:1rem;padding-top:1rem;border-top:1px solid var(--haze);min-height:3em}
+
+/* ---------- sections ---------- */
+section{padding:5rem 0}
 .rule{height:1px;background:var(--haze);border:0;max-width:64rem;margin:0 auto}
 .eyebrow{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
-h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:1.5rem}
+h2{font-size:clamp(1.6rem,3.6vw,2.2rem);margin-bottom:1.25rem}
 
-/* ---------- manifesto ---------- */
-.manifesto p{margin-bottom:1.35rem;font-family:var(--serif);font-size:1.13rem;line-height:1.75;color:var(--dim)}
-.manifesto p.lead{font-size:1.35rem;color:var(--text);line-height:1.6}
-.manifesto strong{color:var(--text);font-weight:400;font-style:italic}
-.manifesto .break{
-  font-family:var(--serif);font-size:1.5rem;line-height:1.4;color:var(--amber);
-  margin:2.5rem 0;padding-left:1.25rem;border-left:2px solid var(--amber-soft);
-}
-.sig{font-size:.8rem;color:var(--dimmer);letter-spacing:.1em;text-transform:uppercase;margin-top:2.5rem}
+/* ---------- mini manifesto ---------- */
+.mini-manifesto p{font-family:var(--serif);font-size:1.35rem;line-height:1.6;color:var(--dim)}
+.mini-manifesto p strong{color:var(--text);font-weight:400;font-style:italic}
+.readmore{display:inline-block;margin-top:1.75rem;font-size:.9rem;color:var(--dim);text-decoration:none;border-bottom:1px solid var(--haze);padding-bottom:.15rem}
+.readmore:hover{color:var(--text);border-color:var(--amber-soft)}
 
-/* ---------- comparison strip — one line per thing you've tried ---------- */
+/* ---------- science cards ---------- */
+.sci{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
+.sci-card{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column}
+.sci-card svg{width:26px;height:26px;stroke:var(--iris);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1rem}
+.sci-card h3{font-size:1.1rem;margin-bottom:.5rem}
+.sci-card p{font-size:.88rem;color:var(--dim);line-height:1.6;flex:1}
+.sci-card a{display:inline-block;font-size:.75rem;color:var(--dimmer);text-decoration:none;margin-top:1rem;border-bottom:1px solid var(--haze);padding-bottom:.1rem;align-self:flex-start}
+.sci-card a:hover{color:var(--iris)}
+.sci-note{font-size:.8rem;color:var(--dimmer);margin-top:1.5rem;text-align:center}
+@media(max-width:760px){.sci{grid-template-columns:1fr}}
+
+/* ---------- comparison strip ---------- */
 .alts{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
 .alt{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.4rem}
 .alt svg{width:22px;height:22px;stroke:var(--dimmer);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.9rem}
@@ -171,13 +166,17 @@ h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:1.5rem}
 @media(max-width:760px){.alts{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.alts{grid-template-columns:1fr}}
 
+/* ---------- testimonials (hidden until real quotes) ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
+.quote{background:linear-gradient(160deg,#26242C,#131318);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.quote p{font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.65;color:var(--dim)}
+.quote .who{font-size:.78rem;color:var(--dimmer);margin-top:1.25rem}
+@media(max-width:760px){.quotes{grid-template-columns:1fr}}
+
 /* ---------- last fact card ---------- */
-.card{
-  background:linear-gradient(160deg,#1F1B2E,#131318);
-  border:1px solid var(--haze);border-radius:18px;
+.card{background:linear-gradient(160deg,#1F1B2E,#131318);border:1px solid var(--haze);border-radius:18px;
   padding:2rem;max-width:26rem;margin:2.5rem auto 0;
-  box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 40px rgba(255,255,255,.04);
-}
+  box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 40px rgba(255,255,255,.04)}
 .card .t{font-family:var(--serif);font-size:1.35rem;line-height:1.35;color:var(--text);margin-bottom:1.25rem}
 .card .q{font-family:var(--serif);font-style:italic;font-size:1.02rem;line-height:1.7;color:var(--dim)}
 .card .f{font-size:.82rem;color:var(--dimmer);margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--haze);display:flex;justify-content:space-between;gap:1rem}
@@ -185,16 +184,12 @@ h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:1.5rem}
 /* ---------- signup ---------- */
 .signup{background:var(--ink-2);border-top:1px solid var(--haze);border-bottom:1px solid var(--haze)}
 form{display:flex;gap:.6rem;margin:2rem 0 1.25rem}
-input[type=email]{
-  flex:1;min-width:0;background:var(--ink-3);border:1px solid var(--haze);border-radius:9px;
-  padding:.85rem 1rem;color:var(--text);font:inherit;font-size:.95rem;
-}
+input[type=email]{flex:1;min-width:0;background:var(--ink-3);border:1px solid var(--haze);border-radius:9px;
+  padding:.85rem 1rem;color:var(--text);font:inherit;font-size:.95rem}
 input[type=email]::placeholder{color:var(--dimmer)}
 input[type=email]:focus{border-color:var(--amber-soft);outline:none}
-button[type=submit]{
-  background:var(--amber);color:var(--ink);border:0;border-radius:9px;
-  padding:.85rem 1.4rem;font:inherit;font-size:.95rem;cursor:pointer;transition:opacity .3s;white-space:nowrap;
-}
+button[type=submit]{background:var(--amber);color:var(--ink);border:0;border-radius:9px;
+  padding:.85rem 1.4rem;font:inherit;font-size:.95rem;cursor:pointer;transition:opacity .3s;white-space:nowrap}
 button[type=submit]:hover{opacity:.85}
 button[disabled]{opacity:.5;cursor:default}
 .promises{list-style:none;font-size:.85rem;color:var(--dimmer);line-height:2}
@@ -228,69 +223,112 @@ footer a:hover{color:var(--dim)}
 
 <main>
 
-<!-- ============ HERO ============ -->
+<!-- ============ HERO: app-mirror ============ -->
 <section class="hero">
-  <div class="wrap">
-    <p class="kicker">The low-arousal knowledge engine</p>
-    <h1>Bedtime stories for <em>deep sleep</em>.</h1>
-    <p class="sub">People like us don't want to shut our brains off. We love learning. We just need knowledge that doesn't demand anything from us — fascinating truths, told so softly that we fall asleep mid-sentence. And we're totally fine with that.</p>
+  <div class="wrap hgrid">
+    <div>
+      <p class="kicker">The low-arousal knowledge engine</p>
+      <h1>Bedtime stories for <em>deep sleep</em>.</h1>
+      <p class="sub">Fascinating truths and slow stories, read so softly you'll fall asleep mid-sentence.</p>
+      <div class="ctas">
+        <a class="badge app-link" data-placement="hero" href="#signup">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.45-2.25-4.2-2.28-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.02-3.79-1-1.95.03-3.74 1.13-4.74 2.87-2.02 3.5-.52 8.69 1.45 11.53.96 1.39 2.11 2.95 3.62 2.9 1.45-.06 2-.94 3.76-.94 1.75 0 2.25.94 3.79.91 1.57-.03 2.56-1.42 3.52-2.81 1.11-1.61 1.56-3.17 1.59-3.25-.04-.02-3.05-1.17-3.08-4.62zM14.16 4c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z"/></svg>
+          <span><span class="b1">Coming to the App&nbsp;Store</span><span class="b2">Join the waitlist</span></span>
+        </a>
+        <a class="ghost" href="#signup">The Sunday letter</a>
+      </div>
 
-    <div class="ctas">
-      <a class="badge app-link" data-placement="hero" href="#signup">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.45-2.25-4.2-2.28-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.02-3.79-1-1.95.03-3.74 1.13-4.74 2.87-2.02 3.5-.52 8.69 1.45 11.53.96 1.39 2.11 2.95 3.62 2.9 1.45-.06 2-.94 3.76-.94 1.75 0 2.25.94 3.79.91 1.57-.03 2.56-1.42 3.52-2.81 1.11-1.61 1.56-3.17 1.59-3.25-.04-.02-3.05-1.17-3.08-4.62zM14.16 4c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z"/></svg>
-        <span><span class="b1">Coming to the App&nbsp;Store</span><span class="b2">Join the waitlist</span></span>
-      </a>
-      <a class="ghost" href="#signup">Get "Boringly Brilliant" — the Sunday letter</a>
+      <div class="player">
+        <div class="p-row">
+          <button class="p-btn" id="play" aria-label="Play a four-minute sample">
+            <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <div class="p-meta">
+            <div class="p-title">Sample — <em>Aristotle</em>, the opening descent</div>
+            <div class="p-sub" id="p-sub">Four minutes. It fades out on its own.</div>
+          </div>
+        </div>
+        <div class="p-track"><div class="p-fill" id="fill"></div></div>
+        <p class="p-caption" id="caption">Press play, and settle. No account, no card.</p>
+        <audio id="audio" preload="none" src="audio/sample-aristotle.mp3"></audio>
+      </div>
     </div>
 
-    <div class="player">
-      <div class="p-row">
-        <button class="p-btn" id="play" aria-label="Play a two-minute sample">
-          <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        </button>
-        <div class="p-meta">
-          <div class="p-title">Sample — <em>Aristotle</em>, from the opening descent</div>
-          <div class="p-sub" id="p-sub">About four minutes, then it fades out on its own. The full episode runs an hour.</div>
+    <!-- decorative mirror of the app's home screen -->
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="ph-time"><span>11:41</span><span>●●●</span></div>
+        <div class="ph-hello">Good evening.</div>
+        <div class="ph-sub">Wherever you are, you can set it down.</div>
+        <div class="ph-label">Continue listening</div>
+        <div class="ph-cont">
+          <div class="ph-cover ph-c1"></div>
+          <div class="ph-t">
+            <div class="a">Rain on the Glasshouse</div>
+            <div class="b">34 min left · Ilya Sorensen</div>
+            <div class="ph-bar"><i></i></div>
+          </div>
+        </div>
+        <div class="ph-label">Tonight</div>
+        <div class="ph-grid">
+          <div class="ph-tile"><div class="ph-cover ph-c2"></div><div class="a">The Lamplighter's Round</div><div class="b">42 min · Folklore</div></div>
+          <div class="ph-tile"><div class="ph-cover ph-c3"></div><div class="a">The Slow Train North</div><div class="b">38 min · Slow Fiction</div></div>
+        </div>
+        <div class="ph-mini">
+          <span class="dot" style="width:7px;height:7px"></span>
+          <span class="a">Aristotle — Part One</span>
+          <span class="ph-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         </div>
       </div>
-      <div class="p-track"><div class="p-fill" id="fill"></div></div>
-      <p class="p-caption" id="caption">Press play, and settle. The last thirty seconds fade to nothing — every recording ends the way we hope you will.</p>
-      <audio id="audio" preload="none" src="audio/sample-aristotle.mp3"></audio>
     </div>
-
-    <p class="after">No account. No card. Browsed best in the dark.</p>
   </div>
 </section>
 
 <hr class="rule">
 
-<!-- ============ MANIFESTO ============ -->
+<!-- ============ MINI MANIFESTO ============ -->
 <section>
-  <div class="wrap narrow manifesto">
-    <p class="eyebrow">A manifesto for overthinkers</p>
-    <h2>Your brain isn't broken. It's just curious.</h2>
-
-    <p class="lead">Somewhere along the way, you were told you have a sleep problem — and that the cure was to empty your head. A calm voice asked you to <strong>breathe into your belly</strong>, and your mind, which spends its days holding systems and arguments and forty open tabs, quietly declined.</p>
-
-    <p>That was never a failure of discipline. It was a category error. You don't have a broken brain that needs fixing. You have an active one that was left unemployed in the dark — and an unoccupied mind doesn't rest. It goes looking for work. It replays the meeting. It rehearses conversations that will never happen. It runs simulations of Tuesday.</p>
-
-    <p>You've tried the alternatives. White noise bored you in the wrong way — your pattern-loving brain found the loop inside five minutes, and then listened for it. Podcasts worked too well; you lay there at 11:45 taking mental notes at 1.5×, wide awake and well informed.</p>
-
-    <p class="break">You don't need to force your brain shut. You need to give it something peaceful to ponder.</p>
-
-    <p>So we made the opposite of a productivity tool. Lullable reads you true, quietly fascinating things — the patience of Roman concrete, the weather at the bottom of the sea — in a warm, unhurried voice that asks nothing back. Endings are given away in the first sentence. Nothing builds toward anything. The volume drifts gently down and never rises again.</p>
-
-    <p>And here is the luxury: <strong>zero retention required.</strong> There is no quiz in the morning. The finest possible outcome is that you learn something brilliant tonight and lose it by midnight, because you drifted into sleep somewhere around the fourth clause. That isn't the content failing. That's the content finishing its work.</p>
-
-    <p>Come think about something else for a while.</p>
-
-    <p class="sig">Lullable — the low-arousal knowledge engine</p>
+  <div class="wrap narrow mini-manifesto" style="text-align:center">
+    <p class="eyebrow">For overthinkers</p>
+    <p>Your brain isn't broken — <strong>it's just curious</strong>. It doesn't need emptying. It needs something peaceful to ponder, told slowly, with nothing to remember in the morning.</p>
+    <a class="readmore" href="/manifesto/">Read the manifesto →</a>
   </div>
 </section>
 
 <hr class="rule">
 
-<!-- ============ MATRIX ============ -->
+<!-- ============ SCIENCE ============ -->
+<section id="science">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow">The research</p>
+    <h2>The mechanism is studied.</h2>
+    <div class="sci">
+      <div class="sci-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l3 5 3-5h6M4 17h4l3-5 3 5h6M17 4l3 3-3 3M17 14l3 3-3 3"/></svg>
+        <h3>Racing thoughts delay sleep — content displaces them.</h3>
+        <p>Poor sleepers' bedtime minds run planning and problem-solving; good sleepers drift through loose, neutral imagery. Occupying the mind changes which one you get.</p>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/31918338/" rel="noopener">Lemyre et al., Sleep Medicine Reviews, 2020 →</a>
+      </div>
+      <div class="sci-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="8" r="2.2"/><circle cx="9" cy="17" r="2.2"/><circle cx="17" cy="16" r="2.2"/><path d="M7.8 7.4l8-.8M7.9 15.6l7.2.3M6.6 8.1l1.8 6.7"/></svg>
+        <h3>Random, neutral imagery eases the descent.</h3>
+        <p>In randomized research on the "cognitive shuffle," serially imagining unrelated, emotionally flat things lowered pre-sleep arousal and sleep effort. Our stories run the shuffle for you.</p>
+        <a href="https://summit.sfu.ca/item/17237" rel="noopener">Beaudoin, Simon Fraser University →</a>
+      </div>
+      <div class="sci-card">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <h3>10–20 minutes to fall asleep is healthy.</h3>
+        <p>Sleep-quality research treats a gentle descent as normal — falling asleep instantly usually signals sleep debt, not success. The goal is a calm descent, not a stopwatch.</p>
+        <a href="https://www.sleephealthjournal.org/article/S2352-7218(16)30130-9/abstract" rel="noopener">Ohayon et al., Sleep Health, 2017 →</a>
+      </div>
+    </div>
+    <p class="sci-note">No sleep app can honestly claim clinical proof of its own — including ours. This is the research on the mechanism; judge it yourself.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ COMPARISON ============ -->
 <section id="matrix">
   <div class="wrap">
     <p class="eyebrow">Where it sits</p>
@@ -327,16 +365,13 @@ footer a:hover{color:var(--dim)}
 <hr class="rule" hidden>
 
 <!-- ============ TESTIMONIALS ============ -->
-<!-- HIDDEN until real, permissioned Sleep Tester quotes exist: the site is now
+<!-- HIDDEN until real, permissioned Sleep Tester quotes exist: the site is
      public and the three quotes below are illustrative drafts. To re-enable,
-     change `hidden` to nothing on the section tag and replace the quotes. -->
+     remove `hidden` from the section tag and replace the quotes. -->
 <section id="testers" hidden>
   <div class="wrap" style="text-align:center">
     <p class="eyebrow">From the first sleep testers</p>
     <h2>The worst reviews we've ever been proud of.</h2>
-    <!-- TODO BEFORE PUBLIC LAUNCH: these three quotes are illustrative drafts in the
-         reverse-review format from MARKETING.md §4. Replace with real, permissioned
-         quotes from the 100 Sleep Testers program. Do not ship invented testimonials. -->
     <div class="quotes">
       <div class="quote">
         <p>"I've heard the first ten minutes of the Roman concrete episode maybe fifteen times. I could not tell you how it ends."</p>
@@ -364,15 +399,12 @@ footer a:hover{color:var(--dim)}
   <div class="wrap narrow" style="text-align:center">
     <p class="eyebrow">The last fact you heard</p>
     <h2>Every morning, proof that it worked.</h2>
-    <p class="sub" style="margin-bottom:0">Lullable notices when you've gone — the phone goes still, the room stops changing — and marks the sentence playing at that moment. The next morning, one card. No streak, no score. Just a receipt.</p>
-
     <div class="card">
       <p class="t">Last night, you drifted off while learning about the thermal vents of the Mariana Trench.</p>
       <p class="q">"…the vent fluid, at nearly three hundred and sixty-five degrees, cannot boil under the weight of eleven kilometres of seawater, and so it rises instead as a shimmering—"</p>
       <div class="f"><span>Asleep by 11:41pm &nbsp;·&nbsp; 23 minutes of the deep ocean</span><span class="mark" style="font-size:.82rem;gap:.4rem"><span class="dot" style="width:6px;height:6px"></span>Lullable</span></div>
     </div>
-
-    <p class="after" style="margin-top:1.5rem">It is the only share button in the world that means <em>I slept well</em>.</p>
+    <p style="font-size:.82rem;color:var(--dimmer);margin-top:1.5rem">The only share button in the world that means <em>I slept well</em>.</p>
     <div class="cta-line">
       <a class="getapp app-link" data-placement="after-card" data-live="Get the app" href="#signup">Wake up to your own card</a>
     </div>
@@ -383,8 +415,8 @@ footer a:hover{color:var(--dim)}
 <section class="signup" id="signup">
   <div class="wrap narrow">
     <p class="eyebrow">Join the Midnight Salon</p>
-    <h2>One letter a week. Three short paragraphs. Nothing urgent, ever.</h2>
-    <p style="color:var(--dim)">"Boringly Brilliant" arrives Sunday night, in dark mode, built to be read in bed: three quiet paragraphs of genuinely fascinating history or physics, and then it stops. Subscribers are also first through the door — Salon drops at 11:11pm, and the App&nbsp;Store waitlist. If you enjoy the letter, you already know what the app feels like.</p>
+    <h2>One letter a week. Nothing urgent, ever.</h2>
+    <p style="color:var(--dim)">"Boringly Brilliant": three quiet paragraphs of fascinating history or physics, Sunday night, in dark mode. Subscribers are first through the door for Salon drops at 11:11pm and the App&nbsp;Store waitlist.</p>
 
     <form id="signup-form" novalidate>
       <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
@@ -406,17 +438,15 @@ footer a:hover{color:var(--dim)}
 <footer>
   <div class="wrap f-row">
     <span>Lullable — the low-arousal knowledge engine.</span>
-    <span>Not a medical device. If you have clinical insomnia, please see a doctor. · <a href="/stories/">Stories</a> · <a href="/sleep/">The Sleep Library</a> · <a href="#signup">The Sunday letter</a></span>
+    <span>Not a medical device. If you have clinical insomnia, please see a doctor. · <a href="/manifesto/">Manifesto</a> · <a href="/stories/">Stories</a> · <a href="/sleep/">The Sleep Library</a> · <a href="#signup">The Sunday letter</a></span>
   </div>
 </footer>
 
 <script>
 /* ---------------------------------------------------------------
-   TODO BEFORE LAUNCH — one swap left:
-   1. SUBSCRIBE_URL: point at a real endpoint that accepts a POST.
-      Buttondown embed works with no key and no backend:
-      https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME
-   (audio sampler: DONE — audio/sample-aristotle.mp3, wired 2026-08-11)
+   Launch config: all wired as of 2026-08-11.
+   - SUBSCRIBE_URL: Buttondown (tecnologiasstellar) — subscribers land there.
+   - audio sampler: audio/sample-aristotle.mp3
    --------------------------------------------------------------- */
 var SUBSCRIBE_URL = "https://buttondown.com/api/emails/embed-subscribe/tecnologiasstellar";
 var EVENTS_URL    = "";              // optional: POST endpoint for the events table
@@ -431,8 +461,6 @@ function track(name, meta){
 }
 
 /* ---------- app CTAs ---------- */
-/* every .app-link starts life pointing at the waitlist. when APP_STORE_URL is set,
-   they all become download links and rename themselves via data-live. */
 document.querySelectorAll(".app-link").forEach(function(a){
   if(APP_STORE_URL){
     a.href = APP_STORE_URL;
@@ -479,9 +507,8 @@ audio.addEventListener("ended", function(){ icon.firstElementChild.setAttribute(
 audio.addEventListener("error", missing);
 audio.addEventListener("timeupdate", function(){
   if(broken) return;
-  var t = audio.currentTime, d = audio.duration || 120;
+  var t = audio.currentTime, d = audio.duration || 230;
   fill.style.width = (t/d*100) + "%";
-  /* the built-in fade: last FADE_SECONDS ease to silence, gently (squared) */
   var left = d - t;
   audio.volume = left < FADE_SECONDS ? Math.max(0, left/FADE_SECONDS) * Math.max(0, left/FADE_SECONDS) : 1;
   for(var i = LINES.length - 1; i >= 0; i--){
@@ -489,13 +516,13 @@ audio.addEventListener("timeupdate", function(){
   }
 });
 
-/* if the mp3 isn't there yet, say so. never fake it. */
+/* if the audio can't load, say so. never fake it. */
 var broken = false;
 function missing(){
   if(broken) return;
   broken = true;
-  psub.textContent = "Sample not uploaded yet.";
-  cap.textContent  = "The recording lands here shortly. Leave your email below and we'll send it — in a letter that also contains nothing urgent.";
+  psub.textContent = "Sample unavailable right now.";
+  cap.textContent  = "The recording isn't loading. Leave your email below and we'll send it — in a letter that also contains nothing urgent.";
   track("sample_missing");
 }
 
