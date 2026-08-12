@@ -249,13 +249,13 @@ footer a:hover{color:var(--dim)}
           <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         </button>
         <div class="p-meta">
-          <div class="p-title">Sample — <em>The Thermal Vents of the Mariana Trench</em></div>
-          <div class="p-sub" id="p-sub">2 minutes, then it fades out on its own. The full episode runs 45.</div>
+          <div class="p-title">Sample — <em>Aristotle</em>, from the opening descent</div>
+          <div class="p-sub" id="p-sub">About four minutes, then it fades out on its own. The full episode runs an hour.</div>
         </div>
       </div>
       <div class="p-track"><div class="p-fill" id="fill"></div></div>
       <p class="p-caption" id="caption">Press play, and settle. The last thirty seconds fade to nothing — every recording ends the way we hope you will.</p>
-      <audio id="audio" preload="none" src="audio/sample-mariana-trench.mp3"></audio>
+      <audio id="audio" preload="none" src="audio/sample-aristotle.mp3"></audio>
     </div>
 
     <p class="after">No account. No card. Browsed best in the dark.</p>
@@ -412,12 +412,11 @@ footer a:hover{color:var(--dim)}
 
 <script>
 /* ---------------------------------------------------------------
-   TODO BEFORE LAUNCH — two one-line swaps:
+   TODO BEFORE LAUNCH — one swap left:
    1. SUBSCRIBE_URL: point at a real endpoint that accepts a POST.
       Buttondown embed works with no key and no backend:
       https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME
-   2. Drop audio/sample-mariana-trench.mp3 in place. Until it exists
-      the player says so honestly instead of failing silently.
+   (audio sampler: DONE — audio/sample-aristotle.mp3, wired 2026-08-11)
    --------------------------------------------------------------- */
 var SUBSCRIBE_URL = "";              // <-- swap this
 var EVENTS_URL    = "";              // optional: POST endpoint for the events table
@@ -459,14 +458,16 @@ var PLAY  = "M8 5v14l11-7z",
 
 var FADE_SECONDS = 30;   /* the last 30s ramp to silence — the widget's whole thesis */
 
-/* captions appear as the sample runs. seconds -> line. */
+/* captions appear as the sample runs. seconds -> line, matched to the
+   Aristotle descent script (lullable_audio/output/LULLABLE_aristotle_61min.txt). */
 var LINES = [
-  [0,  "“The Mariana Trench reaches its greatest depth at the Challenger Deep: some ten thousand nine hundred metres below the surface.”"],
-  [14, "“The pressure there is roughly one thousand times the pressure of the air in your bedroom. Nothing about this is urgent.”"],
-  [30, "“Along the trench's back-arc, hydrothermal vents release mineral-rich water at temperatures above three hundred degrees.”"],
-  [48, "“It does not boil. At that depth, boiling is simply not available.”"],
-  [70, "“At the Champagne vent, droplets of liquid carbon dioxide rise slowly through the dark, like a very patient glass of something.”"],
-  [95, "“The nearest sunlight is eleven kilometres up, and has never once been down.”"]
+  [0,   "“You are listening to Lullable. Good evening.”"],
+  [8,   "“Wherever you are right now, whatever kind of day it has been, you can set it down.”"],
+  [18,  "“It will still be there in the morning, and it will keep perfectly well without you.”"],
+  [34,  "“There is nothing here for you to follow. Nothing to remember. Nothing you will be asked about tomorrow.”"],
+  [55,  "“This is a story about a man who lived twenty-four centuries ago. He spent his whole life asking questions.”"],
+  [72,  "“Tonight, you do not have to ask a single one.”"],
+  [90,  "“If you lose the thread, let it go. The thread is only here so that you have something soft to let go of.”"]
 ];
 
 play.addEventListener("click", function(){

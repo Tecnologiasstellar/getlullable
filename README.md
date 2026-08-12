@@ -56,7 +56,7 @@ Both are at the top of the `<script>` in [index.html](index.html):
    (no API key, no backend, free to 100 subscribers, $9/mo after).
    Until it's set, the form tells the visitor it isn't wired up rather than faking success.
 
-2. **`audio/sample-mariana-trench.mp3`** — the 2-minute sampler. Mono, 64kbps.
+2. **`audio/sample-aristotle.mp3`** — the 2-minute sampler. Mono, 64kbps.
    Until the file exists the player says "Sample not uploaded yet" and points at the newsletter.
 
 `EVENTS_URL` is optional — events log to the console until it points somewhere.

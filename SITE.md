@@ -74,7 +74,7 @@ Kicker names the category (*the low-arousal knowledge engine*); the subhead is t
 | | |
 |---|---|
 | Length | 120s, cut from the real 45-minute episode |
-| Source | `audio/sample-mariana-trench.mp3`, mono, 64kbps — voice only, small file |
+| Source | `audio/sample-aristotle.mp3`, mono, 64kbps — voice only, small file |
 | Preload | `none`. Nothing downloads until pressed. |
 | Controls | Play/pause and a thin progress line. No scrubbing, no volume, no speed — scrubbing implies there's a good bit. |
 | **Built-in fade** | **The last 30 seconds ramp to silence** (squared curve, in JS — `FADE_SECONDS`). Every recording ends the way we hope the listener will. The fade is the widget's thesis stated in audio. |
