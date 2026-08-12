@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lullable — the low-arousal knowledge engine</title>
+<meta name="description" content="Fascinating truths, told so softly that you fall asleep mid-sentence. For active minds that don't need emptying — just something peaceful to ponder.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="Lullable">
+<meta property="og:description" content="Fascinating truths, told so softly that you fall asleep mid-sentence.">
+<meta property="og:type" content="website">
+<!-- the preview image is the product's viral mechanic, not a logo. regenerate with make-card.py -->
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/og.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23DFAF83'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
+<style>
+/* ---------------------------------------------------------------
+   "Nightfall" design system — imported from the Claude Design
+   project (design/tokens/colors.json). Dark canonical appearance.
+   The system's one hard rule: AMBER marks the playback / conversion
+   path only (play, progress, selected plan); IRIS marks navigation
+   and atmosphere (overlines, glows). They never share a job.
+   Governing site rule stays: nothing bright enough to wake someone.
+   Newsreader is the system serif (display=swap; Georgia fallback).
+   --------------------------------------------------------------- */
+:root{
+  --ink:#0E0F16;        /* ground */
+  --ink-2:#171823;      /* surface: cards, fields */
+  --ink-3:#1F2130;      /* raised: sheets, inputs */
+  --haze:#262937;       /* line: dividers, hairlines */
+  --text:#EDE7DE;       /* text primary — warm ivory, never #FFF */
+  --dim:#9B97A8;        /* text secondary */
+  --dimmer:#6C6879;     /* text tertiary — small labels only, never body */
+  --amber:#DFAF83;      /* playback + conversion path only */
+  --amber-soft:rgba(223,175,131,.28);
+  --iris:#A79FD9;       /* navigation + atmosphere */
+  --iris-dim:#9C93CE;   /* overlines */
+  --err:#C97B7B;        /* playback failure only */
+  --serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  --measure:34rem;      /* reading width, never exceeded */
+  --pad:1.5rem;
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--ink);color:var(--text);
+  font:400 17px/1.65 var(--sans);
+  letter-spacing:.005em;
+  -webkit-font-smoothing:antialiased;
+}
+/* atmosphere is iris, per the system — a slow violet dusk at the top */
+body::before{
+  content:"";position:fixed;inset:0 0 auto;height:60vh;pointer-events:none;z-index:0;
+  background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.08),transparent 62%);
+}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:64rem;margin:0 auto;padding:0 var(--pad)}
+.narrow{max-width:var(--measure);margin-inline:auto}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;line-height:1.15}
+a{color:inherit}
+::selection{background:rgba(167,159,217,.3)}
+:focus-visible{outline:2px solid var(--iris);outline-offset:3px;border-radius:2px}
+
+/* ---------- header ---------- */
+header{padding:1.75rem 0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.mark{display:flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.15rem;letter-spacing:.02em;text-decoration:none}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--amber);opacity:.85;flex:none}
+.bar nav{display:flex;align-items:center;gap:1.5rem;font-size:.875rem;color:var(--dim)}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{color:var(--text)}
+.navbtn{background:var(--amber);color:var(--ink);border-radius:8px;padding:.5rem .95rem;transition:opacity .3s}
+.navbtn:hover{opacity:.85;color:var(--ink)}
+@media(max-width:560px){.bar nav a:first-child{display:none}}
+
+/* ---------- app CTAs (every .app-link flips to the store URL on launch day) ---------- */
+.getapp{
+  display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;
+  background:var(--amber);color:var(--ink);border-radius:11px;
+  padding:.85rem 1.5rem;font-size:.98rem;transition:opacity .3s;
+}
+.getapp:hover{opacity:.85}
+.cta-line{text-align:center;margin-top:3.25rem}
+.cta-line .hint{display:block;font-size:.8rem;color:var(--dimmer);margin-top:.8rem}
+
+/* ---------- testimonials ---------- */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
+.quote{background:linear-gradient(160deg,#26242C,#131318);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.quote p{font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.65;color:var(--dim)}
+.quote .who{font-size:.78rem;color:var(--dimmer);margin-top:1.25rem}
+@media(max-width:760px){.quotes{grid-template-columns:1fr}}
+
+/* ---------- hero ---------- */
+.hero{padding:5rem 0 4rem;text-align:center}
+.kicker{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.75rem}
+.hero h1{font-size:clamp(2.3rem,6.5vw,3.9rem);margin-bottom:1.5rem}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.sub{font-size:1.15rem;color:var(--dim);max-width:32rem;margin:0 auto 2.5rem}
+.ctas{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
+.badge{
+  display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;
+  background:var(--ink-2);border:1px solid var(--haze);border-radius:11px;
+  padding:.7rem 1.15rem;text-align:left;transition:border-color .4s;
+}
+.badge:hover{border-color:var(--amber-soft)}
+.badge svg{width:22px;height:22px;fill:var(--dim);flex:none}
+.badge .b1{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer)}
+.badge .b2{display:block;font-size:.95rem;color:var(--text)}
+.ghost{
+  display:inline-flex;align-items:center;text-decoration:none;font-size:.95rem;color:var(--dim);
+  padding:.7rem .5rem;border-bottom:1px solid var(--haze);
+}
+.ghost:hover{color:var(--text);border-color:var(--amber-soft)}
+
+/* ---------- player ---------- */
+.player{
+  background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;
+  padding:1.4rem;max-width:32rem;margin:0 auto;text-align:left;
+  box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+.p-row{display:flex;align-items:center;gap:1rem}
+.p-btn{
+  width:52px;height:52px;flex:none;border-radius:50%;cursor:pointer;
+  background:var(--amber);border:0;color:var(--ink);
+  display:grid;place-items:center;transition:opacity .3s;
+}
+.p-btn:hover{opacity:.85}
+.p-btn svg{width:18px;height:18px;fill:currentColor}
+.p-meta{flex:1;min-width:0}
+.p-title{font-size:.94rem;color:var(--text)}
+.p-sub{font-size:.8rem;color:var(--dimmer);margin-top:.15rem}
+.p-track{height:3px;background:var(--haze);border-radius:2px;margin-top:1.1rem;overflow:hidden}
+.p-fill{height:100%;width:0;background:var(--amber);transition:width .4s linear}
+.p-caption{
+  font-family:var(--serif);font-size:.95rem;line-height:1.6;color:var(--dim);
+  margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--haze);min-height:3.2em;
+}
+.hero .after{font-size:.82rem;color:var(--dimmer);margin-top:1.5rem}
+
+/* ---------- section furniture ---------- */
+section{padding:5.5rem 0}
+.rule{height:1px;background:var(--haze);border:0;max-width:64rem;margin:0 auto}
+.eyebrow{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
+h2{font-size:clamp(1.7rem,4vw,2.4rem);margin-bottom:1.5rem}
+
+/* ---------- manifesto ---------- */
+.manifesto p{margin-bottom:1.35rem;font-family:var(--serif);font-size:1.13rem;line-height:1.75;color:var(--dim)}
+.manifesto p.lead{font-size:1.35rem;color:var(--text);line-height:1.6}
+.manifesto strong{color:var(--text);font-weight:400;font-style:italic}
+.manifesto .break{
+  font-family:var(--serif);font-size:1.5rem;line-height:1.4;color:var(--amber);
+  margin:2.5rem 0;padding-left:1.25rem;border-left:2px solid var(--amber-soft);
+}
+.sig{font-size:.8rem;color:var(--dimmer);letter-spacing:.1em;text-transform:uppercase;margin-top:2.5rem}
+
+/* ---------- comparison strip — one line per thing you've tried ---------- */
+.alts{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem;text-align:left}
+.alt{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.4rem}
+.alt svg{width:22px;height:22px;stroke:var(--dimmer);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.9rem}
+.alt .name{font-family:var(--serif);font-size:1.05rem;color:var(--dim);margin-bottom:.35rem}
+.alt .line{font-size:.85rem;color:var(--dimmer);line-height:1.5}
+.alt.us{background:rgba(223,175,131,.09);border-color:var(--amber-soft)}
+.alt.us svg{stroke:var(--amber)}
+.alt.us .name{color:var(--amber)}
+.alt.us .line{color:var(--dim)}
+@media(max-width:760px){.alts{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.alts{grid-template-columns:1fr}}
+
+/* ---------- last fact card ---------- */
+.card{
+  background:linear-gradient(160deg,#1F1B2E,#131318);
+  border:1px solid var(--haze);border-radius:18px;
+  padding:2rem;max-width:26rem;margin:2.5rem auto 0;
+  box-shadow:0 12px 30px rgba(0,0,0,.5),inset 0 0 40px rgba(255,255,255,.04);
+}
+.card .t{font-family:var(--serif);font-size:1.35rem;line-height:1.35;color:var(--text);margin-bottom:1.25rem}
+.card .q{font-family:var(--serif);font-style:italic;font-size:1.02rem;line-height:1.7;color:var(--dim)}
+.card .f{font-size:.82rem;color:var(--dimmer);margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--haze);display:flex;justify-content:space-between;gap:1rem}
+
+/* ---------- signup ---------- */
+.signup{background:var(--ink-2);border-top:1px solid var(--haze);border-bottom:1px solid var(--haze)}
+form{display:flex;gap:.6rem;margin:2rem 0 1.25rem}
+input[type=email]{
+  flex:1;min-width:0;background:var(--ink-3);border:1px solid var(--haze);border-radius:9px;
+  padding:.85rem 1rem;color:var(--text);font:inherit;font-size:.95rem;
+}
+input[type=email]::placeholder{color:var(--dimmer)}
+input[type=email]:focus{border-color:var(--amber-soft);outline:none}
+button[type=submit]{
+  background:var(--amber);color:var(--ink);border:0;border-radius:9px;
+  padding:.85rem 1.4rem;font:inherit;font-size:.95rem;cursor:pointer;transition:opacity .3s;white-space:nowrap;
+}
+button[type=submit]:hover{opacity:.85}
+button[disabled]{opacity:.5;cursor:default}
+.promises{list-style:none;font-size:.85rem;color:var(--dimmer);line-height:2}
+.promises li::before{content:"—";margin-right:.6rem;color:var(--iris-dim)}
+.msg{font-size:.9rem;margin-top:.75rem;min-height:1.4em}
+.msg.ok{color:var(--amber)}
+.msg.err{color:var(--err)}
+@media(max-width:520px){form{flex-direction:column}}
+
+/* ---------- footer ---------- */
+footer{padding:3.5rem 0;font-size:.82rem;color:var(--dimmer)}
+.f-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{text-decoration:none}
+footer a:hover{color:var(--dim)}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="mark" href="/"><span class="dot"></span>Lullable</a>
+    <nav>
+      <a href="/stories/">Stories</a>
+      <a href="/sleep/">The Sleep Library</a>
+      <a class="navbtn app-link" data-placement="header" data-live="Get the app" href="#signup">Join the waitlist</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="kicker">The low-arousal knowledge engine</p>
+    <h1>Bedtime stories for <em>deep sleep</em>.</h1>
+    <p class="sub">People like us don't want to shut our brains off. We love learning. We just need knowledge that doesn't demand anything from us — fascinating truths, told so softly that we fall asleep mid-sentence. And we're totally fine with that.</p>
+
+    <div class="ctas">
+      <a class="badge app-link" data-placement="hero" href="#signup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.45-2.25-4.2-2.28-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.02-3.79-1-1.95.03-3.74 1.13-4.74 2.87-2.02 3.5-.52 8.69 1.45 11.53.96 1.39 2.11 2.95 3.62 2.9 1.45-.06 2-.94 3.76-.94 1.75 0 2.25.94 3.79.91 1.57-.03 2.56-1.42 3.52-2.81 1.11-1.61 1.56-3.17 1.59-3.25-.04-.02-3.05-1.17-3.08-4.62zM14.16 4c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z"/></svg>
+        <span><span class="b1">Coming to the App&nbsp;Store</span><span class="b2">Join the waitlist</span></span>
+      </a>
+      <a class="ghost" href="#signup">Get "Boringly Brilliant" — the Sunday letter</a>
+    </div>
+
+    <div class="player">
+      <div class="p-row">
+        <button class="p-btn" id="play" aria-label="Play a two-minute sample">
+          <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="p-meta">
+          <div class="p-title">Sample — <em>The Thermal Vents of the Mariana Trench</em></div>
+          <div class="p-sub" id="p-sub">2 minutes, then it fades out on its own. The full episode runs 45.</div>
+        </div>
+      </div>
+      <div class="p-track"><div class="p-fill" id="fill"></div></div>
+      <p class="p-caption" id="caption">Press play, and settle. The last thirty seconds fade to nothing — every recording ends the way we hope you will.</p>
+      <audio id="audio" preload="none" src="audio/sample-mariana-trench.mp3"></audio>
+    </div>
+
+    <p class="after">No account. No card. Browsed best in the dark.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ MANIFESTO ============ -->
+<section>
+  <div class="wrap narrow manifesto">
+    <p class="eyebrow">A manifesto for overthinkers</p>
+    <h2>Your brain isn't broken. It's just curious.</h2>
+
+    <p class="lead">Somewhere along the way, you were told you have a sleep problem — and that the cure was to empty your head. A calm voice asked you to <strong>breathe into your belly</strong>, and your mind, which spends its days holding systems and arguments and forty open tabs, quietly declined.</p>
+
+    <p>That was never a failure of discipline. It was a category error. You don't have a broken brain that needs fixing. You have an active one that was left unemployed in the dark — and an unoccupied mind doesn't rest. It goes looking for work. It replays the meeting. It rehearses conversations that will never happen. It runs simulations of Tuesday.</p>
+
+    <p>You've tried the alternatives. White noise bored you in the wrong way — your pattern-loving brain found the loop inside five minutes, and then listened for it. Podcasts worked too well; you lay there at 11:45 taking mental notes at 1.5×, wide awake and well informed.</p>
+
+    <p class="break">You don't need to force your brain shut. You need to give it something peaceful to ponder.</p>
+
+    <p>So we made the opposite of a productivity tool. Lullable reads you true, quietly fascinating things — the patience of Roman concrete, the weather at the bottom of the sea — in a warm, unhurried voice that asks nothing back. Endings are given away in the first sentence. Nothing builds toward anything. The volume drifts gently down and never rises again.</p>
+
+    <p>And here is the luxury: <strong>zero retention required.</strong> There is no quiz in the morning. The finest possible outcome is that you learn something brilliant tonight and lose it by midnight, because you drifted into sleep somewhere around the fourth clause. That isn't the content failing. That's the content finishing its work.</p>
+
+    <p>Come think about something else for a while.</p>
+
+    <p class="sig">Lullable — the low-arousal knowledge engine</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ MATRIX ============ -->
+<section id="matrix">
+  <div class="wrap">
+    <p class="eyebrow">Where it sits</p>
+    <h2>Four things you've tried at midnight.</h2>
+    <div class="alts">
+      <div class="alt">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        <div class="name">Podcasts</div>
+        <div class="line">Too interesting — you stay up for the ending.</div>
+      </div>
+      <div class="alt">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h2l2-5 3 10 3-14 3 14 2-5h3"/></svg>
+        <div class="name">White noise</div>
+        <div class="line">Too empty — your mind wanders back to work.</div>
+      </div>
+      <div class="alt">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4"/></svg>
+        <div class="name">Meditation</div>
+        <div class="line">Too demanding — "empty your mind" is homework.</div>
+      </div>
+      <div class="alt us">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z"/></svg>
+        <div class="name">Lullable</div>
+        <div class="line">Just enough — it occupies your mind until it lets go.</div>
+      </div>
+    </div>
+    <div class="cta-line">
+      <a class="getapp app-link" data-placement="after-matrix" data-live="Get the app" href="#signup">Join the waitlist</a>
+      <span class="hint">Seven free nights when it arrives. No card, and the trial ends by itself.</span>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ TESTIMONIALS ============ -->
+<section id="testers">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow">From the first sleep testers</p>
+    <h2>The worst reviews we've ever been proud of.</h2>
+    <!-- TODO BEFORE PUBLIC LAUNCH: these three quotes are illustrative drafts in the
+         reverse-review format from MARKETING.md §4. Replace with real, permissioned
+         quotes from the 100 Sleep Testers program. Do not ship invented testimonials. -->
+    <div class="quotes">
+      <div class="quote">
+        <p>"I've heard the first ten minutes of the Roman concrete episode maybe fifteen times. I could not tell you how it ends."</p>
+        <span class="who">Sleep tester №12 — night-shift nurse</span>
+      </div>
+      <div class="quote">
+        <p>"It's the only app I can't review properly, because I'm unconscious for most of it. Five stars, I assume."</p>
+        <span class="who">Sleep tester №38 — software engineer</span>
+      </div>
+      <div class="quote">
+        <p>"I used to relitigate my workday until 1am. Now I get about eleven minutes of ocean trivia, and then it's morning."</p>
+        <span class="who">Sleep tester №41 — founder</span>
+      </div>
+    </div>
+    <div class="cta-line">
+      <a class="getapp app-link" data-placement="after-testimonials" data-live="Get the app" href="#signup">Sleep like tester №41</a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============ LAST FACT ============ -->
+<section>
+  <div class="wrap narrow" style="text-align:center">
+    <p class="eyebrow">The last fact you heard</p>
+    <h2>Every morning, proof that it worked.</h2>
+    <p class="sub" style="margin-bottom:0">Lullable notices when you've gone — the phone goes still, the room stops changing — and marks the sentence playing at that moment. The next morning, one card. No streak, no score. Just a receipt.</p>
+
+    <div class="card">
+      <p class="t">Last night, you drifted off while learning about the thermal vents of the Mariana Trench.</p>
+      <p class="q">"…the vent fluid, at nearly three hundred and sixty-five degrees, cannot boil under the weight of eleven kilometres of seawater, and so it rises instead as a shimmering—"</p>
+      <div class="f"><span>Asleep by 11:41pm &nbsp;·&nbsp; 23 minutes of the deep ocean</span><span class="mark" style="font-size:.82rem;gap:.4rem"><span class="dot" style="width:6px;height:6px"></span>Lullable</span></div>
+    </div>
+
+    <p class="after" style="margin-top:1.5rem">It is the only share button in the world that means <em>I slept well</em>.</p>
+    <div class="cta-line">
+      <a class="getapp app-link" data-placement="after-card" data-live="Get the app" href="#signup">Wake up to your own card</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNUP ============ -->
+<section class="signup" id="signup">
+  <div class="wrap narrow">
+    <p class="eyebrow">Join the Midnight Salon</p>
+    <h2>One letter a week. Three short paragraphs. Nothing urgent, ever.</h2>
+    <p style="color:var(--dim)">"Boringly Brilliant" arrives Sunday night, in dark mode, built to be read in bed: three quiet paragraphs of genuinely fascinating history or physics, and then it stops. Subscribers are also first through the door — Salon drops at 11:11pm, and the App&nbsp;Store waitlist. If you enjoy the letter, you already know what the app feels like.</p>
+
+    <form id="signup-form" novalidate>
+      <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
+      <button type="submit" id="submit">Join the Midnight Salon</button>
+    </form>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+    <ul class="promises">
+      <li>One letter a week. Never two.</li>
+      <li>Never a notification after 9pm. Ever.</li>
+      <li>Unsubscribe in one click, and we won't ask why.</li>
+      <li>We will never sell, rent, or "partner" your address.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap f-row">
+    <span>Lullable — the low-arousal knowledge engine.</span>
+    <span>Not a medical device. If you have clinical insomnia, please see a doctor. · <a href="/stories/">Stories</a> · <a href="/sleep/">The Sleep Library</a> · <a href="#signup">The Sunday letter</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------
+   TODO BEFORE LAUNCH — two one-line swaps:
+   1. SUBSCRIBE_URL: point at a real endpoint that accepts a POST.
+      Buttondown embed works with no key and no backend:
+      https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME
+   2. Drop audio/sample-mariana-trench.mp3 in place. Until it exists
+      the player says so honestly instead of failing silently.
+   --------------------------------------------------------------- */
+var SUBSCRIBE_URL = "";              // <-- swap this
+var EVENTS_URL    = "";              // optional: POST endpoint for the events table
+var APP_STORE_URL = "";              // launch day: paste the App Store link and every
+                                     // CTA on the page flips from waitlist to download
+
+/* every meaningful action gets recorded. no vendor, no script tag. */
+function track(name, meta){
+  var e = {name:name, meta:meta||{}, ts:new Date().toISOString(), path:location.pathname};
+  if(!EVENTS_URL){ console.log("event", e); return; }
+  navigator.sendBeacon(EVENTS_URL, new Blob([JSON.stringify(e)], {type:"application/json"}));
+}
+
+/* ---------- app CTAs ---------- */
+/* every .app-link starts life pointing at the waitlist. when APP_STORE_URL is set,
+   they all become download links and rename themselves via data-live. */
+document.querySelectorAll(".app-link").forEach(function(a){
+  if(APP_STORE_URL){
+    a.href = APP_STORE_URL;
+    var b1 = a.querySelector(".b1"), b2 = a.querySelector(".b2");
+    if(b1 && b2){ b1.textContent = "Download on the"; b2.textContent = "App Store"; }
+    else if(a.dataset.live){ a.textContent = a.dataset.live; }
+  }
+  a.addEventListener("click", function(){
+    track("app_cta", {placement: a.dataset.placement || "?", live: !!APP_STORE_URL});
+  });
+});
+
+/* ---------- sampler ---------- */
+var audio = document.getElementById("audio"),
+    play  = document.getElementById("play"),
+    icon  = document.getElementById("icon"),
+    fill  = document.getElementById("fill"),
+    cap   = document.getElementById("caption"),
+    psub  = document.getElementById("p-sub");
+
+var PLAY  = "M8 5v14l11-7z",
+    PAUSE = "M6 5h4v14H6zm8 0h4v14h-4z";
+
+var FADE_SECONDS = 30;   /* the last 30s ramp to silence — the widget's whole thesis */
+
+/* captions appear as the sample runs. seconds -> line. */
+var LINES = [
+  [0,  "“The Mariana Trench reaches its greatest depth at the Challenger Deep: some ten thousand nine hundred metres below the surface.”"],
+  [14, "“The pressure there is roughly one thousand times the pressure of the air in your bedroom. Nothing about this is urgent.”"],
+  [30, "“Along the trench's back-arc, hydrothermal vents release mineral-rich water at temperatures above three hundred degrees.”"],
+  [48, "“It does not boil. At that depth, boiling is simply not available.”"],
+  [70, "“At the Champagne vent, droplets of liquid carbon dioxide rise slowly through the dark, like a very patient glass of something.”"],
+  [95, "“The nearest sunlight is eleven kilometres up, and has never once been down.”"]
+];
+
+play.addEventListener("click", function(){
+  if(audio.paused){ audio.volume = 1; audio.play().catch(missing); } else { audio.pause(); }
+});
+audio.addEventListener("play",  function(){ icon.firstElementChild.setAttribute("d", PAUSE); track("sample_play"); });
+audio.addEventListener("pause", function(){ icon.firstElementChild.setAttribute("d", PLAY); });
+audio.addEventListener("ended", function(){ icon.firstElementChild.setAttribute("d", PLAY); fill.style.width="0"; track("sample_finished"); });
+audio.addEventListener("error", missing);
+audio.addEventListener("timeupdate", function(){
+  if(broken) return;
+  var t = audio.currentTime, d = audio.duration || 120;
+  fill.style.width = (t/d*100) + "%";
+  /* the built-in fade: last FADE_SECONDS ease to silence, gently (squared) */
+  var left = d - t;
+  audio.volume = left < FADE_SECONDS ? Math.max(0, left/FADE_SECONDS) * Math.max(0, left/FADE_SECONDS) : 1;
+  for(var i = LINES.length - 1; i >= 0; i--){
+    if(t >= LINES[i][0]){ if(cap.textContent !== LINES[i][1]) cap.textContent = LINES[i][1]; break; }
+  }
+});
+
+/* if the mp3 isn't there yet, say so. never fake it. */
+var broken = false;
+function missing(){
+  if(broken) return;
+  broken = true;
+  psub.textContent = "Sample not uploaded yet.";
+  cap.textContent  = "The recording lands here shortly. Leave your email below and we'll send it — in a letter that also contains nothing urgent.";
+  track("sample_missing");
+}
+
+/* ---------- signup ---------- */
+var form = document.getElementById("signup-form"),
+    mail = document.getElementById("email"),
+    btn  = document.getElementById("submit"),
+    msg  = document.getElementById("msg");
+
+form.addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var value = mail.value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)){
+    msg.className = "msg err"; msg.textContent = "That address doesn't look finished."; return;
+  }
+  if(!SUBSCRIBE_URL){
+    msg.className = "msg err";
+    msg.textContent = "Signup isn't wired up yet — set SUBSCRIBE_URL in index.html.";
+    track("signup_unwired", {email_domain: value.split("@")[1]});
+    return;
+  }
+  btn.disabled = true; msg.className = "msg"; msg.textContent = "One moment.";
+  var body = new FormData(); body.append("email", value);
+  fetch(SUBSCRIBE_URL, {method:"POST", body:body, mode:"no-cors"})
+    .then(function(){
+      form.style.display = "none";
+      msg.className = "msg ok";
+      msg.textContent = "Done. Sunday night, in dark mode. Nothing before then.";
+      track("signup", {email_domain: value.split("@")[1]});
+    })
+    .catch(function(){
+      btn.disabled = false;
+      msg.className = "msg err";
+      msg.textContent = "That didn't go through. Try again, or email hello@getlullable.com.";
+      track("signup_failed");
+    });
+});
+
+track("page_view");
+</script>
+</body>
+</html>

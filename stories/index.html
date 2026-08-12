@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleep stories — Lullable</title>
+<meta name="description" content="Every sleep story in the Lullable app: slow fiction, nature and weather, folklore — read warmly and quieter every minute.">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://getlullable.com/stories/">
+<meta property="og:title" content="Sleep stories — Lullable">
+<meta property="og:description" content="Every sleep story in the Lullable app: slow fiction, nature and weather, folklore — read warmly and quieter every minute.">
+<meta property="og:image" content="https://getlullable.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="Lullable — The Sleep Library" href="https://getlullable.com/rss.xml">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23DFAF83'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E0F16;--ink-2:#171823;--haze:#262937;--text:#EDE7DE;--dim:#9B97A8;
+--dimmer:#6C6879;--amber:#DFAF83;--amber-soft:rgba(223,175,131,.28);--iris:#A79FD9;--iris-dim:#9C93CE;
+--serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
+--sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ink);color:var(--text);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:50vh;pointer-events:none;
+background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.07),transparent 62%)}
+.wrap{position:relative;max-width:34rem;margin:0 auto;padding:0 1.5rem}
+header{padding:1.75rem 0}
+.mark{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.15rem;text-decoration:none;color:var(--text)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--amber);opacity:.85}
+h1{font-family:var(--serif);font-weight:400;font-size:2rem;line-height:1.2;letter-spacing:-.015em;margin:2.5rem 0 .75rem}
+h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:2.5rem 0 1rem}
+h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75rem}
+.meta{font:500 .72rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
+article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
+article strong{color:var(--text);font-weight:400;font-style:italic}
+article a{color:var(--text)}
+article ul{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
+font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+.chip{font:500 .72rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--iris-dim);
+background:rgba(167,159,217,.12);border:1px solid rgba(167,159,217,.22);border-radius:20px;padding:.45rem .8rem}
+.chip.amber{color:var(--amber);background:rgba(223,175,131,.12);border-color:rgba(223,175,131,.25)}
+.cta{background:linear-gradient(160deg,#1F1B2E,#131318);border:1px solid var(--haze);border-radius:16px;
+padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.cta p{font-family:var(--serif);color:var(--dim);margin-bottom:1.25rem}
+.cta a{display:inline-block;background:var(--amber);color:var(--ink);border-radius:11px;
+padding:.85rem 1.5rem;text-decoration:none;font-size:.95rem}
+.related{border-top:1px solid var(--haze);margin-top:3rem;padding-top:2rem}
+.related h2{margin-top:0;font-size:1.2rem}
+.related ul{list-style:none;margin:0}
+.related li{padding:.55rem 0;border-bottom:1px solid var(--haze)}
+.related a{color:var(--dim);text-decoration:none;font-family:var(--serif);font-size:1.02rem}
+.related a:hover{color:var(--iris)}
+.related .kind{font:500 .66rem/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);margin-left:.5rem}
+footer{padding:3rem 0 3.5rem;font-size:.8rem;color:var(--dimmer)}
+footer a{color:var(--dimmer)}
+.index li{list-style:none;border-bottom:1px solid var(--haze);padding:1.5rem 0}
+.index a{font-family:var(--serif);font-size:1.25rem;color:var(--text);text-decoration:none}
+.index a:hover{color:var(--iris)}
+.index p{color:var(--dim);font-size:.95rem;margin-top:.4rem}
+.index time,.index .sub{font-size:.78rem;color:var(--dimmer)}
+::selection{background:rgba(167,159,217,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="mark" href="/"><span class="dot"></span>Lullable</a></header>
+<h1>Stories</h1><p class="meta">Every story in the Lullable app. Endings given away, nothing withheld.</p><ul class="index"><li><span class="sub">52 min · Folklore · read by Marguerite Bell</span><br><a href="/stories/the-keeper-of-the-tide-clock/">The Keeper of the Tide Clock</a><p>In a harbour town, one clock keeps the tides instead of the hours. Its keeper explains, gently and at length, how that works.</p></li><li><span class="sub">47 min · Nature &amp; Weather · read by Ilya Sorensen</span><br><a href="/stories/snowfall-over-the-orchard/">Snowfall Over the Orchard</a><p>The first snow settles over two hundred sleeping apple trees. The orchard keeper counts rows until the counting stops mattering.</p></li><li><span class="sub">61 min · Wandering · read by Marguerite Bell</span><br><a href="/stories/cartography-of-small-islands/">Cartography of Small Islands</a><p>A mapmaker rows between seven islands that no one has bothered to name, and gives them names anyway, one per evening.</p></li><li><span class="sub">38 min · Slow Fiction · read by Nora Vance</span><br><a href="/stories/the-slow-train-north/">The Slow Train North</a><p>A sleeper carriage, a thermos of tea, and eleven hours of dark country going by the window at the speed of a held breath.</p></li><li><span class="sub">55 min · Nature &amp; Weather · read by Ilya Sorensen</span><br><a href="/stories/rain-on-the-glasshouse/">Rain on the Glasshouse</a><p>A night gardener waits out a long rain among the ferns, listening to water finding its way across a hundred panes of old glass.</p></li><li><span class="sub">42 min · Folklore · read by Nora Vance</span><br><a href="/stories/the-lamplighters-round/">The Lamplighter&#x27;s Round</a><p>An old lamplighter walks the same nine streets he has walked for forty years, naming each lamp as he lights it. Nothing happens, slowly.</p></li></ul>
+<footer>Lullable — the low-arousal knowledge engine. Not a medical device.
+· <a href="/">Home</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a></footer>
+</div>
+</body>
+</html>
