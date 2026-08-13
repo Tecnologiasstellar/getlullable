@@ -15,8 +15,9 @@ it appears there. Re-running is safe — already-scheduled slugs are skipped.
 """
 import json, os, sys, urllib.error, urllib.request
 from calendar import monthrange
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 HERE = Path(__file__).parent
 FACTS, POSTED = HERE / "ig-facts.json", HERE / "ig-posted.json"
@@ -36,13 +37,18 @@ def load(p, default):
 
 def slots(year, month, n, after):
     """Weekday evenings, starting the day after `after`. Weekends are skipped so
-    the feed has a working rhythm; the cap is what actually protects the tier."""
+    the feed has a working rhythm; the cap is what actually protects the tier.
+
+    The offset is not optional. PostPeer rejects a bare "...T21:07:00" outright,
+    and stores a trailing Z as literal UTC — which would post these at 3pm. The
+    zone is resolved per date so a DST-observing TZ still lands at 21:07 local."""
+    hh, mm = (int(x) for x in AT.split(":"))
     out = []
     for day in range(1, monthrange(year, month)[1] + 1):
         d = date(year, month, day)
         if d <= after or d.weekday() > 4:
             continue
-        out.append(f"{d.isoformat()}T{AT}:00")
+        out.append(datetime.combine(d, time(hh, mm), ZoneInfo(TZ)).isoformat())
         if len(out) == n:
             break
     return out
