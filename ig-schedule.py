@@ -5,6 +5,7 @@ Schedules a month of Instagram cards on PostPeer. One sitting per month.
     python3 ig-schedule.py --dry-run     # print the plan, touch nothing
     python3 ig-schedule.py               # schedule this month's remaining slots
     python3 ig-schedule.py --month 2026-09
+    python3 ig-schedule.py --now jellyfish-sleep    # publish one card immediately
 
 Why batch and not a daily cron: PRODUCTION.md's rule, learned twice — crons fail
 silently. PostPeer's servers do the publishing, so nothing here has to be awake,
@@ -80,21 +81,49 @@ def live(url):
 
 
 def schedule(fact, when, key):
-    body = json.dumps({
+    """`when` of None publishes immediately — PostPeer treats a missing
+    scheduledFor as post-now."""
+    payload = {
         "content": fact["caption"] + TAGS,
         "mediaItems": [{"url": f"{BASE}/{fact['slug']}.png", "type": "image"}],
         "platforms": [{"platform": "instagram", "accountId": ACCOUNT}],
-        "scheduledFor": when,
-        "timezone": TZ,
-    }).encode()
-    req = urllib.request.Request(API, data=body, method="POST", headers={
-        "x-access-key": key, "Content-Type": "application/json"})
+    }
+    if when:
+        payload.update(scheduledFor=when, timezone=TZ)
+    req = urllib.request.Request(API, data=json.dumps(payload).encode(), method="POST",
+                                 headers={"x-access-key": key,
+                                          "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())
 
 
+def publish_now(slug):
+    """One card, live, right now. Records it like any other so the monthly
+    scheduler won't hand out the same slug twice."""
+    facts, posted = load(FACTS, []), load(POSTED, [])
+    fact = next((f for f in facts if f["slug"] == slug), None)
+    if not fact:
+        sys.exit(f"no such slug: {slug}")
+    if any(p["slug"] == slug for p in posted):
+        sys.exit(f"{slug} has already been used")
+    if not live(f"{BASE}/{slug}.png"):
+        sys.exit(f"not live yet: {BASE}/{slug}.png")
+    key = os.environ.get("POSTPEER_KEY")
+    if not key:
+        sys.exit("POSTPEER_KEY not set (source .env)")
+
+    now = datetime.now(ZoneInfo(TZ))
+    res = schedule(fact, None, key)
+    posted.append({"slug": slug, "scheduledFor": now.isoformat(timespec="seconds"),
+                   "id": res.get("postId"), "at": now.isoformat(timespec="seconds")})
+    POSTED.write_text(json.dumps(posted, indent=2) + "\n")
+    print(json.dumps(res, indent=2))
+
+
 def main():
     args = sys.argv[1:]
+    if "--now" in args:
+        return publish_now(args[args.index("--now") + 1])
     dry = "--dry-run" in args
     if "--month" in args:
         year, month = (int(x) for x in args[args.index("--month") + 1].split("-"))

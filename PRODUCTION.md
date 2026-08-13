@@ -72,7 +72,12 @@ Once a month, not once a day:
 python3 build.py ship "IG: August cards" # push — PostPeer fetches these URLs later
 source .env && python3 ig-schedule.py --dry-run
 source .env && python3 ig-schedule.py    # schedule the month on PostPeer
+source .env && python3 ig-schedule.py --now some-slug   # publish one immediately
 ```
+
+Never test against this API with throwaway content: PostPeer has no cancel or delete
+route for a scheduled post, so a junk post can only be killed from the dashboard.
+`--now` exists so a real card from the bank is the test.
 
 The bank is [ig-facts.json](ig-facts.json) — sleep facts and public-domain quotes,
 each with the caption it ships with. Same queue discipline as topics.json: a card is
