@@ -8,6 +8,7 @@
 - [Stories](https://getlullable.com/stories/): every sleep story in the app
 
 ## Essays
+- [The width of a horse: how the railway gauge was chosen](https://getlullable.com/sleep/the-standard-railway-gauge/): Most of the world's trains run 4 feet 8½ inches apart. Nobody chose that number. It was inherited from colliery carts and ratified long after it had won.
 - [Why do podcasts keep me awake when I'm exhausted?](https://getlullable.com/sleep/why-do-podcasts-keep-me-awake/): Podcasts are engineered to hold attention — hooks, cliffhangers, autoplay. Why that beats your exhaustion, and what kind of audio works instead.
 - [How long should it take to fall asleep?](https://getlullable.com/sleep/how-long-does-it-take-to-fall-asleep/): Ten to twenty minutes is the healthy normal — and falling asleep instantly isn't the goal. What sleep latency is, and when it's worth attention.
 - [The weather at the bottom of the sea](https://getlullable.com/sleep/the-weather-at-the-bottom-of-the-sea/): There is weather at the bottom of the Mariana Trench — currents, storms of sediment, warm springs. A quiet tour of the calmest climate on Earth.
