@@ -63,6 +63,35 @@ can never produce a dead link). Every essay links to 2 stories; every story link
 to 3 sibling stories and 2 essays. Improving any template re-renders every page on
 the next build for free.
 
+## Loop 3 — the Instagram card
+
+Once a month, not once a day:
+
+```bash
+.venv/bin/python make-ig.py              # render every card not yet on disk
+python3 build.py ship "IG: August cards" # push — PostPeer fetches these URLs later
+source .env && python3 ig-schedule.py --dry-run
+source .env && python3 ig-schedule.py    # schedule the month on PostPeer
+```
+
+The bank is [ig-facts.json](ig-facts.json) — sleep facts and public-domain quotes,
+each with the caption it ships with. Same queue discipline as topics.json: a card is
+consumed when `ig/<slug>.png` exists and its slug appears in `ig-posted.json`. Delete
+both to re-open it.
+
+Cards are 1080×1350, solid `--ink`, Newsreader, one accent rule, no photographs ever.
+The renderer autofits the type so a nine-word quote and a forty-word fact land at the
+same visual weight. It runs `build.py`'s claim gate over every card before writing
+anything — a card is harder to retract than a page, because it is already in a feed.
+
+**19 posts a month is the cap**, hardcoded, because that is what PostPeer's free tier
+allows. Slots are weekday evenings at 21:07 CDMX. The scheduler HEADs every image URL
+before it posts anything: PostPeer fetches at publish time, so an unpushed PNG would
+publish as a broken post days after you stopped watching.
+
+Batch-scheduled deliberately — PostPeer's servers do the publishing, so there is one
+thing to check each month instead of nineteen chances for a silent cron to fail.
+
 ## Failure policy (adapted from SAUNAS.MX's table)
 
 | Failure | Behavior |
