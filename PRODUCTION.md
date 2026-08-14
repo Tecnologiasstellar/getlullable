@@ -89,10 +89,18 @@ The renderer autofits the type so a nine-word quote and a forty-word fact land a
 same visual weight. It runs `build.py`'s claim gate over every card before writing
 anything — a card is harder to retract than a page, because it is already in a feed.
 
-**19 posts a month is the cap**, hardcoded, because that is what PostPeer's free tier
-allows. Slots are weekday evenings at 21:07 CDMX. The scheduler HEADs every image URL
-before it posts anything: PostPeer fetches at publish time, so an unpushed PNG would
-publish as a broken post days after you stopped watching.
+**The budget is read live from `GET /v1/usage`, never guessed.** Two things make a local
+tally wrong, and both were learned by running out mid-batch on 2026-08-14:
+
+- A credit is spent when a post is **scheduled**, not when it publishes. Booking a month
+  in advance bills the whole month today.
+- The cycle is anchored to the **signup date — the 13th**, not the 1st. A per-calendar-month
+  cap silently double-spends across the boundary: August's batch and September's first
+  twelve days come out of the same 20.
+
+The free tier is 20 per cycle. Slots are weekday evenings at 21:07 CDMX. The scheduler
+HEADs every image URL before it posts anything: PostPeer fetches at publish time, so an
+unpushed PNG would publish as a broken post days after you stopped watching.
 
 Batch-scheduled deliberately — PostPeer's servers do the publishing, so there is one
 thing to check each month instead of nineteen chances for a silent cron to fail.

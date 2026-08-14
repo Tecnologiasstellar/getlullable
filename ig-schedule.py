@@ -24,11 +24,12 @@ HERE = Path(__file__).parent
 FACTS, POSTED = HERE / "ig-facts.json", HERE / "ig-posted.json"
 
 API = "https://api.postpeer.dev/v1/posts"
+USAGE = "https://api.postpeer.dev/v1/usage"
 ACCOUNT = "6a7e005ceabdac5f91c1e4bf"          # @getlullable, from /v1/connect/integrations
 BASE = "https://getlullable.com/ig"
 TZ = "America/Mexico_City"                    # AV's clock; 21:07 here is evening across the US
 AT = "21:07"
-CAP = 19                                      # PostPeer free tier. This number is the whole budget.
+FALLBACK_CAP = 19                             # only used if /v1/usage can't be reached
 TAGS = "\n\n#sleep #rest #sleepbetter #bedtime #nightroutine"
 
 
@@ -69,6 +70,23 @@ def pick(facts, used, n):
             break
         queue.append(pool.pop(0))
     return queue
+
+
+def credits(key):
+    """Ask PostPeer how many posts are actually left, rather than counting our own.
+
+    Two things make local counting wrong. A credit is spent when a post is
+    *scheduled*, not when it publishes — so a month booked in advance bills today.
+    And the cycle is anchored to the signup date (the 13th here), not the 1st, so
+    a per-calendar-month tally silently double-spends across the boundary. This
+    endpoint is undocumented but is the only honest source."""
+    try:
+        req = urllib.request.Request(USAGE, headers={"x-access-key": key})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            m = json.loads(r.read())["balance"]["monthly"]
+        return m["remaining"], m["limit"], m["cycleEnd"][:10]
+    except (urllib.error.URLError, KeyError, ValueError):
+        return None, None, None
 
 
 def live(url):
@@ -132,9 +150,18 @@ def main():
 
     facts, posted = load(FACTS, []), load(POSTED, [])
     mine = [p for p in posted if p["scheduledFor"].startswith(f"{year}-{month:02d}")]
-    room = CAP - len(mine)
+
+    key = os.environ.get("POSTPEER_KEY")
+    left, limit, cycle_end = credits(key) if key else (None, None, None)
+    if left is None:
+        room = FALLBACK_CAP - len(mine)
+        print(f"! could not read /v1/usage — falling back to a guessed cap of {FALLBACK_CAP}")
+    else:
+        room = left
+        print(f"credits: {left} of {limit} left, cycle resets {cycle_end}")
     if room <= 0:
-        print(f"{year}-{month:02d}: {len(mine)}/{CAP} already scheduled. Nothing to do.")
+        print(f"No credits left this cycle. {len(mine)} already booked for "
+              f"{year}-{month:02d}; next reset {cycle_end or 'unknown'}.")
         return
 
     taken = {p["scheduledFor"] for p in mine}
@@ -150,7 +177,7 @@ def main():
         print("No slots left this month.")
         return
 
-    print(f"{year}-{month:02d}: {len(mine)} scheduled, {len(when)} to add (cap {CAP})\n")
+    print(f"\n{year}-{month:02d}: {len(mine)} already booked, {len(when)} to add\n")
     for f, w in zip(queue, when):
         print(f"  {w[:10]} {AT}  {f['slug']}")
 
@@ -163,7 +190,6 @@ def main():
     if dry:
         return
 
-    key = os.environ.get("POSTPEER_KEY")
     if not key:
         sys.exit("POSTPEER_KEY not set (source .env)")
 
