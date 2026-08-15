@@ -610,7 +610,7 @@ Two or three sentences on the mechanism — what this story gives a racing mind 
     print(f"created {path.relative_to(ROOT)}")
 
 def ship(message):
-    """Build, commit, push. That is the entire deploy.
+    """Build, commit, rebase, push. That is the entire deploy.
 
     Vercel's GitHub integration owns getlullable.com and builds `main` to
     production on every push — there is no CLI to install, no dashboard to
@@ -621,6 +621,12 @@ def ship(message):
     subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
     if subprocess.run(["git", "commit", "-m", message], cwd=ROOT).returncode:
         print("nothing new to commit — pushing whatever is already committed")
+    # Rebase before pushing. 2026-08-15: the daily post was committed, then the
+    # push was rejected because an IG-scheduler commit had landed on main from
+    # another session. Two loops write this repo, so the remote moving ahead is
+    # normal, not an incident. Rebase (never merge) keeps main a straight line.
+    # A conflict here stops the deploy on purpose — resolve it by hand.
+    subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
     subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
     print(f"pushed. vercel builds main -> production in ~30s: {SITE}")
 

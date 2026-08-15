@@ -12,9 +12,14 @@ engines — what shipped, what silently broke, and why.
 python3 build.py next        # picks the next topic (rotation applied), scaffolds the file, prints the brief
 # write the post — or hand the printed brief to Claude with the voice contract below
 python3 build.py             # validate (hard gates) + regenerate everything
-python3 build.py ship "Daily post: the title"   # build + commit + push; Vercel builds main
+python3 build.py ship "Daily post: the title"   # build + commit + rebase + push; Vercel builds main
 # then BROWSER-VERIFY the new URL. A 200 from the deploy is not a rendered page.
 ```
+
+**`ship` rebases before it pushes.** Two loops write this repo — the daily essay and
+the IG scheduler — so main moving ahead between your build and your push is normal.
+On 2026-08-15 that rejected a push with the post already committed. `git pull --rebase`
+now runs inside `ship`; a genuine conflict stops the deploy rather than merging around it.
 
 **The queue** is [topics.json](topics.json) — ~36 topics, three types, rules embedded in the file.
 State lives on disk: a topic is consumed when its `posts/` file exists; delete the file to re-open it.
