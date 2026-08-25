@@ -268,18 +268,22 @@ display:flex;flex-direction:column;transition:border-color .3s}
 ::selection{background:rgba(145,132,217,.3)}
 """
 
-POST_CTA = """<div class="cta">
-<p>Lullable reads material like this aloud — warmly, slowly, and quieter every minute —
-until you drift off somewhere around the fourth clause.</p>
-<a href="/#signup">Join the waitlist</a>
-</div>"""
+def post_cta():
+    href, label = app_cta()
+    return ('<div class="cta">\n'
+            "<p>Lullable reads material like this aloud — warmly, slowly, and quieter "
+            "every minute —\nuntil you drift off somewhere around the fourth clause.</p>\n"
+            f'<a href="{href}">{label}</a>\n</div>')
 
 def story_cta(s):
+    href, label = app_cta()
     return (f'<div class="cta">\n<p>{html.escape(s["title"])} is {s["mins"]} minutes long, '
             f'read by {html.escape(s["narrator"])}, and ends quieter than it begins. '
-            f'It lives in the Lullable app.</p>\n<a href="/#signup">Join the waitlist</a>\n</div>')
+            f'It lives in the Lullable app.</p>\n'
+            f'<a href="{href}">{label}</a>\n</div>')
 
 def page(title, desc, canonical, body, extra_head=""):
+    nav_href, nav_label = app_cta()
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -305,7 +309,7 @@ def page(title, desc, canonical, body, extra_head=""):
 <div class="wrap">
 <header class="bar">
 <a class="mark" href="/"><img src="/assets/brand/mark-128.webp" width="28" height="28" alt="" loading="lazy" decoding="async">{BRAND.lower()}</a>
-<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a class="navbtn" href="/#signup">Join the waitlist</a></nav>
+<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a class="navbtn" href="{nav_href}">{nav_label}</a></nav>
 </header>
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
@@ -457,7 +461,7 @@ def build():
                      f"<h1>{html.escape(p['title'])}</h1>"
                      f'<p class="post-meta"><time datetime="{p["date"]}">{pretty(p["date"])}</time>'
                      f" · <b>{read_minutes(p['body'])} min read</b></p></div>")
-        body = (f"<article>\n{head_band}\n<div class=\"measure\">\n{rendered}\n{POST_CTA}\n</div>"
+        body = (f"<article>\n{head_band}\n<div class=\"measure\">\n{rendered}\n{post_cta()}\n</div>"
                 f"\n{related_html(rel)}\n</article>")
         out = ROOT / "sleep" / p["slug"]
         out.mkdir(exist_ok=True)
@@ -685,6 +689,175 @@ def ship(message):
     subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
     print(f"pushed. vercel builds main -> production in ~30s: {SITE}")
 
+
+# ---------------------------------------------------------------- launch day
+
+def app_cta():
+    """The app call-to-action, for every generated page.
+
+    index.html's `APP_STORE_URL` is the single source of truth for whether the
+    product is downloadable, so the generated pages read it rather than keeping
+    their own copy of the answer. `golive` edits one constant in one file, the
+    next build propagates it to /sleep/, /stories/ and the legal pages, and
+    there is no second place to forget."""
+    try:
+        m = re.search(r'var APP_STORE_URL\s*=\s*"([^"]*)"',
+                      (ROOT / "index.html").read_text())
+        url = m.group(1) if m else ""
+    except OSError:
+        url = ""
+    return (url, "Get the app") if url else ("/#signup", "Join the waitlist")
+
+
+APPLE_ID = "6800138113"   # App Store Connect record "GetLullable", confirmed 2026-08-12
+STORE_URL = f"https://apps.apple.com/app/id{APPLE_ID}"
+
+
+def appstore_status(apple_id=APPLE_ID):
+    """Ask Apple whether the app is actually live, in a few storefronts.
+
+    The whole point of the launch-day flip is that it cannot be done early.
+    An App Store Connect record exists long before the listing resolves, and a
+    CTA pointing at a page that 404s is worse than an honest waitlist — so this
+    is a hard gate, not a warning. Read-only, no key, no account."""
+    import json as _json, urllib.request, urllib.error
+    out = {}
+    for cc in ("us", "mx", "gb"):
+        url = f"https://itunes.apple.com/lookup?id={apple_id}&country={cc}"
+        try:
+            with urllib.request.urlopen(url, timeout=8) as r:
+                d = _json.loads(r.read().decode())
+            out[cc] = d["results"][0] if d.get("resultCount") else None
+        except Exception as e:                       # offline, rate-limited, whatever
+            out[cc] = {"__error__": str(e)[:60]}
+    return out
+
+
+def cmd_appstore():
+    """Read-only: is it live yet, and what would ship if it were?"""
+    print(f"App Store Connect record: GetLullable / Apple ID {APPLE_ID}")
+    print(f"Candidate URL:            {STORE_URL}\n")
+    live = None
+    for cc, r in appstore_status().items():
+        if r is None:
+            print(f"  {cc}: not live")
+        elif "__error__" in r:
+            print(f"  {cc}: could not check ({r['__error__']})")
+        else:
+            live = r
+            print(f"  {cc}: LIVE — {r.get('trackName')} v{r.get('version')} "
+                  f"{r.get('formattedPrice')} — {r.get('trackViewUrl')}")
+    print()
+    if live:
+        print("Ready. Run:  python3 build.py golive")
+    else:
+        print("Not ready. Every CTA stays on the waitlist, which is the honest state.")
+        print("Re-run this after the listing goes live.")
+    return 0 if live else 1
+
+
+def cmd_golive(force=False):
+    """Flip the whole site from waitlist to download, in one command.
+
+    Three things happen, and all three have to happen together — flipping the
+    buttons and leaving the copy saying "be there the night it opens" would be a
+    launch-day embarrassment, so the successor strings are authored in the HTML
+    now as data-live-text and swapped here.
+
+      1. APP_STORE_URL is set (the JS then rewrites every .app-link at runtime,
+         and this rewrite makes the same change statically so crawlers see it);
+      2. every element with data-live-text takes its live wording;
+      3. the Safari Smart App Banner meta is added.
+
+    Refuses unless Apple says the listing resolves. --force exists for the hour
+    between "approved" and "propagated", and prints a loud warning."""
+    index = ROOT / "index.html"
+    src = index.read_text()
+    if 'var APP_STORE_URL = "";' not in src:
+        sys.exit("index.html: APP_STORE_URL is already set — nothing to do.")
+    # Everything under sleep/, stories/ and the legal pages is generated and picks
+    # the new state up from app_cta() on the next build. These two are written by
+    # hand, so golive edits them directly.
+    HANDWRITTEN = [index, ROOT / "manifesto" / "index.html"]
+
+    live = [r for r in appstore_status().values() if r and "__error__" not in r]
+    if not live and not force:
+        print("REFUSING: Apple's lookup says the listing is not live in us/mx/gb.")
+        print("A CTA pointing at a dead store page is worse than a waitlist.")
+        print("Check with `python3 build.py appstore`, or `golive --force` if you")
+        print("are inside the propagation window and have opened the URL yourself.")
+        sys.exit(1)
+    if not live:
+        print("WARNING: --force used. Apple does not report this app as live.")
+        print(f"         Open {STORE_URL} yourself before you push.\n")
+
+    out = src.replace('var APP_STORE_URL = "";', f'var APP_STORE_URL = "{STORE_URL}";', 1)
+
+    # The JS rewrites every .app-link at runtime, which is fine for a person and
+    # useless to a crawler on launch day. Do the same edit statically so the
+    # served HTML says "Get the app" before a line of script runs.
+    def link(m):
+        tag, body = m.group("tag"), m.group("body")
+        tag = re.sub(r'href="[^"]*"', f'href="{STORE_URL}"', tag)
+        live = re.search(r'data-live="([^"]*)"', tag)
+        if live:
+            body = live.group(1)
+            tag = re.sub(r'\s*data-live="[^"]*"', "", tag)
+        return tag + ">" + body + "</a>"
+    out, n_links = re.subn(
+        r'(?P<tag><a\b[^>]*class="[^"]*app-link[^"]*"[^>]*)>(?P<body>.*?)</a>',
+        link, out, flags=re.S)
+
+    # the pre-launch strings hand over to the ones authored beside them
+    swapped = 0
+    def swap(m):
+        nonlocal swapped
+        swapped += 1
+        return m.group("open") + m.group("live") + m.group("close")
+    pattern = re.compile(
+        r'(?P<open><(?P<tag>[a-z0-9]+)\b[^>]*?)\s+data-live-text="(?P<live>[^"]*)"(?P<rest>[^>]*>)'
+        r'(?P<body>.*?)(?P<closetag></(?P=tag)>)', re.S)
+    def swap2(m):
+        nonlocal swapped
+        swapped += 1
+        return m.group("open") + m.group("rest") + m.group("live") + m.group("closetag")
+    out = pattern.sub(swap2, out)
+
+    # Once the app is downloadable the join form is the newsletter, not the
+    # primary action — it gives the filled treatment back to the store CTAs.
+    out = out.replace('class="btn solid" id="submit"', 'class="btn" id="submit"', 1)
+
+    # Safari's native banner, which only makes sense once the listing resolves
+    banner = f'<meta name="apple-itunes-app" content="app-id={APPLE_ID}">\n'
+    out = out.replace('<meta name="color-scheme" content="dark">',
+                      '<meta name="color-scheme" content="dark">\n' + banner.rstrip("\n"), 1)
+
+    index.write_text(out)
+    print(f"index.html: APP_STORE_URL set, {swapped} strings swapped to live copy, "
+          f"{n_links} CTAs pointed at the store, Smart App Banner added.")
+
+    for f in HANDWRITTEN[1:]:
+        if not f.exists():
+            continue
+        t = f.read_text()
+        n = 0
+        t, k = pattern.subn(swap2, t); n += k
+        t2 = t.replace('href="/#signup" data-live-href="STORE"', f'href="{STORE_URL}"')
+        n += (t != t2); t = t2
+        f.write_text(t)
+        print(f"{f.relative_to(ROOT)}: {n} change(s).")
+
+    print("\nGenerated pages (/sleep/, /stories/, /privacy/, /terms/) read the same")
+    print("constant via app_cta() — they flip on the next `python3 build.py`.")
+    if (ROOT / "assets" / "brand" / "appstore-badge.svg").exists():
+        print("assets/brand/appstore-badge.svg found — swap it into the hero button by hand;")
+        print("Apple's badge must be used as supplied, unmodified.")
+    else:
+        print("No Apple badge asset present. The hero button stays plain Lullable type,")
+        print("which is allowed; Apple's badge may only be used as the lockup they supply.")
+    print("\nNow: python3 build.py  &&  browser-verify  &&  build.py ship \"Launch: get the app\"")
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if args and args[0] == "new" and len(args) > 1:
@@ -693,6 +866,10 @@ if __name__ == "__main__":
         next_topic()
     elif args and args[0] == "story" and len(args) > 1:
         scaffold_story(args[1])
+    elif args and args[0] == "appstore":
+        sys.exit(cmd_appstore())
+    elif args and args[0] == "golive":
+        cmd_golive(force="--force" in args)
     elif args and args[0] == "ship":
         ship(args[1] if len(args) > 1 else f"Site update {date.today().isoformat()}")
     else:

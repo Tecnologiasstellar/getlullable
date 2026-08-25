@@ -69,7 +69,21 @@ Both are at the top of the `<script>` in [index.html](index.html):
 
 `EVENTS_URL` is optional — events log to the console until it points somewhere.
 
-**On app launch day:** paste the store link into `APP_STORE_URL` in index.html — every CTA on the site flips from "Join the waitlist" to "Get the app" in that one line.
+**On app launch day** — don't paste anything by hand:
+
+```bash
+python3 build.py appstore   # read-only: is the listing live yet?
+python3 build.py golive     # flips every CTA, every string, everywhere
+python3 build.py && python3 build.py ship "Launch: get the app"
+```
+
+`golive` asks Apple whether `id6800138113` actually resolves and **refuses if it
+doesn't** — a CTA pointing at a dead store page is worse than an honest waitlist.
+It sets the URL, rewrites every CTA statically, swaps the eight pre-launch
+strings for the live ones already written beside them in the HTML, and adds the
+Safari Smart App Banner. The generated pages read the same constant, so one
+`build.py` carries it to /sleep/, /stories/ and the legal pages. Details:
+[docs/MISSING_WEBSITE_ASSETS.md](docs/MISSING_WEBSITE_ASSETS.md) § Launch day.
 
 **Testimonials:** the section is removed, not hidden. Add it back only with real,
 permissioned Sleep Tester quotes. Everything else the site claims is checkable in

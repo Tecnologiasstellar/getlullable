@@ -213,6 +213,27 @@ The research section still separates *research on the mechanism* from *proof
 about the product*, and still says so out loud. Do not remove that sentence to
 improve conversion.
 
+## 6b. Launch day
+
+`APP_STORE_URL` in `index.html` is the site's single source of truth for whether
+the product is downloadable. The generated pages read it through `app_cta()`;
+they do not keep their own copy of the answer.
+
+`python3 build.py golive` performs the whole flip and **verifies against Apple's
+public lookup API first**, refusing if the listing does not resolve. The
+successor copy for the eight pre-launch strings is authored today as
+`data-live-text` attributes sitting beside the strings they replace — so launch
+wording is reviewed now, and the buttons can never say "Get the app" while the
+page still says "Be there the night it opens."
+
+The App Store Connect record is **GetLullable, Apple ID `6800138113`**. Do not
+hardcode the URL; as of 2026-08-25 it does not resolve.
+
+The hero button is deliberately **not** a recreation of Apple's badge — that
+lockup may only be used as Apple supplies it, and their logo may not appear in
+our own marketing art. Drop `assets/brand/appstore-badge.svg` in if the real
+badge is wanted.
+
 ## 7. Consent, motion, accessibility
 
 - **Consent** ([consent.js](consent.js)): unchanged in behaviour, restyled to

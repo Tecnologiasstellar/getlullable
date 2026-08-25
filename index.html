@@ -156,7 +156,7 @@ section{position:relative}
 .btn.solid:hover,.btn.solid:focus-visible{background:var(--cream-hi);border-color:var(--cream-hi)}
 .btn.solid .b1{color:rgba(22,24,38,.62)}
 .btn-badge{padding:.7rem 1.4rem;text-align:left;line-height:1.2}
-.btn-badge svg{width:20px;height:24px;fill:currentColor;flex:none}
+.btn-badge img{width:26px;height:26px;border-radius:50%;flex:none}
 .btn-badge .b1{display:block;font-size:12px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
 .btn-badge .b2{display:block;font-size:16px;font-weight:500}
 .ghost{
@@ -462,13 +462,13 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
 
       <div class="hero-ctas">
         <a class="btn solid btn-badge app-link" data-placement="hero" href="#join">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.45-2.25-4.2-2.28-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.02-3.79-1-1.95.03-3.74 1.13-4.74 2.87-2.02 3.5-.52 8.69 1.45 11.53.96 1.39 2.11 2.95 3.62 2.9 1.45-.06 2-.94 3.76-.94 1.75 0 2.25.94 3.79.91 1.57-.03 2.56-1.42 3.52-2.81 1.11-1.61 1.56-3.17 1.59-3.25-.04-.02-3.05-1.17-3.08-4.62zM14.16 4c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z"/></svg>
-          <span><span class="b1">Coming to the App&nbsp;Store</span><span class="b2">Join the waitlist</span></span>
+          <img src="/assets/brand/mark-128.webp" width="26" height="26" alt="" decoding="async">
+          <span><span class="b1" data-live-text="On the App&nbsp;Store">Coming to the App&nbsp;Store</span><span class="b2" data-live-text="Get the app">Join the waitlist</span></span>
         </a>
         <a class="ghost" id="hero-play" href="#listen">Play the four-minute sample ↓</a>
       </div>
 
-      <p class="hero-note">Free. One email a week, never after 9&nbsp;pm.</p>
+      <p class="hero-note" data-live-text="Free to download. iPhone, dark by design.">Free. One email a week, never after 9&nbsp;pm.</p>
     </div>
 
     <div>
@@ -585,7 +585,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
     <p>That's the whole app. Four screens, and then you're asleep.</p>
     <div class="side">
       <a class="btn solid app-link" data-placement="after-walkthrough" data-live="Get the app" href="#join">Join the waitlist</a>
-      <small>Free. One email a week, never after 9&nbsp;pm.</small>
+      <small data-live-text="Free to download. Aristotle is free to listen to.">Free. One email a week, never after 9&nbsp;pm.</small>
     </div>
   </div>
 </section>
@@ -862,13 +862,13 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
 <!-- ══════════ JOIN ══════════ -->
 <section class="s-lg final" id="join">
   <div class="wrap">
-    <p class="eyebrow">Join the Midnight Salon</p>
-    <h2>Be there the night it opens.</h2>
-    <p class="lead" style="margin-top:1.3rem;max-width:32rem">One address, two things: your place on the App&nbsp;Store waitlist, and “Boringly Brilliant” — three quiet paragraphs of history or physics, Sunday night. Both, or neither.</p>
+    <p class="eyebrow" data-live-text="Get the app">Join the Midnight Salon</p>
+    <h2 data-live-text="It's on the App&nbsp;Store.">Be there the night it opens.</h2>
+    <p class="lead" style="margin-top:1.3rem;max-width:32rem" data-live-text="Free to download, with one story free to listen to. And if you want the Sunday letter as well — “Boringly Brilliant”, three quiet paragraphs of history or physics — leave an address below.">One address, two things: your place on the App&nbsp;Store waitlist, and “Boringly Brilliant” — three quiet paragraphs of history or physics, Sunday night. Both, or neither.</p>
 
     <form id="signup-form" novalidate>
       <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
-      <button type="submit" class="btn solid" id="submit">Join the waitlist</button>
+      <button type="submit" class="btn solid" id="submit" data-live-text="Send me the Sunday letter">Join the waitlist</button>
     </form>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
 
@@ -937,6 +937,14 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
    --------------------------------------------------------------- */
 var SUBSCRIBE_URL = "https://buttondown.com/api/emails/embed-subscribe/tecnologiasstellar";
 var EVENTS_URL    = "";
+/* Launch day: run `python3 build.py golive` — it verifies the app is actually
+   live on the App Store first, then writes the URL in here, flips every CTA and
+   swaps the pre-launch copy for the strings marked data-live-text in the HTML.
+   The record is App Store Connect app "GetLullable", Apple ID 6800138113
+   (PRODUCTION_PHASE_0_DECISIONS.md, confirmed 2026-08-12), so the URL will be
+   https://apps.apple.com/app/id6800138113 — but do not paste it by hand: as of
+   2026-08-25 that page does not resolve, and a dead store link is worse than an
+   honest waitlist. */
 var APP_STORE_URL = "";
 
 function track(name, meta){
@@ -971,8 +979,10 @@ addEventListener("keydown", function(e){
 document.querySelectorAll(".app-link").forEach(function(a){
   if(APP_STORE_URL){
     a.href = APP_STORE_URL;
+    /* "Download on the App Store" is wording that belongs inside Apple's own
+       badge, so we do not set it here. Plain language, our own button. */
     var b1 = a.querySelector(".b1"), b2 = a.querySelector(".b2");
-    if(b1 && b2){ b1.textContent = "Download on the"; b2.textContent = "App Store"; }
+    if(b1 && b2){ b1.textContent = "On the App Store"; b2.textContent = "Get the app"; }
     else if(a.dataset.live){ a.textContent = a.dataset.live; }
   }
   a.addEventListener("click", function(){
@@ -1101,7 +1111,9 @@ form.addEventListener("submit", function(ev){
     .then(function(){
       form.style.display = "none";
       msg.className = "msg ok";
-      msg.textContent = "Done. You're on the waitlist. Sunday night, in dark mode — nothing before then.";
+      msg.textContent = APP_STORE_URL
+        ? "Done. Sunday night, in dark mode — nothing before then."
+        : "Done. You're on the waitlist. Sunday night, in dark mode — nothing before then.";
       track("signup", {email_domain: value.split("@")[1]});
     })
     .catch(function(){

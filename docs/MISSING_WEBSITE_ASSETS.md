@@ -71,12 +71,25 @@ Before Dawn*, *The Great Library of Alexandria*). They were skipped for the firs
 six so every page could name a real reader. Worth reconciling in the app before
 those get pages.
 
-### E. Not needed, and deliberately absent
+### E. Apple's official App Store badge — *optional, and only once live*
 
-- **App Store badge.** There is no verified store URL, so there is no badge. The
-  hero CTA reads *"Coming to the App Store / Join the waitlist"* and points at
-  the signup module. On launch day, paste the URL into `APP_STORE_URL` at the
-  top of the `<script>` in `index.html` and every CTA on the site flips.
+The hero CTA used to be a recreation of Apple's badge: their logo glyph plus a
+two-line *"Download on the / App Store"* lockup. Apple's Marketing Resources
+allow that lockup **only as the complete artwork they supply, unmodified**, and
+separately forbid using the Apple logo in your own marketing art. It has been
+replaced with a plain Lullable button — the mark, *"On the App Store / Get the
+app"* — which is allowed with no asset at all.
+
+If the real badge is wanted:
+
+| | |
+|---|---|
+| What | Apple's official "Download on the App Store" badge, black variant, taken from Apple's Marketing Resources and **not redrawn** |
+| Format | SVG |
+| Filename | `assets/brand/appstore-badge.svg` |
+| Blocks launch? | **No.** `build.py golive` notices the file and tells you to swap it into the hero button; without it the plain button ships. |
+
+### F. Not needed, and deliberately absent
 - **Press logos, award marks, ratings graphics.** None are earned yet.
 - **Testimonial portraits.** No permissioned quotes exist (see §2).
 
@@ -97,7 +110,8 @@ those get pages.
 
 | Item | Status | What would clear it |
 |---|---|---|
-| App Store availability, price, trial terms, renewal | `PENDING` | A live App Store URL and the approved StoreKit configuration + legal copy. Until then every CTA stays "Join the waitlist". |
+| App Store **availability** | `PENDING`, and gated in code | The record exists — App Store Connect app **GetLullable, Apple ID `6800138113`** (`PRODUCTION_PHASE_0_DECISIONS.md`, confirmed 2026-08-12) — so the URL will be `https://apps.apple.com/app/id6800138113`. **Apple's public lookup returns nothing for it in us/mx/gb as of 2026-08-25**, i.e. the listing does not resolve. Nothing is hardcoded; see § Launch day below. |
+| Price, trial terms, renewal | `PENDING` | Approved StoreKit configuration + legal sign-off. The live copy currently says only "Free to download" and "Aristotle is free to listen to", both of which are true of the shipped catalogue. Any number — price, trial length, renewal — needs adding by hand and checking. |
 | Ratings, review counts, download numbers, awards, editor's features | `PENDING` | Nothing to cite. The proof strip uses **product truths** instead (sleep timer, background playback, resume, morning receipt) — all four verified on a physical iPhone 12 per the app's own `VERIFICATION_MATRIX.md`. |
 | Sleep-tester testimonials | `PENDING` | Three illustrative drafts remain in git history; the section stayed removed. Replace only with real, permissioned quotes. |
 | "Never a notification after 9 pm" | **Stated as a promise, not a measurement** | It is a stated operating promise on the signup module, alongside the other three permission terms. It is not presented as a technical guarantee of the app. |
@@ -118,10 +132,52 @@ Train North*) now links to *The Midnight Sleeper Train Across the Alps*.
 
 **The site no longer asserts any product fact that the app cannot support.**
 
+## 3 · Launch day
+
+The flip is one command, and it **refuses to run early**:
+
+```bash
+python3 build.py appstore     # read-only: is the listing live yet?
+python3 build.py golive       # flips everything — only if Apple says it is
+python3 build.py              # regenerate /sleep/, /stories/, legal pages
+python3 build.py ship "Launch: get the app"
+```
+
+`appstore` asks Apple's public lookup API for `6800138113` in the us/mx/gb
+storefronts and prints what it finds. `golive` asks the same question and
+**exits non-zero if the answer is no** — an App Store Connect record exists long
+before the page resolves, and a CTA pointing at a dead listing is worse than an
+honest waitlist. `golive --force` exists for the propagation window and prints a
+loud warning.
+
+What `golive` changes, all in one go:
+
+1. `APP_STORE_URL` in `index.html`.
+2. Every `.app-link` rewritten **statically** — href and label — so the served
+   HTML says "Get the app" before a line of script runs. (The runtime rewrite
+   still exists; it is now a belt to the braces.)
+3. The eight pre-launch strings marked `data-live-text` in the HTML take their
+   successors, which are authored **now**, next to what they replace, so launch
+   copy is reviewed today rather than written in a hurry on the day. Without
+   this, the buttons would say "Get the app" while the page still said
+   *"Be there the night it opens."*
+4. The join form's button loses `.solid` — post-launch it is the newsletter, and
+   the filled treatment belongs to the store CTAs.
+5. Safari's Smart App Banner meta (`apple-itunes-app`) is added.
+6. `manifesto/index.html`, the other hand-written page, gets the same treatment.
+
+`/sleep/`, `/stories/`, `/privacy/` and `/terms/` are generated and read the same
+constant through `app_cta()`, so they flip on the next `build.py`. **There is one
+source of truth and no second place to forget.**
+
+The whole flip has been dry-run end to end: 8 strings swapped, 3 CTAs
+repointed, 22 generated files updated, zero leftover "waitlist" wording in the
+served markup, zero console errors — then reverted. It is proven, not hoped.
+
 ### Still open
 
 - **Google Fonts** — resolved. The site self-hosts and makes zero third-party
   requests. See [fonts/README.md](../fonts/README.md).
-- **Hero video** — still the highest-value missing asset (§A).
-- **App Store URL** — the only thing standing between the current CTAs and
-  "Get the app".
+- **Hero video** — the highest-value missing asset (§A).
+- **The App Store listing itself** — the only thing left. Everything the site
+  needs to do about it is written and tested.
