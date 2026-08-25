@@ -5,7 +5,8 @@ The low-arousal knowledge engine. Fascinating truths, told so softly that you fa
 ```
 index.html        the landing page. one file, no build, no dependencies.
 posts/*.md        The Sleep Library — one markdown file per post. git is the CMS.
-catalog/*.md      the app's story catalog — one file per story, drives /stories/ pages
+catalog/*.md      six of the app's real stories, mirrored from
+                  lullable_audio/Stories/<slug>/story.yaml — drives /stories/ pages
 topics.json       the topic queue (~36 briefs, rotation rules embedded in the file)
 build.py          validates (claim gate) + generates /sleep/, /stories/, sitemap, rss,
                   robots.txt, llms.txt, per-story share cards. stdlib only (Pillow optional).
@@ -13,6 +14,10 @@ sleep/ stories/   generated output (rebuild any time)
 PRODUCTION.md     the two daily loops: essay per day, landing page per story upload
 make-card.py      renders the "last fact you heard" share card / og.png. needs Pillow.
 og.png            link-preview image — generated, safe to delete and remake
+assets/           real app screens, story artwork, brand marks (see docs/)
+fonts/            self-hosted woff2 — the site makes no third-party request
+vercel.json       301s for retired story URLs + long-cache headers for assets
+docs/             asset manifest + what's still missing or unverified
 ARCHITECTURE.md   why static files and no CMS/DB, the GEO layer, the daily habit
 MARKETING.md      go-to-market plan — audience, positioning, distribution, permission, virality
 SITE.md           design system + spec behind index.html
@@ -57,14 +62,18 @@ Both are at the top of the `<script>` in [index.html](index.html):
    (no API key, no backend, free to 100 subscribers, $9/mo after).
    Until it's set, the form tells the visitor it isn't wired up rather than faking success.
 
-2. **`audio/sample-aristotle.mp3`** — the 2-minute sampler. Mono, 64kbps.
-   Until the file exists the player says "Sample not uploaded yet" and points at the newsletter.
+2. **`audio/sample-aristotle.mp3`** — the 3:50 sampler, mono 64kbps, cut from the
+   production master with `ffmpeg -t 230 -ac 1 -b:a 64k`. Re-cut it whenever the
+   episode is re-voiced, and re-derive the caption cues in index.html with it.
+   Until the file exists the player says so and points at the newsletter.
 
 `EVENTS_URL` is optional — events log to the console until it points somewhere.
 
 **On app launch day:** paste the store link into `APP_STORE_URL` in index.html — every CTA on the site flips from "Join the waitlist" to "Get the app" in that one line.
 
-**Before showing the site to strangers:** replace the three draft testimonial quotes in index.html with real, permissioned Sleep Tester quotes (TODO marked in the HTML).
+**Testimonials:** the section is removed, not hidden. Add it back only with real,
+permissioned Sleep Tester quotes. Everything else the site claims is checkable in
+the app or audio workspace — see [docs/MISSING_WEBSITE_ASSETS.md](docs/MISSING_WEBSITE_ASSETS.md).
 
 ## Deploy
 

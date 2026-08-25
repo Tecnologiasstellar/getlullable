@@ -3,21 +3,24 @@
 Renders a "last fact you heard" card — the share image from MARKETING.md 1.5.
 
     python3 make-card.py                     # regenerates og.png with the demo fact
-    python3 make-card.py out.png "the thermal vents of the Mariana Trench" "…and so it rises instead as a shimmering—" "Asleep by 11:41pm  ·  23 minutes of the deep ocean"
+    python3 make-card.py out.png "the thermal vents of the Mariana Trench" "…and so it rises instead as a shimmering—" "Last listened at 11:41pm  ·  23 minutes of the deep ocean"
 
 Design rules that are not negotiable (see MARKETING.md §4):
   - the quote ends mid-word or mid-clause. the truncation IS the joke.
   - the timestamp is exact. "around midnight" reads like marketing; 11:41pm reads true.
+  - the timestamp is when the LISTENING stopped, never "asleep by": the app records
+    a last-listened position, not a sleep onset, and the card may not claim more.
   - the wordmark is small and low-contrast. loud branding kills the joke.
 """
 import sys
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
-# "Nightfall" tokens (design/tokens/colors.json). Georgia stands in for Newsreader,
-# the system serif, which isn't installed locally — same genre, close metrics.
-INK, TEXT, DIM, DIMMER = "#0E0F16", "#EDE7DE", "#9B97A8", "#6C6879"
-AMBER, IRIS = "#DFAF83", "#A79FD9"
+# "Nocturne" tokens — the iOS app's palette, so the share card, the site and the
+# app are one product (lullable_ios .../design_handoff_onboarding_flow/README.md).
+# Georgia stands in for Newsreader, which isn't installed locally — same genre.
+INK, TEXT, DIM, DIMMER = "#161826", "#ECE4D3", "#B2B6CA", "#8E92A8"
+AMBER, IRIS = "#9184D9", "#9184D9"
 F = "/System/Library/Fonts/Supplemental/Georgia"
 PAD = 90
 
@@ -76,7 +79,7 @@ def card(path, when, quote, footer, headline=None):
         y += 46
 
     # footer rule + caption
-    d.line([PAD, H - 112, W - PAD, H - 112], fill="#262937")
+    d.line([PAD, H - 112, W - PAD, H - 112], fill="#2B2741")
     d.text((PAD, H - 88), footer, font=font(22), fill=DIMMER)
     small = font(22)
     d.text((W - PAD - d.textlength("getlullable.com", font=small), H - 88),
@@ -94,6 +97,6 @@ if __name__ == "__main__":
         "“…the vent fluid, at nearly three hundred and sixty-five degrees, "
         "cannot boil under the weight of eleven kilometres of seawater, "
         "and so it rises instead as a shimmering—”",
-        a[3] if len(a) > 3 else "Asleep by 11:41pm  ·  23 minutes of the deep ocean",
+        a[3] if len(a) > 3 else "Last listened at 11:41pm  ·  23 minutes of the deep ocean",
         headline=a[4] if len(a) > 4 else None,
     )

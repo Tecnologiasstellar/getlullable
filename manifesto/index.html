@@ -11,23 +11,33 @@
 <meta property="og:description" content="Your brain isn't broken — it's just curious.">
 <meta property="og:image" content="https://getlullable.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23DFAF83'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/brand/web/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin>
 <style>
-:root{--ink:#0E0F16;--ink-2:#171823;--haze:#262937;--text:#EDE7DE;--dim:#9B97A8;
---dimmer:#6C6879;--amber:#DFAF83;--amber-soft:rgba(223,175,131,.28);--iris:#A79FD9;--iris-dim:#9C93CE;
+/* Fonts, self-hosted — see fonts/README.md. No third-party request. */
+@font-face{font-family:Inter;font-style:normal;font-weight:300 600;font-display:swap;
+  src:url(/fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:italic;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:normal;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* "Nocturne" — the iOS app's palette, shared with index.html and build.py. */
+:root{--ink:#161826;--ink-2:#232532;--haze:rgba(233,233,237,.14);--text:#E9E9ED;--dim:#B2B6CA;
+--dimmer:#8E92A8;--cream:#ECE4D3;--amber:#9184D9;--amber-soft:rgba(145,132,217,.4);--iris:#B5ABFC;--iris-dim:#9184D9;
 --serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
---sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+--sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box;margin:0}
 body{background:var(--ink);color:var(--text);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:50vh;pointer-events:none;
-background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.07),transparent 62%)}
+background:radial-gradient(110% 70% at 50% 0%,rgba(145,132,217,.07),transparent 62%)}
 .wrap{position:relative;max-width:34rem;margin:0 auto;padding:0 1.5rem}
 header{padding:1.75rem 0}
-.mark{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.15rem;text-decoration:none;color:var(--text)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--amber);opacity:.85}
+.mark{display:inline-flex;align-items:center;gap:.7rem;min-height:44px;font-weight:300;font-size:17px;
+letter-spacing:.30em;text-transform:lowercase;text-decoration:none;color:var(--cream)}
+.mark img{width:28px;height:28px;border-radius:50%}
 h1{font-family:var(--serif);font-weight:400;font-size:2.1rem;line-height:1.2;letter-spacing:-.015em;margin:2.5rem 0 .75rem}
 .meta{font:500 .72rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
 article p{font-family:var(--serif);font-size:1.13rem;line-height:1.75;color:var(--dim);margin-bottom:1.35rem}
@@ -35,20 +45,24 @@ article p.lead{font-size:1.3rem;color:var(--text);line-height:1.6}
 article strong{color:var(--text);font-weight:400;font-style:italic}
 .break{font-family:var(--serif);font-size:1.45rem;line-height:1.4;color:var(--amber);
 margin:2.5rem 0;padding-left:1.25rem;border-left:2px solid var(--amber-soft)}
+.break{color:var(--cream)}
 .sig{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dimmer);margin-top:2.5rem}
-.cta{background:linear-gradient(160deg,#1F1B2E,#131318);border:1px solid var(--haze);border-radius:16px;
+.cta{background:linear-gradient(160deg,#232532,#161826);border:1px solid var(--haze);border-radius:16px;
 padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.5)}
 .cta p{font-family:var(--serif);color:var(--dim);margin-bottom:1.25rem}
-.cta a{display:inline-block;background:var(--amber);color:var(--ink);border-radius:11px;
-padding:.85rem 1.5rem;text-decoration:none;font-size:.95rem}
+.cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
+border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
+font-size:1rem;font-weight:500;transition:background .18s ease}
+.cta a:hover{background:#F5F0E6}
 footer{padding:3rem 0 3.5rem;font-size:.8rem;color:var(--dimmer)}
 footer a{color:var(--dimmer)}
-::selection{background:rgba(167,159,217,.3)}
+.meta,.sig{font-size:.75rem}
+::selection{background:rgba(145,132,217,.32)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><a class="mark" href="/"><span class="dot"></span>Lullable</a></header>
+<header><a class="mark" href="/"><img src="/assets/brand/mark-128.webp" width="28" height="28" alt="" decoding="async">lullable</a></header>
 <article>
 <h1>A Manifesto for Overthinkers</h1>
 <p class="meta">Why your brain was never the problem</p>

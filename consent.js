@@ -42,16 +42,17 @@
   }
 
   var STYLE =
-    "#lull-consent{position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:9999;max-width:30rem;" +
-    "background:#171823;border:1px solid #262937;border-radius:14px;padding:1.15rem 1.25rem;" +
-    "box-shadow:0 18px 44px rgba(0,0,0,.6);color:#9B97A8;font:400 .875rem/1.6 ui-sans-serif," +
+    "#lull-consent{position:fixed;right:1rem;left:auto;bottom:max(1rem,env(safe-area-inset-bottom));z-index:9999;width:calc(100% - 2rem);max-width:25rem;" +
+    "background:#232532;border:1px solid rgba(233,233,237,.14);border-radius:14px;padding:1.05rem 1.15rem;" +
+    "box-shadow:0 18px 44px rgba(0,0,0,.6);color:#B2B6CA;font:400 .84rem/1.55 Inter,ui-sans-serif," +
     "-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif}" +
-    "#lull-consent a{color:#EDE7DE}" +
+    "#lull-consent a{color:#ECE4D3}" +
     "#lull-consent .row{display:flex;gap:.6rem;margin-top:.9rem}" +
-    "#lull-consent button{flex:1;border:0;border-radius:9px;padding:.6rem .9rem;font:inherit;cursor:pointer}" +
-    "#lull-consent .yes{background:#DFAF83;color:#0E0F16}" +
-    "#lull-consent .no{background:transparent;border:1px solid #262937;color:#9B97A8}" +
-    "#lull-consent .no:hover{color:#EDE7DE}";
+    "#lull-consent button{flex:1;min-height:44px;border-radius:10px;padding:.6rem .9rem;font:inherit;cursor:pointer}" +
+    "#lull-consent .yes{background:transparent;border:1.5px solid #ECE4D3;color:#ECE4D3;font-weight:500}" +
+    "#lull-consent .no{background:transparent;border:1.5px solid rgba(233,233,237,.14);color:#B2B6CA;font-weight:500}" +
+    "#lull-consent .yes:hover{background:rgba(236,228,211,.10)}"+
+    "#lull-consent .no:hover{color:#ECE4D3;border-color:rgba(233,233,237,.3)}";
 
   function banner() {
     if (document.getElementById("lull-consent")) return;
@@ -80,5 +81,8 @@
   if (navigator.globalPrivacyControl === true) { set("no"); return; }
   var answer = get();
   if (answer === "yes") loadTags();
-  else if (answer !== "no") banner();
+  /* Nothing optional loads before an answer either way, so the ask can wait a
+     beat and let the page land first. It is a corner panel, not a wall: the
+     visitor is never blocked, and no tag fires while it is on screen. */
+  else if (answer !== "no") setTimeout(banner, 1200);
 })();

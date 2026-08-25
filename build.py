@@ -162,36 +162,56 @@ def validate_story(s, warnings):
 # ---------------------------------------------------------------- templates
 
 CSS = """
-:root{--ink:#0E0F16;--ink-2:#171823;--ink-3:#1F2130;--haze:#262937;--text:#EDE7DE;--dim:#9B97A8;
---dimmer:#6C6879;--amber:#DFAF83;--amber-soft:rgba(223,175,131,.28);--iris:#A79FD9;--iris-dim:#9C93CE;
+/* ── Fonts, self-hosted ──────────────────────────────────────────
+   No Google Fonts request: the browser never tells a third party who is
+   reading a sleep-stories site at 1am, and /privacy/ can say so plainly.
+   These are the same latin-subset woff2 files Google serves, kept locally.
+   Both families are SIL Open Font License 1.1 — see fonts/README.md.
+   Variable weight axes, so one file covers every weight in use.
+   ─────────────────────────────────────────────────────────────── */
+@font-face{font-family:Inter;font-style:normal;font-weight:300 600;font-display:swap;
+  src:url(/fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:italic;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:normal;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* "Nocturne" — the iOS app's palette, shared with index.html so the site and the
+   app are one product. The old amber is retired: the app has no amber. The
+   variable names are kept so the rules below did not all have to be rewritten;
+   --amber now names the one accent, which is a line, a border and a glow, never
+   a flood. */
+:root{--ink:#161826;--ink-2:#232532;--ink-3:#1C1E2B;--haze:rgba(233,233,237,.14);--text:#E9E9ED;--dim:#B2B6CA;
+--dimmer:#8E92A8;--cream:#ECE4D3;--amber:#9184D9;--amber-soft:rgba(145,132,217,.4);--iris:#B5ABFC;--iris-dim:#9184D9;
 --serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
---sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+--sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box;margin:0}
 body{background:var(--ink);color:var(--text);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:50vh;pointer-events:none;
-background:radial-gradient(110% 70% at 50% 0%,rgba(167,159,217,.07),transparent 62%)}
+background:radial-gradient(110% 70% at 50% 0%,rgba(145,132,217,.07),transparent 62%)}
 /* wide frame, centered reading measure — the measure protects the paragraphs,
    the frame gives everything else room to breathe */
 .wrap{position:relative;max-width:56rem;margin:0 auto;padding:0 1.5rem}
 .measure{max-width:36rem;margin-inline:auto}
 header{padding:1.75rem 0}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.mark{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.15rem;text-decoration:none;color:var(--text)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--amber);opacity:.85}
+.mark{display:inline-flex;align-items:center;gap:.7rem;min-height:44px;font-weight:300;font-size:17px;
+letter-spacing:.30em;text-transform:lowercase;text-decoration:none;color:var(--cream)}
+.mark img{width:28px;height:28px;border-radius:50%}
 .bar nav{display:flex;align-items:center;gap:1.4rem;font-size:.875rem;color:var(--dim)}
 .bar nav a{text-decoration:none}
 .bar nav a:hover{color:var(--text)}
-.navbtn{background:var(--amber);color:var(--ink);border-radius:8px;padding:.5rem .95rem;transition:opacity .3s}
-.navbtn:hover{opacity:.85;color:var(--ink)}
+.navbtn{border:1.5px solid var(--cream);color:var(--cream);border-radius:11px;padding:.55rem 1rem;
+transition:background .18s ease}
+.navbtn:hover{background:rgba(236,228,211,.10);color:var(--cream)}
 @media(max-width:560px){.bar nav a:first-child{display:none}}
 h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.5vw,2.7rem);line-height:1.18;letter-spacing:-.015em;margin:0 0 1rem}
 h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:2.5rem 0 1rem}
 h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75rem}
 .post-head{text-align:center;padding:2.5rem 0 2rem;max-width:42rem;margin-inline:auto}
-.eyebrow{font:500 .72rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
+.eyebrow{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
 .post-meta{font-size:.82rem;color:var(--dimmer)}
 .post-meta b{color:var(--dim);font-weight:400}
-.meta{font:500 .72rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
+.meta{font:500 .75rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
 article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
 article strong{color:var(--text);font-weight:400;font-style:italic}
 article a{color:var(--text)}
@@ -199,30 +219,35 @@ article ul{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);fo
 article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
 font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
 /* the short answer — the block AI assistants and skimmers both take */
-.answer{background:linear-gradient(160deg,#1F1B2E,#131318);border:1px solid var(--haze);border-radius:16px;
+.answer{background:linear-gradient(160deg,#232532,#161826);border:1px solid var(--haze);border-radius:16px;
 padding:1.6rem 1.75rem;margin:0 0 2.5rem;box-shadow:0 12px 30px rgba(0,0,0,.5)}
-.answer .lbl{font:500 .68rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:.8rem}
+.answer .lbl{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:.8rem}
 .answer p{margin:0;color:var(--text);font-size:1.12rem}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;justify-content:center}
-.chip{font:500 .72rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--iris-dim);
-background:rgba(167,159,217,.12);border:1px solid rgba(167,159,217,.22);border-radius:20px;padding:.45rem .8rem}
-.chip.amber{color:var(--amber);background:rgba(223,175,131,.12);border-color:rgba(223,175,131,.25)}
-.cta{background:linear-gradient(160deg,#1F1B2E,#131318);border:1px solid var(--haze);border-radius:16px;
+.chip{font:500 .75rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--iris-dim);
+background:rgba(145,132,217,.12);border:1px solid rgba(145,132,217,.22);border-radius:20px;padding:.45rem .8rem}
+.chip.amber{color:var(--cream);background:rgba(236,228,211,.10);border-color:rgba(236,228,211,.28)}
+.cta{background:linear-gradient(160deg,#232532,#161826);border:1px solid var(--haze);border-radius:16px;
 padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.5)}
 .cta p{font-family:var(--serif);color:var(--dim);margin-bottom:1.25rem}
-.cta a{display:inline-block;background:var(--amber);color:var(--ink);border-radius:11px;
-padding:.85rem 1.5rem;text-decoration:none;font-size:.95rem}
+/* The one filled button, spent on the one action a story page wants. */
+.cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
+border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
+font-size:1rem;font-weight:500;transition:background .18s ease}
+.cta a:hover{background:#F5F0E6}
 /* related content as cards; stories carry the app's gradient covers */
 .related{border-top:1px solid var(--haze);margin-top:3.5rem;padding-top:2.5rem}
 .related h2{margin-top:0;font-size:1.25rem;text-align:center;margin-bottom:1.75rem}
 .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
 .rel{display:block;text-decoration:none;background:var(--ink-2);border:1px solid var(--haze);border-radius:14px;
 padding:1.1rem;transition:border-color .3s}
-.rel:hover{border-color:rgba(167,159,217,.35)}
-.rel .cover{display:block;height:64px;border-radius:9px;margin-bottom:.8rem}
-.g0{background:linear-gradient(150deg,#2B5064,#111D29)}.g1{background:linear-gradient(150deg,#2A2333,#191622)}
-.g2{background:linear-gradient(150deg,#4C3760,#1B1628)}.g3{background:linear-gradient(150deg,#2B5148,#111F1C)}
-.rel .kind{font:500 .62rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);display:block;margin-bottom:.4rem}
+.rel:hover{border-color:rgba(145,132,217,.35)}
+.cover{display:block;border-radius:10px;margin-bottom:.9rem;overflow:hidden}
+.hero-cover{max-width:240px;margin:0 auto 1.6rem}
+.hero-cover .cover{border-radius:18px;border:1px solid var(--haze)}
+.g0{background:linear-gradient(150deg,#423A6A,#161826)}.g1{background:linear-gradient(150deg,#2B2741,#161826)}
+.g2{background:linear-gradient(150deg,#5D5294,#1C1E2B)}.g3{background:linear-gradient(150deg,#262A60,#161826)}
+.rel .kind{font:500 .75rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);display:block;margin-bottom:.4rem}
 .rel .t{font-family:var(--serif);font-size:1rem;line-height:1.35;color:var(--text)}
 @media(max-width:700px){.rel-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.rel-grid{grid-template-columns:1fr}}
@@ -233,14 +258,14 @@ footer a{color:var(--dimmer)}
 .idx-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem;list-style:none}
 .idx-card{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;
 display:flex;flex-direction:column;transition:border-color .3s}
-.idx-card:hover{border-color:rgba(167,159,217,.35)}
+.idx-card:hover{border-color:rgba(145,132,217,.35)}
 .idx-card .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
 .idx-card time,.idx-card .sub{font-size:.75rem;color:var(--dimmer)}
 .idx-card a{font-family:var(--serif);font-size:1.3rem;line-height:1.3;color:var(--text);text-decoration:none}
 .idx-card a:hover{color:var(--iris)}
 .idx-card p{color:var(--dim);font-size:.92rem;margin-top:.6rem;line-height:1.6}
 @media(max-width:700px){.idx-grid{grid-template-columns:1fr}}
-::selection{background:rgba(167,159,217,.3)}
+::selection{background:rgba(145,132,217,.3)}
 """
 
 POST_CTA = """<div class="cta">
@@ -269,16 +294,17 @@ def page(title, desc, canonical, body, extra_head=""):
 <meta property="og:image" content="{SITE}/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="{BRAND} — The Sleep Library" href="{SITE}/rss.xml">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='9' fill='%23DFAF83'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/brand/web/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin>
 {extra_head}<style>{CSS}</style>
 </head>
 <body>
 <div class="wrap">
 <header class="bar">
-<a class="mark" href="/"><span class="dot"></span>{BRAND}</a>
+<a class="mark" href="/"><img src="/assets/brand/mark-128.webp" width="28" height="28" alt="" loading="lazy" decoding="async">{BRAND.lower()}</a>
 <nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a class="navbtn" href="/#signup">Join the waitlist</a></nav>
 </header>
 {body}
@@ -300,19 +326,48 @@ def pretty(d):
     return datetime.strptime(d, "%Y-%m-%d").strftime("%B %-d, %Y")
 
 def related_html(items):
-    # items: list of (url, title, kind, cover) — cover is a gradient class for
+    # items: list of (url, title, kind, cover) — cover is ready-made markup for
     # stories, "" for essays. Only ever built from files on disk.
     if not items:
         return ""
     cards = "".join(
-        f'<a class="rel" href="{u}">'
-        + (f'<span class="cover {cov}"></span>' if cov else "")
+        f'<a class="rel" href="{u}">' + (cov or "")
         + f'<span class="kind">{k}</span><span class="t">{html.escape(t)}</span></a>'
         for u, t, k, cov in items)
     return f'<div class="related">\n<h2>Keep drifting</h2>\n<div class="rel-grid">{cards}</div>\n</div>'
 
 def cover_class(slug):
+    """Essays have no artwork of their own; they borrow one of four grounds."""
     return f"g{sum(ord(c) for c in slug) % 4}"
+
+def story_cover(s, height="64px"):
+    """The story's real cover, rebuilt from the app's StoryVisualIdentity:
+    a radial ground from `glow` (UnitPoint .5/.16, end radius .62) to `base` at
+    .68, with the story's own sigilPaths stroked in `accent` at 2.6 in the
+    100-unit sigil space. Colours and paths come from the catalog frontmatter,
+    which mirrors lullable_audio/Stories/<slug>/story.yaml. A story missing
+    either half falls back to a plain ground rather than to an invented mark —
+    the app makes the same choice for the same reason."""
+    base, glow, accent = s.get("base"), s.get("glow"), s.get("accent")
+    if not (base and glow):
+        return f'<span class="cover {cover_class(s["slug"])}" style="height:{height}"></span>'
+    ground = (f"radial-gradient(62% 62% at 50% 16%,#{glow} 0%,#{base} 68%)")
+    marks = ""
+    if s.get("sigil") and accent:
+        # five stroked elements is the design rule; the pipeline enforces it too
+        els = [e.strip() for e in s["sigil"].split("|") if e.strip()][:5]
+        paths = []
+        for e in els:
+            d, _, op = e.rpartition("@")
+            d, op = (d or e).strip(), (op.strip() or "1")
+            paths.append(f'<path d="{html.escape(d, quote=True)}" opacity="{op}"/>')
+        marks = ('<svg viewBox="0 0 100 100" fill="none" aria-hidden="true" '
+                 'preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;'
+                 'width:100%;height:100%">'
+                 f'<g stroke="#{accent}" stroke-width="2.6" stroke-linecap="round" '
+                 'stroke-linejoin="round">' + "".join(paths) + '</g></svg>')
+    return (f'<span class="cover" style="height:{height};background:{ground};position:relative">'
+            f'{marks}</span>')
 
 def read_minutes(body):
     return max(1, round(wordcount(body) / 210))
@@ -386,7 +441,7 @@ def build():
                 "mainEntity": [{"@type": "Question", "name": p["question"],
                     "acceptedAnswer": {"@type": "Answer", "text": first_paragraph(p["body"])}}]})
         rel = [(f"/sleep/{o['slug']}/", o["title"], "essay", "") for o in posts if o["slug"] != p["slug"]][:2]
-        rel += [(f"/stories/{s['slug']}/", s["title"], f"story · {s['mins']} min", cover_class(s["slug"]))
+        rel += [(f"/stories/{s['slug']}/", s["title"], f"story · {s['mins']} min", story_cover(s))
                 for s in stories[:2]]
         rendered = md(p["body"])
         # question posts: the first paragraph becomes "the short answer" card —
@@ -449,12 +504,13 @@ def build():
                  f'<span class="chip">read by {html.escape(s["narrator"])}</span>'
                  + ('' if s.get("premium") == "false" else '<span class="chip">Premium</span>')
                  + '</div>')
-        siblings = [(f"/stories/{o['slug']}/", o["title"], f"{o['mins']} min · {o['genre']}", cover_class(o["slug"]))
+        siblings = [(f"/stories/{o['slug']}/", o["title"], f"{o['mins']} min · {o['genre']}", story_cover(o))
                     for o in stories if o["slug"] != s["slug"]][:3]
         essays = [(f"/sleep/{p['slug']}/", p["title"], "essay", "") for p in posts[:2]]
         sample = (f'<blockquote>“{html.escape(s["sample"].strip())}”</blockquote>'
                   f'<p class="meta" style="margin-top:-.5rem">The kind of sentence people fall asleep during</p>')
-        head_band = (f'<div class="post-head"><p class="eyebrow">A Lullable sleep story</p>'
+        head_band = (f'<div class="post-head"><div class="hero-cover">{story_cover(s, "200px")}</div>'
+                     f'<p class="eyebrow">A Lullable sleep story</p>'
                      f"<h1>{html.escape(s['title'])}</h1>{chips}</div>")
         body = (f"<article>\n{head_band}\n<div class=\"measure\">\n"
                 f"{md(s['body'])}\n{sample}\n{story_cta(s)}\n</div>\n{related_html(siblings + essays)}\n</article>")
@@ -463,8 +519,7 @@ def build():
 
     # ---- stories index: card grid with gradient covers
     items = "".join(
-        f'<li class="idx-card"><span class="cover {cover_class(s["slug"])}" '
-        f'style="display:block;height:76px;border-radius:10px;margin-bottom:1rem"></span>'
+        f'<li class="idx-card">{story_cover(s, "104px")}'
         f'<div class="row"><span class="chip amber">▶ {s["mins"]} min</span>'
         f'<span class="sub">{html.escape(s["genre"])} · {html.escape(s["narrator"])}</span></div>'
         f'<a href="/stories/{s["slug"]}/">{html.escape(s["title"])}</a>'

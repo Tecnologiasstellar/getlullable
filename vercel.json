@@ -1,0 +1,63 @@
+{
+  "redirects": [
+    {
+      "source": "/stories/rain-on-the-glasshouse",
+      "destination": "/stories/the-slow-life-of-a-redwood/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/cartography-of-small-islands",
+      "destination": "/stories/floating-through-the-pillars-of-creation/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/the-lamplighters-round",
+      "destination": "/stories/a-roman-bathhouse-at-closing-time/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/the-slow-train-north",
+      "destination": "/stories/the-midnight-sleeper-train-across-the-alps/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/snowfall-over-the-orchard",
+      "destination": "/stories/the-slow-life-of-a-redwood/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/the-keeper-of-the-tide-clock",
+      "destination": "/stories/the-midnight-museum-beneath-the-sea/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/audio/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
