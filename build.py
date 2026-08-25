@@ -314,7 +314,7 @@ def page(title, desc, canonical, body, extra_head=""):
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
 · <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
-<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
+<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
 <script src="/consent.js" defer></script>
 </body>
@@ -536,8 +536,9 @@ def build():
         page(f"Sleep stories — {BRAND}", "Every sleep story in the Lullable app: slow fiction, nature and "
              "weather, folklore — read warmly and quieter every minute.", f"{SITE}/stories/", body))
 
-    # ---- legal pages (/privacy/, /terms/) — same claim gate as the essays,
-    # since "not a medical device" is the one sentence we cannot get wrong.
+    # ---- standing pages (/privacy/, /terms/, /support/) — same claim gate as
+    # the essays, since "not a medical device" is the one sentence we cannot
+    # get wrong. Anything dropped in legal/*.md becomes /<filename>/.
     legal = [parse_story(p) for p in sorted((ROOT / "legal").glob("*.md"))]
     for l in legal:
         hits = prohibited_claims_in(l["body"])

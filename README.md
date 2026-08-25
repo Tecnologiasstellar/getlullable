@@ -7,6 +7,8 @@ index.html        the landing page. one file, no build, no dependencies.
 posts/*.md        The Sleep Library — one markdown file per post. git is the CMS.
 catalog/*.md      six of the app's real stories, mirrored from
                   lullable_audio/Stories/<slug>/story.yaml — drives /stories/ pages
+legal/*.md        the standing pages — privacy.md, terms.md, support.md.
+                  a file here becomes /<filename>/ and joins the sitemap
 topics.json       the topic queue (~36 briefs, rotation rules embedded in the file)
 build.py          validates (claim gate) + generates /sleep/, /stories/, sitemap, rss,
                   robots.txt, llms.txt, per-story share cards. stdlib only (Pillow optional).
