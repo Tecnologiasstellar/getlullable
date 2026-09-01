@@ -176,15 +176,77 @@
       ]
     },
     {
-      "slug": "sleep-app-without-a-subscription",
+      "slug": "calm-vs-lullable",
       "type": "comparison",
-      "title": "Sleep apps without a subscription",
-      "angle": "The most commercially valuable easy term found; the majors have conceded this SERP to tiny indie sites. VOID if Lullable ships a standard annual subscription — check before writing.",
+      "title": "Calm vs Lullable: an honest comparison",
+      "angle": "The template that works: BetterSleep ranks #1 for 'Calm alternative' with a real pricing table and a 'who should choose Calm?' section. Calm is $14.99/mo or $69.99/yr; Lullable is $2.99/mo with a free tier. Concede meditation, celebrity narrators, and the human-voice question outright.",
       "keywords": [
-        "sleep app without subscription",
-        "sleep app one time purchase"
+        "calm vs lullable",
+        "calm alternative",
+        "is calm worth it",
+        "cheaper than calm"
       ],
-      "note": "GATED: confirm Lullable's own pricing first, and re-read every competitor price from the vendor's own pricing page on the day of writing. A wrong price destroys the credibility the whole page runs on. Concede real ground to the competitor."
+      "note": "Prices live in prices.json, read from each vendor's own App Store listing. The build hard-fails any figure not listed there and warns when one is over 90 days old. Re-read before writing. Concede real ground: say plainly where the competitor is the better buy."
+    },
+    {
+      "slug": "headspace-vs-lullable",
+      "type": "comparison",
+      "title": "Headspace vs Lullable: different problems, different tools",
+      "angle": "Headspace is $12.99/mo or $69.99/yr and is a mindfulness product with sleep attached. The honest line: if you want to learn to meditate, buy Headspace. This is for the night you have already failed at that and are still awake.",
+      "keywords": [
+        "headspace vs lullable",
+        "headspace alternative",
+        "headspace for sleep"
+      ],
+      "note": "Prices live in prices.json, read from each vendor's own App Store listing. The build hard-fails any figure not listed there and warns when one is over 90 days old. Re-read before writing. Concede real ground: say plainly where the competitor is the better buy."
+    },
+    {
+      "slug": "cheapest-sleep-story-apps",
+      "type": "comparison",
+      "title": "What sleep story apps actually cost",
+      "angle": "The whole category priced side by side, in one table, with the free tiers described accurately. This is the page the price wedge earns: $2.99/mo against $69.99/yr is a fact, not a boast, and it reads better stated flatly.",
+      "keywords": [
+        "cheapest sleep app",
+        "sleep app prices",
+        "affordable sleep stories",
+        "free sleep stories for adults"
+      ],
+      "note": "Prices live in prices.json, read from each vendor's own App Store listing. The build hard-fails any figure not listed there and warns when one is over 90 days old. Re-read before writing. Concede real ground: say plainly where the competitor is the better buy."
+    },
+    {
+      "slug": "free-sleep-stories-for-adults",
+      "type": "comparison",
+      "title": "Where to find free sleep stories for adults",
+      "angle": "Heavy verified 'free' modifier across the category. Lullable has a free tier, so the page can be honest rather than bait — name genuinely free options first (podcasts, public-domain readings), and describe our free tier exactly, without overstating it.",
+      "keywords": [
+        "free sleep stories for adults",
+        "sleep stories to read online free",
+        "free bedtime stories for adults"
+      ],
+      "note": "Prices live in prices.json, read from each vendor's own App Store listing. The build hard-fails any figure not listed there and warns when one is over 90 days old. Re-read before writing. Concede real ground: say plainly where the competitor is the better buy."
+    },
+    {
+      "slug": "what-a-sleep-app-should-cost",
+      "type": "definition",
+      "title": "What should a sleep app cost?",
+      "angle": "The indie wedge pointed outward at the reader, not inward at the founder. Why the category prices at $70/yr (paid acquisition, celebrity licensing, an ad business), and what falls away when none of that exists. Never say 'built by an indie hacker' — say what it means for them: no ads because there is no ad business, no engagement targets because nobody is paid to raise them.",
+      "keywords": [
+        "what should a sleep app cost",
+        "why are sleep apps so expensive",
+        "sleep app pricing"
+      ],
+      "note": "Prices live in prices.json, read from each vendor's own App Store listing. The build hard-fails any figure not listed there and warns when one is over 90 days old. Re-read before writing. Concede real ground: say plainly where the competitor is the better buy."
+    },
+    {
+      "slug": "sleep-apps-without-a-streak",
+      "type": "comparison",
+      "title": "Sleep apps that don't try to keep you",
+      "angle": "Streaks, badges, daily reminders and next-episode autoplay are retention mechanics borrowed from products that want your attention. Audit the category honestly on this axis alone — it is the anti-engagement thesis as a buyer's guide, and nobody has written it.",
+      "keywords": [
+        "sleep app without streaks",
+        "sleep app no notifications",
+        "sleep app that doesnt nag"
+      ]
     },
     {
       "slug": "why-do-we-remember-embarrassing-things-at-night",

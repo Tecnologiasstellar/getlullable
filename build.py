@@ -179,6 +179,10 @@ def validate_post(p, warnings):
     bad = [u for u in srcs if not u.startswith(("http://", "https://"))]
     if bad:
         errs.append(f"sources must be URLs: {', '.join(bad)}")
+    bad_prices = unlisted_prices(p["body"])
+    if bad_prices:
+        errs.append(f"price(s) not in prices.json: {', '.join(bad_prices)} — add them with a "
+                    f"vendor-page source and today's date, or remove them")
     claims = checkable_claims(p["body"])
     if claims and len(srcs) < 2:
         errs.append(f"{len(srcs)} source(s) but makes checkable claims "
@@ -187,6 +191,40 @@ def validate_post(p, warnings):
         warnings.append(f"{p['path']}: a fact-world with no checkable claim and no sources "
                         f"— is it actually about something?")
     return errs
+
+
+# ---------------------------------------------------------------- price gate
+# Comparison posts are the one place this site makes falsifiable claims about
+# other companies, and a wrong price destroys the credibility the whole page
+# runs on. So every price printed in an essay must be listed in prices.json,
+# read from the vendor's own page, with the date it was last seen. Modelled on
+# SIMPLE.MX's invented-price gate. Scoped to posts/ — legal/terms.md carries a
+# US$100 liability cap that is not a product price.
+PRICE_RE = re.compile(r"(?<![A-Za-z])\$\s?\d[\d,]*(?:\.\d{2})?")
+STALE_DAYS = 90
+
+def known_prices():
+    try:
+        data = json.loads((ROOT / "prices.json").read_text())
+    except (OSError, ValueError):
+        return set(), []
+    ok, stale = set(), []
+    for name, rec in data.get("prices", {}).items():
+        for field in ("monthly", "yearly", "once"):
+            if rec.get(field):
+                ok.add(rec[field].replace(" ", ""))
+        try:
+            age = (date.today() - datetime.strptime(rec["checked"], "%Y-%m-%d").date()).days
+            if age > STALE_DAYS:
+                stale.append(f"{name}: price checked {age} days ago ({rec['checked']}) — re-read {rec.get('source','?')}")
+        except (KeyError, ValueError):
+            stale.append(f"{name}: missing or unparseable `checked` date")
+    return ok, stale
+
+
+def unlisted_prices(body):
+    ok, _ = known_prices()
+    return sorted({m.group(0).replace(" ", "") for m in PRICE_RE.finditer(body)} - ok)
 
 
 # A year, a percentage, or a measurement. Deliberately narrow: it should fire on
@@ -549,6 +587,7 @@ def build():
         for e in validate_story(s, warnings):
             failures.append(f"{s['path']}: {e}")
     failures += duplicate_titles(posts)
+    warnings += [f"prices.json: {w}" for w in known_prices()[1]]
     if failures:
         print("BUILD ABORTED — fix these before anything is written:")
         for f in failures: print("  HARD FAIL", f)

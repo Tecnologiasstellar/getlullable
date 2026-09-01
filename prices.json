@@ -1,0 +1,32 @@
+{
+  "_rules": [
+    "Every price that appears in a published post must be listed here, or the build hard-fails. Modelled on SIMPLE.MX's invented-price gate: a wrong price in a comparison table destroys the credibility the whole page runs on, and a comparison page is the one place this site makes falsifiable claims about other companies.",
+    "`source` must be the vendor's own page — their App Store listing or their pricing page, never a third-party comparison article. Apple's listing is the right source for an iOS comparison because it is the price an iPhone reader would actually pay.",
+    "`checked` is the date a human or the daily routine last SAW that figure at that URL. build.py warns past 90 days. Re-read before citing; these change without notice and vary by storefront.",
+    "All figures are the US storefront. Never write a price as if it were global — Headspace's own listing says so explicitly."
+  ],
+  "prices": {
+    "lullable": {
+      "monthly": "$2.99",
+      "free_tier": true,
+      "source": "internal — confirmed by AV 2026-09-01",
+      "checked": "2026-09-01",
+      "storefront": "US",
+      "note": "Not yet on sale. Do not write this as a live price until the App Store listing resolves."
+    },
+    "calm": {
+      "monthly": "$14.99",
+      "yearly": "$69.99",
+      "source": "https://apps.apple.com/us/app/calm/id571800810",
+      "checked": "2026-09-01",
+      "storefront": "US"
+    },
+    "headspace": {
+      "monthly": "$12.99",
+      "yearly": "$69.99",
+      "source": "https://apps.apple.com/us/app/headspace-sleep-meditation/id493145008",
+      "checked": "2026-09-01",
+      "storefront": "US"
+    }
+  }
+}
