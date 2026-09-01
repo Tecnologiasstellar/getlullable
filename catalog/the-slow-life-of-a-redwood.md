@@ -1,6 +1,7 @@
 ---
 title: The Slow Life of a Redwood
 narrator: Patrick from Block Island
+voice: male
 mins: 41
 genre: Gentle Nature
 mood: Hushed

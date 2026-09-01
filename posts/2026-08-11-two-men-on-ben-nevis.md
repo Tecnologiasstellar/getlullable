@@ -2,6 +2,7 @@
 title: Two men on Ben Nevis, every hour, for 21 years
 description: From 1883 to 1904, observers on Britain's highest summit took a weather reading every single hour. A story about patience, fog, and 1.5 million numbers.
 type: fact-world
+sources: https://rmets.onlinelibrary.wiley.com/doi/10.1002/gdj3.79, https://catalogue.ceda.ac.uk/uuid/1d29816cee7e4fb586b80a3f7debcb8e/
 ---
 
 Between 1883 and 1904, a small rotating staff of observers lived at the summit of Ben Nevis, the highest point in Britain, and took a full weather reading every hour, around the clock, for twenty-one years. Temperature, pressure, wind, humidity, and a note on the state of the sky — roughly one and a half million measurements in all, taken in a place that spends about three hundred days a year inside a cloud. Nothing dramatic happens in this story. That is rather its charm.

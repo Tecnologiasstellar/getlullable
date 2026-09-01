@@ -2,6 +2,7 @@
 title: The weather at the bottom of the sea
 description: There is weather at the bottom of the Mariana Trench — currents, storms of sediment, warm springs. A quiet tour of the calmest climate on Earth.
 type: fact-world
+sources: https://en.wikipedia.org/wiki/Mariana_Trench, https://www.britannica.com/place/Challenger-Deep
 ---
 
 Eleven kilometres down, at the floor of the Mariana Trench, there is weather. Not our kind — no wind, no rain, no morning — but weather all the same: slow currents that take years to cross the Pacific's basement, occasional blizzards of white sediment, and, along the trench's western edge, warm springs that have been quietly venting since before there were trees. This is a short tour of the calmest climate on Earth. Nothing in it will be urgent.
@@ -14,7 +15,7 @@ At the hottest vents, the fluid emerges at temperatures that would flash into st
 
 ## The pressure
 
-The pressure at the bottom is roughly one thousand and eighty-six times the pressure in the room where you're reading this. It is not violent. Nothing about it presses or crushes in any way a resident would notice; the animals that live there — pale shrimp, translucent sea cucumbers, a fish with a face like a disappointed uncle — are at equilibrium with it, as unbothered by the weight of the Pacific as you are by the weight of the sky.
+The pressure at the bottom is about 1,086 bar — a little over a thousand times the pressure in the room where you're reading this. It is not violent. Nothing about it presses or crushes in any way a resident would notice; the animals that live there — pale shrimp, translucent sea cucumbers, a fish with a face like a disappointed uncle — are at equilibrium with it, as unbothered by the weight of the Pacific as you are by the weight of the sky.
 
 ## The snow
 

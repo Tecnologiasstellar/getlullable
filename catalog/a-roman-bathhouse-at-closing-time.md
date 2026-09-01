@@ -1,6 +1,7 @@
 ---
 title: A Roman Bathhouse at Closing Time
 narrator: Arthur from Ludlow
+voice: male
 mins: 39
 genre: Ancient Worlds
 mood: Steam-warm

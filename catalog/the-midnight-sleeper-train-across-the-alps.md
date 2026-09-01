@@ -1,6 +1,7 @@
 ---
 title: The Midnight Sleeper Train Across the Alps
 narrator: Niamh from Kinsale
+voice: female
 mins: 40
 genre: Cozy Tales
 mood: Rocking

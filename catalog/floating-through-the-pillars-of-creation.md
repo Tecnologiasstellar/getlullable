@@ -1,6 +1,7 @@
 ---
 title: Floating Through the Pillars of Creation
 narrator: Amy from Greenwich
+voice: female
 mins: 41
 genre: Cosmic Journeys
 mood: Weightless

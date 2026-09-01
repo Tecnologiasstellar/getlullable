@@ -2,6 +2,7 @@
 title: The width of a horse: how the railway gauge was chosen
 description: Most of the world's trains run 4 feet 8½ inches apart. Nobody chose that number. It was inherited from colliery carts and ratified long after it had won.
 type: fact-world
+sources: https://en.wikipedia.org/wiki/Railway_Regulation_(Gauge)_Act_1846, https://en.wikipedia.org/wiki/Royal_Commission_on_Railway_Gauges
 ---
 
 About three-fifths of the world's railways are built to a gauge of four feet eight and a half inches — 1,435 millimetres, an oddly precise figure for something nobody sat down and decided. It was not calculated, and it was not the best available option; a wider gauge was demonstrably smoother and faster, and it lost anyway. The number came out of the colliery wagonways of north-east England, where carts had been pulled along wooden rails by horses for a century before anyone thought to put an engine on them, and it survived because the first successful railway engineer happened to have grown up beside one. Parliament made it official in 1846, by which point it had already quietly conquered Britain.

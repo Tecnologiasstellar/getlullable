@@ -3,6 +3,7 @@ title: The cognitive shuffle: the sleep trick for overthinkers
 description: Imagine a series of random, unrelated things until your thinking stops making sense. The technique, the research behind it, and how to do it tonight.
 question: What is the cognitive shuffle?
 type: definition
+sources: https://summit.sfu.ca/_flysystem/fedora/sfu_migrate/17237/Beaudoin-2014-A%20design-based%20approach%20to%20sleep-onset%20and%20insomnia%20Super-somnolent%20mentation%20the%20cognitive%20shuffle%20and%20serial%20diverse%20imagining-Beaudoin2014un.pdf, https://www.cnn.com/2025/04/08/health/cognitive-shuffling-sleep-technique-benefits-wellness
 ---
 
 The cognitive shuffle is a bedtime technique in which you deliberately imagine a series of random, unrelated, emotionally neutral things — a bucket, a bridge, a banana — holding each picture in mind for a few seconds before moving to the next. It was developed by Luc Beaudoin, a cognitive scientist at Simon Fraser University, and the idea is deceptively simple: coherent thinking keeps you awake, so you give your mind something to do that deliberately refuses to cohere. It is free, requires nothing, and you can try it tonight.

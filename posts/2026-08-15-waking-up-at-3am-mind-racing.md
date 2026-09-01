@@ -3,6 +3,7 @@ title: Why do I wake up at 3am with my mind racing?
 description: Waking at 3am is normal — sleep is cyclical and cortisol is already climbing. Why the racing arrives, and why reaching for your phone backfires.
 question: Why do I wake up at 3am with my mind racing?
 type: question
+sources: https://sites.google.com/vt.edu/roger-ekirch/sleep-research/segmented-sleep, https://harpers.org/archive/2013/08/segmented-sleep/
 ---
 
 Waking up at 3am is not a malfunction. Sleep runs in cycles of roughly ninety minutes, and brief surfacings between them happen ten or twenty times a night — you simply don't remember most of them. In the second half of the night sleep is lighter and more dream-heavy, and cortisol has already begun climbing from its midnight low. So you wake into a body that has quietly started preparing for morning. The racing thoughts don't cause the waking. They arrive afterwards, to fill it.

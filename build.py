@@ -48,11 +48,29 @@ PROHIBITED = [
     "clinically proven", "scientifically proven", "medically proven",
     "guaranteed to", "doctor recommended", "doctors recommend",
     "diagnose", "prescription strength", "melatonin dose", "dosage",
+    # Outcome promises. Added 2026-09-01 when the daily post became unattended:
+    # nobody reads a draft before it is live now, and an unsupervised drafter
+    # drifts toward exactly the register the category markets in (Slumber's own
+    # App Store subtitle is "Fall Asleep in 5 Minutes"). We describe mechanism,
+    # never a result. Each phrase below was checked against every existing file
+    # first — bare "in minutes", "guarantee" and "sleep aid" are NOT here because
+    # they have legitimate uses already on the site ("the loop point within
+    # minutes", "counting guarantees you stay awake", "Boredom as a sleep aid").
+    "fall asleep faster", "fall asleep quicker", "asleep in minutes",
+    "deeper levels of sleep", "improves sleep quality", "improve your sleep",
+    "proven to", "will help you sleep", "helps you fall asleep",
+    "help you sleep better", "get you to sleep",
 ]
 NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ")
 
 def prohibited_claims_in(text):
-    low = text.lower()
+    # Collapse whitespace before matching. Found 2026-09-01: markdown prose wraps
+    # at ~90 chars, so "it will help you\nsleep better" slid straight past a gate
+    # searching raw text. Every phrase here is 2-5 words, so a line break lands
+    # inside one roughly as often as not — the gate was failing open on exactly
+    # the copy it exists to stop. Positions stay consistent for the negation
+    # lookback below because it reads the same collapsed string.
+    low = re.sub(r"\s+", " ", text.lower())
     hits = []
     for phrase in PROHIBITED:
         for m in re.finditer(re.escape(phrase), low):
@@ -145,15 +163,93 @@ def validate_post(p, warnings):
             warnings.append(f"{p['path']}: answer paragraph {fw} words (target 30–120, self-contained)")
     if not p.get("type"):
         warnings.append(f"{p['path']}: no type: (question|definition|fact-world) — rotation can't see it")
+    # Sources, required wherever the post makes a CHECKABLE claim. Added
+    # 2026-09-01 with unattended publishing: the claim gate above catches
+    # medical language, but it has nothing to say about whether the Ben Nevis
+    # observatory really ran 1883-1904. Two independent URLs make a fabrication
+    # visible instead of invisible.
+    #
+    # Keyed on the claim, not on the `type`. Keying it on type was the first
+    # attempt and it was wrong: what-is-low-arousal-learning and
+    # what-are-sleep-stories are conceptual essays containing no date, figure
+    # or attribution at all, and a rule that hard-fails them only teaches the
+    # drafter to staple on a plausible-looking link. A citation nobody needed
+    # is worse than no citation, because it looks like diligence.
+    srcs = sources_of(p)
+    bad = [u for u in srcs if not u.startswith(("http://", "https://"))]
+    if bad:
+        errs.append(f"sources must be URLs: {', '.join(bad)}")
+    claims = checkable_claims(p["body"])
+    if claims and len(srcs) < 2:
+        errs.append(f"{len(srcs)} source(s) but makes checkable claims "
+                    f"({', '.join(claims[:4])}) — needs 2+ sources: URLs")
+    if not claims and not srcs and p.get("type") == "fact-world":
+        warnings.append(f"{p['path']}: a fact-world with no checkable claim and no sources "
+                        f"— is it actually about something?")
+    return errs
+
+
+# A year, a percentage, or a measurement. Deliberately narrow: it should fire on
+# "Between 1883 and 1904" and "1,086 bar", and stay quiet on the spelled-out
+# numbers the house voice prefers ("cycles of roughly ninety minutes"), which
+# are the ones a reader cannot check anyway.
+CLAIM_PATTERNS = [
+    r"\b(?:1[5-9]|20)\d{2}\b",
+    r"\b\d[\d,.]*\s?(?:%|per cent|percent)",
+    r"\b\d[\d,.]*\s?(?:metres|meters|feet|miles|kilometres|kilometers|km|"
+    r"degrees|bar|atmospheres|tonnes|tons)\b",
+]
+
+def checkable_claims(body):
+    hits = []
+    for pat in CLAIM_PATTERNS:
+        hits += [m.group(0).strip() for m in re.finditer(pat, body, re.I)]
+    return sorted(set(hits))
+
+
+def sources_of(p):
+    """The `sources:` frontmatter, as a list of URLs. Comma-separated."""
+    return [u.strip() for u in p.get("sources", "").split(",") if u.strip()]
+
+
+# Near-duplicate titles. The queue outgrew what one person holds in their head
+# (the 4am variant sits right next to the live 3am page, and "mind won't shut
+# off" next to why-cant-i-stop-thinking-at-night), and two pages answering one
+# query split the signal instead of doubling it. Jaccard over content words at
+# 0.7: "Why do I wake up at 3am with my mind racing?" vs "Why am I wide awake at
+# 4am every night?" scores well under it, so genuine variants still ship.
+STOPWORDS = {"a", "an", "and", "are", "at", "be", "but", "can", "do", "does", "for",
+             "how", "i", "in", "is", "it", "me", "my", "of", "on", "or", "the",
+             "to", "we", "what", "when", "why", "you", "your", "t", "s"}
+
+def title_tokens(t):
+    return {w for w in re.findall(r"[a-z0-9]+", t.lower()) if w not in STOPWORDS}
+
+def duplicate_titles(posts):
+    errs = []
+    for i, a in enumerate(posts):
+        for b in posts[i + 1:]:
+            ta, tb = title_tokens(a["title"]), title_tokens(b["title"])
+            if not ta or not tb:
+                continue
+            overlap = len(ta & tb) / len(ta | tb)
+            if overlap >= 0.7:
+                errs.append(f"{a['path']} and {b['path']}: titles {overlap:.0%} identical "
+                            f"— cannibalisation. Retitle or delete one.")
     return errs
 
 def validate_story(s, warnings):
     errs = []
-    for field in ("title", "narrator", "mins", "genre", "mood", "blurb", "sample", "date"):
+    for field in ("title", "narrator", "voice", "mins", "genre", "mood", "blurb", "sample", "date"):
         if not s.get(field):
             errs.append(f"missing {field}")
     if not str(s.get("mins", "")).isdigit():
         errs.append(f"mins must be a number, got {s.get('mins')!r}")
+    # voice drives /stories/male-voice/ and /stories/female-voice/ — the only
+    # narrator facet with both verified search demand and matching inventory.
+    # Declared, never guessed from the narrator's name.
+    if s.get("voice") and s["voice"] not in ("male", "female"):
+        errs.append(f"voice must be male|female, got {s['voice']!r}")
     hits = prohibited_claims_in(s["body"] + " " + s.get("blurb", ""))
     if hits:
         errs.append(f"prohibited claim(s): {', '.join(hits)}")
@@ -238,6 +334,12 @@ border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-de
 font-size:1rem;font-weight:500;transition:background .18s ease}
 .cta a:hover{background:#F5F0E6}
 /* related content as cards; stories carry the app's gradient covers */
+.sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
+.sources .lbl{font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
+.sources ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem .9rem}
+.sources li{font:400 .82rem/1.4 var(--sans)}
+.sources a{color:var(--dim);text-decoration:underline;text-underline-offset:3px}
+.sources a:hover{color:var(--text)}
 .related{border-top:1px solid var(--haze);margin-top:3.5rem;padding-top:2.5rem}
 .related h2{margin-top:0;font-size:1.25rem;text-align:center;margin-bottom:1.75rem}
 .rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
@@ -321,6 +423,7 @@ def page(title, desc, canonical, body, extra_head=""):
 </header>
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
+<br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
 · <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
 <br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@getlullable" rel="me noopener" target="_blank">YouTube</a>
 <br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
@@ -328,6 +431,22 @@ def page(title, desc, canonical, body, extra_head=""):
 <script src="/consent.js" defer></script>
 </body>
 </html>"""
+
+def sources_html(p):
+    """Where the facts came from, printed on the page.
+
+    Not decoration: the daily post is drafted unattended, so the reader (and we)
+    need to be able to check a date against the thing it came from. Bare-domain
+    labels keep it quiet enough to sit under a warm-academic essay."""
+    srcs = sources_of(p)
+    if not srcs:
+        return ""
+    items = "".join(
+        f'<li><a href="{html.escape(u, quote=True)}" rel="noopener nofollow" '
+        f'target="_blank">{html.escape(re.sub(r"^https?://(www\.)?", "", u).split("/")[0])}</a></li>'
+        for u in srcs)
+    return f'<div class="sources"><div class="lbl">Sources</div><ul>{items}</ul></div>\n'
+
 
 def jsonld(schemas):
     # <-escape so no copy can break out of the script tag (SIMPLE.MX convention)
@@ -429,6 +548,7 @@ def build():
     for s in stories:
         for e in validate_story(s, warnings):
             failures.append(f"{s['path']}: {e}")
+    failures += duplicate_titles(posts)
     if failures:
         print("BUILD ABORTED — fix these before anything is written:")
         for f in failures: print("  HARD FAIL", f)
@@ -470,7 +590,8 @@ def build():
                      f"<h1>{html.escape(p['title'])}</h1>"
                      f'<p class="post-meta"><time datetime="{p["date"]}">{pretty(p["date"])}</time>'
                      f" · <b>{read_minutes(p['body'])} min read</b></p></div>")
-        body = (f"<article>\n{head_band}\n<div class=\"measure\">\n{rendered}\n{post_cta()}\n</div>"
+        body = (f"<article>\n{head_band}\n<div class=\"measure\">\n{rendered}\n"
+                f"{sources_html(p)}{post_cta()}\n</div>"
                 f"\n{related_html(rel)}\n</article>")
         out = ROOT / "sleep" / p["slug"]
         out.mkdir(exist_ok=True)
@@ -530,6 +651,115 @@ def build():
         title = f"{s['title']} — a {s['mins']}-minute sleep story"
         (out / "index.html").write_text(page(f"{title} — {BRAND}", s["blurb"], url, body, head))
 
+    # ---- hub pages (the facets)
+    # Templated, and deliberately almost none. The risk here is not Google's
+    # scaled-content rule — a page a day is three orders of magnitude below the
+    # sites that get hit — it is the DOORWAY rule: "substantially similar pages
+    # positioned closer to search results than a clear browseable hierarchy."
+    # With six stories, nearly every facet anyone would think of lists one item,
+    # which is that exact shape, and a body of thin pages drags the essays that
+    # already work down with it. So the guard is structural, like the 404-proof
+    # interlinking: a facet that cannot list MIN_FACET_ITEMS is not written.
+    #
+    # Duration buckets (/stories/30-minute/ and siblings) are ABSENT on purpose.
+    # They carry the deepest verified demand found in the 2026-09-01 keyword
+    # research — 10/10 autocomplete slots — and five of six stories are 39-41
+    # minutes, so every bucket but one would be empty. That is an instruction to
+    # the recording schedule, not to this generator. Add them when the inventory
+    # exists and this loop will pick them up.
+    MIN_FACET_ITEMS = 3
+    hubs = [
+        ("boring-true-stories-to-read", "To read",
+         "Boring true stories to read yourself to sleep",
+         "Boring true stories to read yourself to sleep.",
+         "True stories dull enough to fall asleep during, written out in full so you can read "
+         "them instead of listening. Endings given away in the first line.",
+         lambda st: True,
+         "Every story in the Lullable app is written before it is read aloud, and the written "
+         "version is on this site in full. That is unusual enough to say plainly: most sleep "
+         "audio exists only as audio, so if you would rather read yourself to sleep than put "
+         "something in your ears, the catalogue is mostly closed to you.\n\n"
+         "These are not fiction. A Roman bathhouse at the hour the fires go out, the museum of "
+         "things that have drifted to the floor of the sea, the eleven-year argument about the "
+         "width of a wooden pallet. The material is true, and it is chosen for being genuinely "
+         "interesting and entirely inconsequential — nothing here resolves, nothing is at stake, "
+         "and nobody is waiting for you to find out what happens.\n\n"
+         "Each one gives its ending away in the first minute. That is the whole mechanism: a "
+         "story you already know the end of is a story you are permitted to stop reading. "
+         "Reading in bed usually fails because the book is trying to keep you there. These are "
+         "trying to lose you.\n\n"
+         "If you would rather be read to, the same stories are narrated in the app — "
+         "[in a male voice](/stories/male-voice/) or [a female one](/stories/female-voice/)."),
+        ("male-voice", "Male voice",
+         "Sleep stories read in a male voice",
+         "Sleep stories read in a male voice.",
+         "The Lullable stories narrated by Arthur, Brian and Patrick — low, unhurried, and "
+         "quieter with every minute. Full text on each page.",
+         lambda st: st.get("voice") == "male",
+         "Which voice puts you under is not a preference anyone can argue you out of, and it is "
+         "one of the few things about sleep audio worth choosing deliberately. Some people need "
+         "a lower register to stop tracking the words; others find exactly that too close to a "
+         "voice reading them the news.\n\n"
+         "These are the stories read by Arthur from Ludlow, Brian from St Ives and Patrick from "
+         "Block Island. What they have in common is not pitch but pacing: no performance, no "
+         "characters, no leaning on a word to tell you it matters. The delivery flattens rather "
+         "than dramatises, and the last third of every recording is quieter and slower than the "
+         "first, on purpose, whether or not you are still awake to notice.\n\n"
+         "If none of them work, the same catalogue [read in a female voice](/stories/female-voice/) "
+         "is one page over, and every one of them is [written out in full to read](/stories/boring-true-stories-to-read/) "
+         "if you would rather not listen at all. There are no ads and no music in any of them."),
+        ("female-voice", "Female voice",
+         "Sleep stories read in a female voice",
+         "Sleep stories read in a female voice.",
+         "The Lullable stories narrated by Emma, Amy and Niamh — warm, flat, and quieter with "
+         "every minute. Full text on each page.",
+         lambda st: st.get("voice") == "female",
+         "Which voice puts you under is not a preference anyone can argue you out of, and it is "
+         "one of the few things about sleep audio worth choosing deliberately. Some listeners "
+         "settle faster to a higher register; others find it carries too much brightness into a "
+         "dark room.\n\n"
+         "These are the stories read by Emma from Oxford, Amy from Greenwich and Niamh from "
+         "Kinsale. What they have in common is not pitch but pacing: no performance, no "
+         "characters, no leaning on a word to tell you it matters. The delivery flattens rather "
+         "than dramatises, and the last third of every recording is quieter and slower than the "
+         "first, on purpose, whether or not you are still awake to notice.\n\n"
+         "If none of them work, the same catalogue [read in a male voice](/stories/male-voice/) "
+         "is one page over, and every one of them is [written out in full to read](/stories/boring-true-stories-to-read/) "
+         "if you would rather not listen at all. There are no ads and no music in any of them."),
+    ]
+    hub_urls, hub_nav_items = [], []
+    for slug, nav, title, h1, desc, keep, intro in hubs:
+        picked = [st for st in stories if keep(st)]
+        if len(picked) < MIN_FACET_ITEMS:
+            print(f"  skip /stories/{slug}/ — {len(picked)} stories, needs {MIN_FACET_ITEMS}")
+            continue
+        url = f"{SITE}/stories/{slug}/"
+        cards = "".join(
+            f'<li class="idx-card">{story_cover(st, "104px")}'
+            f'<div class="row"><span class="chip amber">▶ {st["mins"]} min</span>'
+            f'<span class="sub">{html.escape(st["genre"])} · {html.escape(st["narrator"])}</span></div>'
+            f'<a href="/stories/{st["slug"]}/">{html.escape(st["title"])}</a>'
+            f'<p>{html.escape(st["blurb"])}</p></li>' for st in picked)
+        essays = [(f"/sleep/{q['slug']}/", q["title"], "essay", "") for q in posts[:2]]
+        body = (f'<div class="idx-head"><p class="eyebrow">Stories</p><h1>{html.escape(h1)}</h1>'
+                f'<p class="post-meta">{len(picked)} stories · endings given away</p></div>'
+                f'<article><div class="measure">{md(intro)}</div></article>'
+                f'<ul class="idx-grid">{cards}</ul>'
+                f'{related_html(essays)}')
+        schemas = [{
+            "@context": "https://schema.org", "@type": "CollectionPage",
+            "name": title, "description": desc, "url": url,
+        }, {
+            "@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Stories", "item": f"{SITE}/stories/"},
+                {"@type": "ListItem", "position": 2, "name": h1.rstrip("."), "item": url}]}]
+        out = ROOT / "stories" / slug
+        out.mkdir(exist_ok=True)
+        (out / "index.html").write_text(page(f"{title} — {BRAND}", desc, url, body, jsonld(schemas)))
+        hub_urls.append(url)
+        hub_nav_items.append((url, nav))
+
     # ---- stories index: card grid with gradient covers
     items = "".join(
         f'<li class="idx-card">{story_cover(s, "104px")}'
@@ -537,9 +767,12 @@ def build():
         f'<span class="sub">{html.escape(s["genre"])} · {html.escape(s["narrator"])}</span></div>'
         f'<a href="/stories/{s["slug"]}/">{html.escape(s["title"])}</a>'
         f'<p>{html.escape(s["blurb"])}</p></li>' for s in stories)
+    hub_nav = ("".join(f'<a class="chip" href="{u[len(SITE):]}">{n}</a>' for u, n in hub_nav_items)
+               if hub_nav_items else "")
     body = (f'<div class="idx-head"><p class="eyebrow">Stories</p>'
             f"<h1>Every story in the app.</h1>"
-            f'<p class="post-meta">Endings given away, nothing withheld.</p></div>'
+            f'<p class="post-meta">Endings given away, nothing withheld.</p>'
+            f'<div class="chips" style="justify-content:center;margin-top:1.25rem">{hub_nav}</div></div>'
             f'<ul class="idx-grid">{items}</ul>')
     (ROOT / "stories" / "index.html").write_text(
         page(f"Sleep stories — {BRAND}", "Every sleep story in the Lullable app: slow fiction, nature and "
@@ -567,7 +800,8 @@ def build():
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/sleep/", f"{SITE}/stories/"]
             + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
-            + [f"{SITE}/stories/{s['slug']}/" for s in stories])
+            + [f"{SITE}/stories/{s['slug']}/" for s in stories]
+            + hub_urls)
     sm = "\n".join(f"<url><loc>{u}</loc></url>" for u in urls)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -661,6 +895,7 @@ def scaffold_story(slug):
     path.write_text(f"""---
 title: TITLE
 narrator: NAME
+voice: male | female
 mins: 45
 genre: Folklore | Nature & Weather | Slow Fiction | Wandering
 mood: Drifting | Weightless | Wandering | Faraway | Hushed | Dreaming

@@ -1,6 +1,7 @@
 ---
 title: Aristotle, the Greatest Philosopher
 narrator: Emma from Oxford
+voice: female
 mins: 40
 genre: Ancient Worlds
 mood: Lamplit

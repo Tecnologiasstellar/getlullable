@@ -120,7 +120,43 @@ thing to check each month instead of nineteen chances for a silent cron to fail.
 | Style drift (length, description) | Warning printed, build proceeds. |
 | Deploy 200 but page broken | The reason browser-verify is a required step, not a suggestion. |
 
-## Scheduling (not yet enabled — deliberately)
+## The loop is now unattended (2026-09-01)
+
+`build.py next` -> draft -> gate -> `ship` -> browser-verify runs nightly at 21:00 without a
+human, as the scheduled routine `lullable-daily-post`
+(`~/.claude/scheduled-tasks/lullable-daily-post/SKILL.md`). It reports every run and stops
+rather than improvising whenever the pre-flight, the gate or the live 200-check fails.
+
+**Nobody reads a post before it is live now.** Three things were added the same day to carry
+the weight the human read used to carry, and they are the reason the loop is safe to leave
+alone:
+
+- **`sources:` frontmatter**, hard-required on any post asserting a year, a percentage or a
+  measurement. Two independent URLs minimum. Keyed on the *claim*, not on the post `type` —
+  keying it on type was the first attempt and it hard-failed conceptual essays that had
+  nothing to cite, which only teaches a drafter to staple on a plausible-looking link.
+- **Outcome-promise phrases in `PROHIBITED`** alongside the medical ones ("fall asleep
+  faster", "deeper levels of sleep", "will help you sleep"). We describe mechanism, never
+  result.
+- **A near-duplicate title gate**, because the queue outgrew what one person holds in their
+  head and two pages answering one query split the signal instead of doubling it.
+
+The claim gate also had a hole worth remembering: it matched against raw text, so any
+multi-word phrase broken by a line wrap slid straight past it ("it will help you\nsleep
+better"). Markdown wraps at ~90 chars and every prohibited phrase is 2-5 words, so it was
+failing open on roughly half the copy it exists to stop. It now collapses whitespace first.
+
+Rollback, if a post is wrong:
+
+```bash
+git revert --no-edit HEAD && python3 build.py ship "Revert: the title"
+```
+
+**Known limitation:** scheduled tasks run while the desktop app is open; if it is closed at
+21:00 the run happens at next launch. If that starts costing days, move the routine to a
+cloud routine, which runs server-side regardless.
+
+## Scheduling — the reasoning that got us here
 
 Both reference projects prove the same lesson twice: **the scheduled thing is the
 thing that ships** (SIMPLE.MX: 65/100 scheduled landings published vs 120/193
@@ -129,9 +165,8 @@ broken on inspection day, rescued by hand).
 
 So: the daily habit is two commands, and when you want it automated, the honest
 option is a scheduled Claude routine that runs the loop *and reports failures to
-you*, rather than a launchd job that no-ops quietly for a week. Ask Claude to
-"schedule the daily Lullable post" and approve it — it needs your say-so, and it
-should message you on failure, not just log.
+you*, rather than a launchd job that no-ops quietly for a week.
 
-Until then, the streak lives or dies on the calendar reminder. That's fine —
-week one's job is proving the posts earn traffic at all.
+That is what now runs (see above). The prediction held in the least flattering way: the
+manual streak ran 2026-08-11 to 08-15 and then stopped for seventeen days with twenty-six
+briefs still sitting in the queue. The engine was never the bottleneck.

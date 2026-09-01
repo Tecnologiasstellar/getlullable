@@ -1,47 +1,723 @@
 {
   "_rules": [
     "This file is the queue. Published state lives on disk: a topic is consumed when a posts/*-<slug>.md file exists. No status fields — delete a post file to re-open its topic.",
-    "Rotation: the next pick must differ in `type` from the most recently published post. Three types cycle: question (SEO head terms), fact-world (the product in text), definition (category/GEO terms).",
+    "Rotation: the next pick must differ in `type` from the most recently published post. Four types cycle: question (first-person long tail), fact-world (the product in text), definition (category/GEO terms), comparison (the commercial SERP Calm and Headspace abandoned).",
     "`python3 build.py next` applies both rules and scaffolds the pick. Written at brief time, not publish time.",
-    "Never two `question` posts on consecutive days — fact-worlds are the product; they must stay the plurality.",
+    "Fact-worlds are the plurality and should stay so. Verified 2026-09-01: they are the only type that both matches an underserved SERP and IS the product. The category idea is no longer a differentiator — WikiSleep, Nocturn Tales and Slumber Studios all ship it. The specific material is.",
+    "Order is winnability, not theme. The list is interleaved by type on purpose so the rotation rule preserves the intended order instead of silently resequencing it.",
+    "Any post asserting a year, a percentage or a measurement needs 2+ `sources:` URLs in its frontmatter, or the build hard-fails. Check the claim before citing; do not staple on a plausible link.",
+    "Do NOT chase: how to fall asleep fast, can't sleep, sleep hygiene, deep sleep, sleep quality, insomnia, sleepmaxxing, bare 'sleep stories', 'cognitive shuffling'. Those SERPs are Cleveland Clinic / Mayo / NHS / CDC, and the page type that wins there needs claims this site will not make.",
+    "Never write the bare two-word phrase 'low arousal' in a title, H1 or the App Store description — it is a Wikipedia-backed clinical term (the Low Arousal Approach, McDonnell 1994) and in psychology low arousal IMPAIRS learning. Only the hyphenated three-word 'low-arousal learning' is ours.",
     "Add topics at the bottom. Never reuse a slug. If a topic stops making sense, delete the row — the file is the decision log via git."
   ],
   "topics": [
-    {"slug": "why-cant-i-stop-thinking-at-night", "type": "question", "title": "Why can't I stop thinking at night?", "angle": "unoccupied brain, not insomnia", "keywords": ["racing mind at night", "can't stop thinking at bedtime"]},
-    {"slug": "what-is-low-arousal-learning", "type": "definition", "title": "What is low-arousal learning?", "angle": "own the category definition", "keywords": ["low-arousal learning", "boring audio to fall asleep"]},
-    {"slug": "the-weather-at-the-bottom-of-the-sea", "type": "fact-world", "title": "The weather at the bottom of the sea", "angle": "Mariana Trench, pairs with the sampler", "keywords": ["mariana trench facts", "calming facts to fall asleep to"]},
-    {"slug": "how-long-does-it-take-to-fall-asleep", "type": "question", "title": "How long should it take to fall asleep?", "angle": "sleep latency norms; 10-20 min is healthy, not failure", "keywords": ["how long to fall asleep", "sleep latency normal"]},
-    {"slug": "two-men-on-ben-nevis", "type": "fact-world", "title": "Two men on Ben Nevis, every hour, for 21 years", "angle": "the 1883-1904 observatory logs", "keywords": ["ben nevis observatory", "boring history stories sleep"]},
-    {"slug": "what-are-sleep-stories", "type": "definition", "title": "What are sleep stories, and do they work?", "angle": "honest mechanism review; where fiction beats facts and vice versa", "keywords": ["sleep stories", "do sleep stories work"]},
-    {"slug": "why-do-podcasts-keep-me-awake", "type": "question", "title": "Why do podcasts keep me awake when I'm exhausted?", "angle": "engagement engineering vs sleep; the 1.5x note-taking trap", "keywords": ["podcasts keep me awake", "audio to sleep to"]},
-    {"slug": "the-standard-railway-gauge", "type": "fact-world", "title": "The width of a horse: how the railway gauge was chosen", "angle": "inherited standards; nothing was decided", "keywords": ["railway gauge history", "boring facts to sleep"]},
-    {"slug": "cognitive-shuffle-method", "type": "definition", "title": "The cognitive shuffle: the sleep trick for overthinkers", "angle": "Beaudoin's serial diverse imagining, explained warmly", "keywords": ["cognitive shuffle", "cognitive shuffling sleep"]},
-    {"slug": "waking-up-at-3am-mind-racing", "type": "question", "title": "Why do I wake up at 3am with my mind racing?", "angle": "middle insomnia; why re-engaging content backfires at 3am", "keywords": ["waking up at 3am", "3am racing thoughts"]},
-    {"slug": "the-history-of-the-shipping-pallet", "type": "fact-world", "title": "Six sizes: the eleven-year argument over the shipping pallet", "angle": "ISO 1968; nobody would give up their size", "keywords": ["shipping pallet history", "dull facts"]},
-    {"slug": "white-noise-vs-brown-noise", "type": "definition", "title": "White noise, brown noise, and why your brain finds the loop", "angle": "honest take: noise colors help some; pattern-hunters need content", "keywords": ["white noise vs brown noise", "brown noise sleep"]},
-    {"slug": "is-it-bad-to-fall-asleep-to-audio", "type": "question", "title": "Is it bad to fall asleep with audio playing?", "angle": "evidence review; autoplay is the real problem, not audio", "keywords": ["falling asleep to podcasts bad", "sleep with headphones"]},
-    {"slug": "the-slowest-growth-ever-measured", "type": "fact-world", "title": "Lichen, and the slowest growth ever measured", "angle": "millimetres per century; patience as content", "keywords": ["slow living facts", "calming nature facts"]},
-    {"slug": "sleep-latency-and-boredom", "type": "definition", "title": "Boredom as a sleep aid: what the research actually says", "angle": "under-stimulation studies; the vigilance drop", "keywords": ["boredom sleep", "boring things to fall asleep to"]},
-    {"slug": "revenge-bedtime-procrastination", "type": "question", "title": "Revenge bedtime procrastination: why you won't put the phone down", "angle": "autonomy theory; the only hour that's yours", "keywords": ["revenge bedtime procrastination", "cant stop scrolling at night"]},
-    {"slug": "the-prussian-railway-timetable", "type": "fact-world", "title": "Four colours: the Prussian railway timetable of 1889", "angle": "bureaucratic beauty; printed order", "keywords": ["railway timetable history", "boring history"]},
-    {"slug": "sleep-hygiene-for-overthinkers", "type": "definition", "title": "Sleep hygiene for overthinkers: what to keep, what to skip", "angle": "honest triage of standard advice for the racing-mind case", "keywords": ["sleep hygiene overthinking", "sleep tips racing mind"]},
-    {"slug": "why-does-my-brain-replay-conversations", "type": "question", "title": "Why does my brain replay conversations at night?", "angle": "rumination vs rehearsal; give the simulator other material", "keywords": ["replaying conversations in my head", "rumination at night"]},
-    {"slug": "marine-snow", "type": "fact-world", "title": "Marine snow: the slowest weather on Earth", "angle": "weeks-long snowfall; sediment centimetres per millennium", "keywords": ["marine snow", "ocean facts calming"]},
-    {"slug": "adhd-brain-at-bedtime", "type": "question", "title": "Why won't my ADHD brain switch off at bedtime?", "angle": "interest-driven attention; occupation beats suppression. No medical advice — signpost clinicians", "keywords": ["adhd cant sleep racing thoughts", "adhd bedtime brain"]},
-    {"slug": "the-tide-clock", "type": "fact-world", "title": "The clock that keeps the tides instead of the hours", "angle": "lunar time; 12h25m; pairs with The Keeper of the Tide Clock story", "keywords": ["tide clock how it works", "calming facts"]},
-    {"slug": "audiobooks-vs-sleep-stories", "type": "definition", "title": "Audiobooks vs sleep stories: why finishing is the wrong goal", "angle": "completion pressure; losing your place; purpose-built vs repurposed", "keywords": ["audiobooks for sleep", "sleep stories vs audiobooks"]},
-    {"slug": "screens-before-bed-nuance", "type": "question", "title": "Is it really the screen keeping you up?", "angle": "content arousal beats blue light in the evidence; honest nuance", "keywords": ["screens before bed", "blue light sleep myth"]},
-    {"slug": "the-lamplighters-of-london", "type": "fact-world", "title": "The last lamplighters", "angle": "the surviving gas-lamp rounds; pairs with The Lamplighter's Round story", "keywords": ["lamplighters history", "gentle history stories"]},
-    {"slug": "body-scan-alternatives", "type": "definition", "title": "If body scans don't work for you, try giving your mind a job", "angle": "respectful alternative to the meditation default", "keywords": ["body scan doesnt work", "meditation alternatives sleep"]},
-    {"slug": "sunday-night-insomnia", "type": "question", "title": "Sunday night insomnia: why the week starts at 11pm", "angle": "anticipatory cognition; the Monday simulator", "keywords": ["sunday night insomnia", "cant sleep before monday"]},
-    {"slug": "the-orchard-in-winter", "type": "fact-world", "title": "What an orchard does all winter", "angle": "dormancy, chill hours; pairs with Snowfall Over the Orchard", "keywords": ["orchard winter dormancy", "calming nature reading"]},
-    {"slug": "glasshouse-rain", "type": "fact-world", "title": "A short history of the glasshouse", "angle": "Victorian conservatories; pairs with Rain on the Glasshouse", "keywords": ["glasshouse history", "rain sounds reading"]},
-    {"slug": "night-shift-sleep", "type": "question", "title": "How night-shift workers fall asleep at 9am", "angle": "the audience wellness ignores; practical, warm; signpost clinicians for shift-work disorder", "keywords": ["night shift cant sleep", "day sleeping tips"]},
-    {"slug": "small-islands", "type": "fact-world", "title": "The unnamed islands", "angle": "places cartography skipped; pairs with Cartography of Small Islands", "keywords": ["unnamed islands", "wandering calm reading"]},
-    {"slug": "sleep-trackers-anxiety", "type": "definition", "title": "Orthosomnia: when tracking sleep ruins it", "angle": "the score chase; why Lullable shows a card, not a grade", "keywords": ["orthosomnia", "sleep tracker anxiety"]},
-    {"slug": "the-night-train", "type": "fact-world", "title": "Eleven hours north: a defense of the sleeper train", "angle": "held-breath travel; pairs with The Slow Train North", "keywords": ["sleeper train experience", "slow travel essay"]},
-    {"slug": "reading-yourself-to-sleep", "type": "question", "title": "Why reading puts you to sleep on the sofa but not in bed", "angle": "posture, intent, and performance pressure", "keywords": ["reading to fall asleep", "why does reading make me sleepy"]},
-    {"slug": "the-quietest-place", "type": "fact-world", "title": "The quietest room in the world is unbearable", "angle": "anechoic chambers; why total silence backfires — the anti-white-noise essay", "keywords": ["quietest room in the world", "silence keeps me awake"]},
-    {"slug": "what-counts-as-deep-sleep", "type": "definition", "title": "What deep sleep actually is (and what it isn't)", "angle": "N3, honest and unhyped; no scorekeeping. Signpost clinicians for disorders", "keywords": ["what is deep sleep", "deep sleep explained"]}
+    {
+      "slug": "what-to-think-about-to-fall-asleep",
+      "type": "question",
+      "title": "What to think about to fall asleep",
+      "angle": "Quora ranks 3x on page one — Google admitting no good article exists. The answer IS the thesis: you cannot think about nothing, so be given something true, slow and spoiled in advance.",
+      "keywords": [
+        "what to think about to fall asleep",
+        "what to think about to fall back asleep",
+        "how to turn my brain off"
+      ]
+    },
+    {
+      "slug": "boring-history-podcast-to-fall-asleep-to",
+      "type": "comparison",
+      "title": "The best boring history podcasts to fall asleep to",
+      "angle": "SERP is 100% platform listing pages, zero editorial. Name Sleep With Me, Nothing Much Happens, Get Sleepy, Boring History for Sleep honestly and generously; Lullable last, described plainly.",
+      "keywords": [
+        "boring history podcast to fall asleep to",
+        "boring podcasts to fall asleep to",
+        "history podcast to fall asleep to"
+      ]
+    },
+    {
+      "slug": "sleep-stories-for-adults-who-overthink",
+      "type": "definition",
+      "title": "Sleep stories for adults who overthink",
+      "angle": "Names the target reader in the query. SERP has zero authority sites — Podbean pages, a YouTube video, two Amazon books. 'Overthink' is the reader's own self-identification word and is not a medical term.",
+      "keywords": [
+        "sleep stories for adults who overthink",
+        "sleep stories for overthinkers",
+        "bedtime stories for adults who overthink"
+      ]
+    },
+    {
+      "slug": "the-shipping-forecast-at-0048",
+      "type": "fact-world",
+      "title": "The shipping forecast at 00:48",
+      "angle": "Same words, same order, same sea areas, every night since 1924. The most listened-to thing in Britain that nobody listens to. Pairs with the anti-engagement thesis.",
+      "keywords": [
+        "shipping forecast",
+        "shipping forecast sleep",
+        "calming radio at night"
+      ]
+    },
+    {
+      "slug": "sleep-stories-without-ads",
+      "type": "comparison",
+      "title": "Sleep stories without ads, and why a mid-roll at 3am is the whole problem",
+      "angle": "The SERP for this is entirely KIDS apps. Nobody wrote the adult version. A loud ad at 2am is the most visceral complaint in the category and a paid app can honestly answer it. Be honest that paid-and-quiet is the trade.",
+      "keywords": [
+        "sleep stories without ads",
+        "sleep app without ads",
+        "sleep stories without music"
+      ]
+    },
+    {
+      "slug": "boring-voices-to-fall-asleep-to",
+      "type": "definition",
+      "title": "What makes a voice safe to fall asleep to",
+      "angle": "The narrator-delivery page nobody in the category has written. Pace, pitch drift, breath, the absence of performance. Verified autocomplete and zero purpose-built competition.",
+      "keywords": [
+        "boring voices to fall asleep to",
+        "best podcast voices to fall asleep to",
+        "why do i need voices to fall asleep"
+      ]
+    },
+    {
+      "slug": "marine-snow",
+      "type": "fact-world",
+      "title": "Marine snow: the slowest weather on Earth",
+      "angle": "Weeks-long snowfall; sediment a few centimetres per thousand years. Title matches the verified 'fall asleep to ocean facts' query template.",
+      "keywords": [
+        "calming ocean facts",
+        "fall asleep to ocean facts",
+        "marine snow",
+        "ocean facts calming"
+      ]
+    },
+    {
+      "slug": "how-lullable-is-made",
+      "type": "definition",
+      "title": "How Lullable is made: where the facts come from, and how the voice is produced",
+      "angle": "The sourcing + production disclosure. Publish it BEFORE anyone asks. Google's content self-assessment asks for it by name. State plainly that narration is synthesised and that every fact carries sources. Do NOT frame AI audio as the enemy — the pipeline is TTS.",
+      "keywords": [
+        "how lullable is made",
+        "is this ai narration",
+        "boring history for sleep ai"
+      ],
+      "note": "Highest-trust page on the site. Must be scrupulously literal. No defensiveness."
+    },
+    {
+      "slug": "i-want-to-sleep-but-my-brain-wont-stop-talking",
+      "type": "question",
+      "title": "I want to sleep but my brain won't stop talking to itself",
+      "angle": "The exact midnight sentence, fourteen words, zero commercial value to a health publisher. Answer: your brain is not malfunctioning, it is doing its job with nothing to do.",
+      "keywords": [
+        "i want to sleep but my brain wont stop talking to itself",
+        "my brain wont shut off to sleep"
+      ]
+    },
+    {
+      "slug": "what-to-listen-to-when-you-cant-sleep",
+      "type": "comparison",
+      "title": "What to listen to when you can't sleep",
+      "angle": "Honest comparison of podcasts vs audiobooks vs music vs sleep stories, explaining why engagement-engineered audio backfires. The existing why-do-podcasts-keep-me-awake thesis pointed at a query people type.",
+      "keywords": [
+        "what to listen to when you cant sleep",
+        "what to listen to to fall asleep reddit"
+      ]
+    },
+    {
+      "slug": "my-body-is-tired-but-my-mind-wont-let-me-sleep",
+      "type": "question",
+      "title": "My body is tired but my mind won't let me sleep",
+      "angle": "The brand positioning statement verbatim. SERP is a university social-work blog and generic tired-but-wired clinic posts; none name the overthinker or offer anything to listen to.",
+      "keywords": [
+        "my body is tired but my mind wont let me sleep",
+        "tired but mind wont switch off"
+      ]
+    },
+    {
+      "slug": "calm-alternative-for-a-racing-mind",
+      "type": "comparison",
+      "title": "A Calm alternative for people whose minds race",
+      "angle": "BetterSleep's 'Calm vs BetterSleep: An Honest Comparison' ranks #1 for 'Calm alternative' with a real pricing table and explicit concessions. Needs no authority — only honesty and specificity.",
+      "keywords": [
+        "calm alternative",
+        "is calm app worth it",
+        "sleep stories like calm"
+      ],
+      "note": "GATED: confirm Lullable's own pricing first, and re-read every competitor price from the vendor's own pricing page on the day of writing. A wrong price destroys the credibility the whole page runs on. Concede real ground to the competitor."
+    },
+    {
+      "slug": "why-is-my-brain-so-loud-at-night",
+      "type": "question",
+      "title": "Why is my brain so loud at night?",
+      "angle": "Sensory metaphor rather than clinical language — no health publisher writes to this phrasing. Very cheap to own outright.",
+      "keywords": [
+        "why is my brain so loud at night",
+        "brain wont be quiet at night"
+      ]
+    },
+    {
+      "slug": "cognitive-shuffling-examples",
+      "type": "definition",
+      "title": "Cognitive shuffling: worked examples",
+      "angle": "The head term is hopeless (TIME, CNN, UCLA, Wikipedia, Calm) but 'examples' and 'words' are utility sub-queries all of them answer badly. Funnels into the live cognitive-shuffle-method page.",
+      "keywords": [
+        "cognitive shuffling examples",
+        "cognitive shuffling words",
+        "cognitive shuffle word list"
+      ]
+    },
+    {
+      "slug": "how-to-turn-my-brain-off-after-work",
+      "type": "question",
+      "title": "How to turn your brain off after work",
+      "angle": "Evening-transition framing rather than sleep-disorder framing, so it dodges the health publishers entirely. Answer is a ritual plus something to listen to — no claims required.",
+      "keywords": [
+        "how to turn my brain off after work",
+        "how to turn my brain off adhd",
+        "cant switch off after work"
+      ]
+    },
+    {
+      "slug": "sleep-app-without-a-subscription",
+      "type": "comparison",
+      "title": "Sleep apps without a subscription",
+      "angle": "The most commercially valuable easy term found; the majors have conceded this SERP to tiny indie sites. VOID if Lullable ships a standard annual subscription — check before writing.",
+      "keywords": [
+        "sleep app without subscription",
+        "sleep app one time purchase"
+      ],
+      "note": "GATED: confirm Lullable's own pricing first, and re-read every competitor price from the vendor's own pricing page on the day of writing. A wrong price destroys the credibility the whole page runs on. Concede real ground to the competitor."
+    },
+    {
+      "slug": "why-do-we-remember-embarrassing-things-at-night",
+      "type": "question",
+      "title": "Why do we remember embarrassing things at night?",
+      "angle": "Best mechanism-curiosity term found. SERP has NO authority health site. Explains the default-mode network without a single clinical claim.",
+      "keywords": [
+        "why do we remember embarrassing things at night",
+        "why do i always remember embarrassing things"
+      ]
+    },
+    {
+      "slug": "meditation-apps-for-people-who-cant-meditate",
+      "type": "comparison",
+      "title": "Meditation apps, for people who cannot meditate",
+      "angle": "The searcher has already self-selected out of the Calm/Headspace funnel. Near-100% qualified. Supports body-scan-alternatives.",
+      "keywords": [
+        "meditation doesnt work for me",
+        "sleep stories vs meditation",
+        "alternatives to meditation for sleep"
+      ]
+    },
+    {
+      "slug": "why-do-we-get-a-second-wind-at-night",
+      "type": "question",
+      "title": "Why do we get a second wind at night?",
+      "angle": "Circadian-arousal curiosity with a weak SERP. Explainable purely as body-clock timing — no dosage, no hormone mechanism, no treatment talk.",
+      "keywords": [
+        "why do we get a second wind at night",
+        "second wind at night adhd",
+        "getting a second wind at night"
+      ]
+    },
+    {
+      "slug": "the-history-of-the-shipping-pallet",
+      "type": "fact-world",
+      "title": "Six sizes: the eleven-year argument over the shipping pallet",
+      "angle": "ISO 1968; nobody would give up their size",
+      "keywords": [
+        "shipping pallet history",
+        "dull facts"
+      ]
+    },
+    {
+      "slug": "what-to-think-about-to-fall-back-asleep",
+      "type": "question",
+      "title": "What to think about to fall back asleep at 3am",
+      "angle": "The re-entry problem, distinct from falling asleep initially. Nobody writes the middle-of-the-night-specific version. Links straight from the live 3am page.",
+      "keywords": [
+        "what to think about to fall back asleep",
+        "cant get back to sleep at 3am"
+      ]
+    },
+    {
+      "slug": "white-noise-vs-brown-noise",
+      "type": "definition",
+      "title": "White noise, brown noise, and why your brain finds the loop",
+      "angle": "honest take: noise colors help some; pattern-hunters need content",
+      "keywords": [
+        "white noise vs brown noise",
+        "brown noise sleep"
+      ]
+    },
+    {
+      "slug": "cant-sleep-thinking-about-work",
+      "type": "question",
+      "title": "Can't sleep because you're thinking about work",
+      "angle": "HBR and Calm own 'how to stop thinking about work at 3am'. The long conversational first-person variant is open.",
+      "keywords": [
+        "cant sleep because im thinking about work",
+        "how to stop thinking about work at night"
+      ]
+    },
+    {
+      "slug": "the-slowest-growth-ever-measured",
+      "type": "fact-world",
+      "title": "Lichen, and the slowest growth ever measured",
+      "angle": "millimetres per century; patience as content",
+      "keywords": [
+        "slow living facts",
+        "calming nature facts"
+      ]
+    },
+    {
+      "slug": "how-to-stop-thinking-about-the-past-at-night",
+      "type": "question",
+      "title": "How to stop thinking about the past at night",
+      "angle": "Rumination about history rather than worry about the future — a distinct emotional register barely served. Links to why-does-my-brain-replay-conversations.",
+      "keywords": [
+        "how to stop thinking about the past at night",
+        "replaying memories at night"
+      ]
+    },
+    {
+      "slug": "sleep-latency-and-boredom",
+      "type": "definition",
+      "title": "Boredom as a sleep aid: what the research actually says",
+      "angle": "under-stimulation studies; the vigilance drop",
+      "keywords": [
+        "boredom sleep",
+        "boring things to fall asleep to"
+      ]
+    },
+    {
+      "slug": "cringe-attacks",
+      "type": "question",
+      "title": "Cringe attacks: the 2am memory ambush, named",
+      "angle": "Internet-native slang; 'cringe attacks reddit' is an autocomplete, the classic no-good-article signal. Write the naming-the-thing essay.",
+      "keywords": [
+        "cringe attacks",
+        "why do i cringe at old memories at night"
+      ]
+    },
+    {
+      "slug": "the-prussian-railway-timetable",
+      "type": "fact-world",
+      "title": "Four colours: the Prussian railway timetable of 1889",
+      "angle": "bureaucratic beauty; printed order",
+      "keywords": [
+        "railway timetable history",
+        "boring history"
+      ]
+    },
+    {
+      "slug": "how-to-stop-monkey-mind-at-night",
+      "type": "question",
+      "title": "If 'quiet your monkey mind' has never worked for you",
+      "angle": "Meditation-adjacent vocabulary used by people who have TRIED meditation and are still awake — the exact reader to convert away from body scans. Tiny SERP.",
+      "keywords": [
+        "how to stop monkey mind at night",
+        "meditation doesnt work for me sleep"
+      ]
+    },
+    {
+      "slug": "sleep-hygiene-for-overthinkers",
+      "type": "definition",
+      "title": "Sleep hygiene for overthinkers: what to keep, what to skip",
+      "angle": "honest triage of standard advice for the racing-mind case",
+      "keywords": [
+        "sleep hygiene overthinking",
+        "sleep tips racing mind"
+      ]
+    },
+    {
+      "slug": "why-do-i-get-my-best-ideas-at-night",
+      "type": "question",
+      "title": "Why do you get your best ideas at night?",
+      "angle": "Mechanism curiosity that flatters the overthinker instead of pathologising them. Earns the CTA honestly: the ideas are good, they are just badly timed.",
+      "keywords": [
+        "why do i get my best ideas at night",
+        "best ideas at night cant sleep"
+      ]
+    },
+    {
+      "slug": "why-do-i-fall-asleep-when-i-read",
+      "type": "question",
+      "title": "Why you fall asleep when you read",
+      "angle": "A mattress company and a weighted-blanket company rank here, so a sleep-audio company can too. The answer is the best possible on-ramp: attention occupied but not gripped is what puts you under.",
+      "keywords": [
+        "why do i fall asleep when i read",
+        "why does reading make me sleepy"
+      ]
+    },
+    {
+      "slug": "the-tide-clock",
+      "type": "fact-world",
+      "title": "The clock that keeps the tides instead of the hours",
+      "angle": "lunar time; 12h25m; pairs with The Keeper of the Tide Clock story",
+      "keywords": [
+        "tide clock how it works",
+        "calming facts"
+      ]
+    },
+    {
+      "slug": "why-am-i-wide-awake-at-4am",
+      "type": "question",
+      "title": "Why am I wide awake at 4am?",
+      "angle": "The site owns 3am; 4am is a separate, less-contested cluster. MUST be written as body-clock timing and lighter sleep phases in plain language — no cortisol or melatonin mechanics, no fix-it promise.",
+      "keywords": [
+        "why am i wide awake at 4am every night",
+        "4am waking"
+      ],
+      "note": "Watch cannibalisation against waking-up-at-3am-mind-racing — the duplicate-title gate will refuse a near-identical headline."
+    },
+    {
+      "slug": "audiobooks-vs-sleep-stories",
+      "type": "definition",
+      "title": "Audiobooks vs sleep stories: why finishing is the wrong goal",
+      "angle": "completion pressure; losing your place; purpose-built vs repurposed",
+      "keywords": [
+        "audiobooks for sleep",
+        "sleep stories vs audiobooks"
+      ]
+    },
+    {
+      "slug": "is-it-bad-to-fall-asleep-to-audio",
+      "type": "question",
+      "title": "Is it bad to fall asleep with audio playing?",
+      "angle": "evidence review; autoplay is the real problem, not audio",
+      "keywords": [
+        "falling asleep to podcasts bad",
+        "sleep with headphones"
+      ]
+    },
+    {
+      "slug": "the-lamplighters-of-london",
+      "type": "fact-world",
+      "title": "The last lamplighters",
+      "angle": "the surviving gas-lamp rounds; pairs with The Lamplighter's Round story",
+      "keywords": [
+        "lamplighters history",
+        "gentle history stories"
+      ]
+    },
+    {
+      "slug": "revenge-bedtime-procrastination",
+      "type": "question",
+      "title": "Revenge bedtime procrastination: why you won't put the phone down",
+      "angle": "autonomy theory; the only hour that's yours",
+      "keywords": [
+        "revenge bedtime procrastination",
+        "cant stop scrolling at night"
+      ]
+    },
+    {
+      "slug": "body-scan-alternatives",
+      "type": "definition",
+      "title": "If body scans don't work for you, try giving your mind a job",
+      "angle": "respectful alternative to the meditation default",
+      "keywords": [
+        "body scan doesnt work",
+        "meditation alternatives sleep"
+      ]
+    },
+    {
+      "slug": "why-does-my-brain-replay-conversations",
+      "type": "question",
+      "title": "Why does my brain replay conversations at night?",
+      "angle": "rumination vs rehearsal; give the simulator other material",
+      "keywords": [
+        "replaying conversations in my head",
+        "rumination at night"
+      ]
+    },
+    {
+      "slug": "the-orchard-in-winter",
+      "type": "fact-world",
+      "title": "What an orchard does all winter",
+      "angle": "dormancy, chill hours; pairs with Snowfall Over the Orchard",
+      "keywords": [
+        "orchard winter dormancy",
+        "calming nature reading"
+      ]
+    },
+    {
+      "slug": "adhd-brain-at-bedtime",
+      "type": "question",
+      "title": "Why won't my ADHD brain switch off at bedtime?",
+      "angle": "interest-driven attention; occupation beats suppression. No medical advice — signpost clinicians",
+      "keywords": [
+        "adhd cant sleep racing thoughts",
+        "adhd bedtime brain"
+      ]
+    },
+    {
+      "slug": "glasshouse-rain",
+      "type": "fact-world",
+      "title": "A short history of the glasshouse",
+      "angle": "Victorian conservatories; pairs with Rain on the Glasshouse",
+      "keywords": [
+        "glasshouse history",
+        "rain sounds reading"
+      ]
+    },
+    {
+      "slug": "screens-before-bed-nuance",
+      "type": "question",
+      "title": "Is it really the screen keeping you up?",
+      "angle": "content arousal beats blue light in the evidence; honest nuance",
+      "keywords": [
+        "screens before bed",
+        "blue light sleep myth"
+      ]
+    },
+    {
+      "slug": "small-islands",
+      "type": "fact-world",
+      "title": "The unnamed islands",
+      "angle": "places cartography skipped; pairs with Cartography of Small Islands",
+      "keywords": [
+        "unnamed islands",
+        "wandering calm reading"
+      ]
+    },
+    {
+      "slug": "sunday-night-insomnia",
+      "type": "question",
+      "title": "Sunday night insomnia: why the week starts at 11pm",
+      "angle": "anticipatory cognition; the Monday simulator",
+      "keywords": [
+        "sunday night insomnia",
+        "cant sleep before monday"
+      ]
+    },
+    {
+      "slug": "sleep-trackers-anxiety",
+      "type": "definition",
+      "title": "Orthosomnia: when tracking sleep ruins it",
+      "angle": "the score chase; why Lullable shows a card, not a grade",
+      "keywords": [
+        "orthosomnia",
+        "sleep tracker anxiety"
+      ]
+    },
+    {
+      "slug": "night-shift-sleep",
+      "type": "question",
+      "title": "How night-shift workers fall asleep at 9am",
+      "angle": "the audience wellness ignores; practical, warm; signpost clinicians for shift-work disorder",
+      "keywords": [
+        "night shift cant sleep",
+        "day sleeping tips"
+      ]
+    },
+    {
+      "slug": "the-night-train",
+      "type": "fact-world",
+      "title": "Eleven hours north: a defense of the sleeper train",
+      "angle": "held-breath travel; pairs with The Slow Train North",
+      "keywords": [
+        "sleeper train experience",
+        "slow travel essay"
+      ]
+    },
+    {
+      "slug": "reading-yourself-to-sleep",
+      "type": "question",
+      "title": "Why reading puts you to sleep on the sofa but not in bed",
+      "angle": "posture, intent, and performance pressure",
+      "keywords": [
+        "reading to fall asleep",
+        "why does reading make me sleepy"
+      ]
+    },
+    {
+      "slug": "the-quietest-place",
+      "type": "fact-world",
+      "title": "The quietest room in the world is unbearable",
+      "angle": "anechoic chambers; why total silence backfires — the anti-white-noise essay",
+      "keywords": [
+        "quietest room in the world",
+        "silence keeps me awake"
+      ]
+    },
+    {
+      "slug": "what-counts-as-deep-sleep",
+      "type": "definition",
+      "title": "What deep sleep actually is (and what it isn't)",
+      "angle": "N3, honest and unhyped; no scorekeeping. Signpost clinicians for disorders",
+      "keywords": [
+        "what is deep sleep",
+        "deep sleep explained"
+      ]
+    },
+    {
+      "slug": "the-longest-running-experiment",
+      "type": "fact-world",
+      "title": "The pitch drop experiment, still running",
+      "angle": "Nine drops in ninety-odd years. Nobody has ever seen one fall on purpose. Patience as content.",
+      "keywords": [
+        "pitch drop experiment",
+        "boring facts to sleep",
+        "slowest experiment"
+      ]
+    },
+    {
+      "slug": "the-men-who-counted-the-sheep",
+      "type": "fact-world",
+      "title": "The men who counted every sheep in Britain",
+      "angle": "Agricultural returns as bureaucratic poetry; the census nobody remembers.",
+      "keywords": [
+        "agricultural census history",
+        "boring history for sleep"
+      ]
+    },
+    {
+      "slug": "the-library-of-unread-books",
+      "type": "fact-world",
+      "title": "The library of books nobody has ever asked for",
+      "angle": "Legal-deposit stacks; volumes uncirculated for a century. Gentle, unresolved, nothing at stake.",
+      "keywords": [
+        "legal deposit library",
+        "boring history to fall asleep to"
+      ]
+    },
+    {
+      "slug": "the-slowest-clock",
+      "type": "fact-world",
+      "title": "The clock designed to keep time for ten thousand years",
+      "angle": "The Long Now clock: engineering on a timescale that makes tonight irrelevant.",
+      "keywords": [
+        "10000 year clock",
+        "long now clock",
+        "calming facts"
+      ]
+    },
+    {
+      "slug": "the-inch-that-moved",
+      "type": "fact-world",
+      "title": "The survey mark that quietly moved a country",
+      "angle": "Continental drift versus cartography; whole nations redrawn by centimetres a year.",
+      "keywords": [
+        "australia moved gps",
+        "geodetic datum history",
+        "boring facts"
+      ]
+    },
+    {
+      "slug": "the-canal-that-took-a-lifetime",
+      "type": "fact-world",
+      "title": "The canal that took longer to dig than a working life",
+      "angle": "Navvies, decades, and a route finished by the sons of the men who started it.",
+      "keywords": [
+        "canal building history",
+        "boring history podcast"
+      ]
+    },
+    {
+      "slug": "the-weather-ship",
+      "type": "fact-world",
+      "title": "The weather ships that sat still in the Atlantic for decades",
+      "angle": "Station India, Station Juliett: crews anchored in open ocean doing nothing but reading instruments.",
+      "keywords": [
+        "ocean weather ship",
+        "boring history for sleep",
+        "north atlantic weather station"
+      ]
+    },
+    {
+      "slug": "the-last-manual-telephone-exchange",
+      "type": "fact-world",
+      "title": "The last manual telephone exchange",
+      "angle": "Plugs, cords and a switchboard operator who knew everyone, running decades past obsolescence.",
+      "keywords": [
+        "manual telephone exchange history",
+        "gentle history stories"
+      ]
+    },
+    {
+      "slug": "the-sound-of-the-deepest-hole",
+      "type": "fact-world",
+      "title": "What they found at the bottom of the deepest hole ever drilled",
+      "angle": "Kola Superdeep: twelve kilometres down, and mostly what they found was that it got hot and stopped.",
+      "keywords": [
+        "kola superdeep borehole",
+        "fall asleep to earth facts"
+      ]
+    },
+    {
+      "slug": "the-mapmakers-blank",
+      "type": "fact-world",
+      "title": "The blanks mapmakers left on purpose",
+      "angle": "Cartographic silences, unsurveyed interiors, and the honest emptiness of a nineteenth-century map.",
+      "keywords": [
+        "blank spaces on old maps",
+        "cartography history calm"
+      ]
+    },
+    {
+      "slug": "the-standard-second",
+      "type": "fact-world",
+      "title": "How long a second is, and who decides",
+      "angle": "Caesium, leap seconds, and an international committee arguing about the length of a moment.",
+      "keywords": [
+        "how long is a second",
+        "leap second history",
+        "boring facts to sleep"
+      ]
+    },
+    {
+      "slug": "the-oldest-tree-nobody-marked",
+      "type": "fact-world",
+      "title": "The oldest tree, and why nobody will tell you where it is",
+      "angle": "Great Basin bristlecones; a location kept secret to keep the tree alive. Slow growth as content.",
+      "keywords": [
+        "oldest tree in the world",
+        "calming nature facts",
+        "fall asleep to nature facts"
+      ]
+    },
+    {
+      "slug": "the-postal-route-that-still-walks",
+      "type": "fact-world",
+      "title": "The postal routes still walked on foot",
+      "angle": "Mule trains and footpost rounds surviving into the present because no road was ever built.",
+      "keywords": [
+        "mule postal route",
+        "gentle history stories",
+        "boring history"
+      ]
+    },
+    {
+      "slug": "the-lighthouse-keepers-log",
+      "type": "fact-world",
+      "title": "A lighthouse keeper's log, one ordinary week",
+      "angle": "Wick trimmed, weather noted, nothing happened. The purest available fact-world.",
+      "keywords": [
+        "lighthouse keeper history",
+        "calming history sleep",
+        "boring history for sleep"
+      ]
+    },
+    {
+      "slug": "the-space-probe-still-reporting",
+      "type": "fact-world",
+      "title": "The probe still sending back a signal from beyond the solar system",
+      "angle": "Voyager's dwindling instrument set and a round-trip light time measured in days.",
+      "keywords": [
+        "voyager still transmitting",
+        "fall asleep to space facts",
+        "calming space facts"
+      ]
+    },
+    {
+      "slug": "the-thirty-year-tide-table",
+      "type": "fact-world",
+      "title": "The tide tables computed by hand for thirty years",
+      "angle": "Brass, gears and arithmetic; the machine that predicted the sea. Pairs with the-tide-clock.",
+      "keywords": [
+        "tide predicting machine",
+        "tide table history",
+        "calming facts"
+      ]
+    }
   ]
 }
