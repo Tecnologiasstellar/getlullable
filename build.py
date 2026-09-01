@@ -1308,6 +1308,26 @@ def cmd_golive(force=False):
         print("No Apple badge asset present. The hero button stays plain Lullable type,")
         print("which is allowed; Apple's badge may only be used as the lockup they supply.")
     print("\nNow: python3 build.py  &&  browser-verify  &&  build.py ship \"Launch: get the app\"")
+    # The listing going live is also the moment Apple Search Ads becomes usable.
+    # You cannot advertise — or read Search Popularity for — an app that is not
+    # live, which is why the account opened on 2026-09-01 had nothing to select.
+    # Search Popularity (5-100, logarithmic) is the only free App Store volume
+    # figure that exists, and every keyword judgement made before launch was
+    # competition-shaped and volume-blind. Printed here so it happens once,
+    # rather than being remembered.
+    print("\nAlso today, now that the listing resolves:")
+    print("  searchads.apple.com -> Advanced -> new campaign -> Recommended Keywords")
+    print("  Save it as a DRAFT. Never set it live. The popularity scores are")
+    print("  visible without spending anything, and they are the only free App")
+    print("  Store volume data there is. Pull scores for the open terms before")
+    print("  the 30/30/100 metadata is finalised:")
+    for k in ("boring stories to sleep", "sleepy history", "history sleep stories",
+              "boring history", "true stories to fall asleep", "nonfiction sleep stories",
+              "sleep stories for overthinkers", "long sleep stories", "sleep timer",
+              "sleep stories for adults", "boring audiobooks for sleep"):
+        print(f"    - {k}")
+    print("  Keep 'lullaby', 'white noise' and 'sleep sounds' out entirely — the")
+    print("  first lands in baby music, the other two are six-figure-rating terms.")
 
 
 if __name__ == "__main__":
