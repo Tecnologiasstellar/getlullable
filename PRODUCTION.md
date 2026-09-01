@@ -117,6 +117,12 @@ thing to check each month instead of nineteen chances for a silent cron to fail.
 | Prohibited claim in any file | Build aborts, nothing written. Fix the copy. |
 | Truncated/broken generation | Build aborts, names the file. |
 | Pillow missing / card render error | Page ships without its custom card (falls back to site og.png), with a printed note. A missing image never blocks a publish. |
+| Outcome promise ("fall asleep faster", "deeper levels of sleep") | Build aborts. Same gate as the medical claims — we describe mechanism, never result. |
+| A year/percentage/measurement with fewer than 2 `sources:` URLs | Build aborts, naming the claims it found. Check the claim, then cite it; never staple on a plausible link. |
+| A price not listed in `prices.json` | Build aborts. Add it with a vendor-page source and today's date, or remove it. |
+| A price in `prices.json` older than 90 days | Warning printed. Re-read it at source before it appears in a new post. |
+| Two post titles ≥70% identical | Build aborts. Retitle or delete one — two pages answering one query split the signal. |
+| A story facet with fewer than 3 stories | That hub page is silently not generated and stays out of the sitemap. Not an error; it is the doorway guard doing its job. |
 | Style drift (length, description) | Warning printed, build proceeds. |
 | Deploy 200 but page broken | The reason browser-verify is a required step, not a suggestion. |
 
