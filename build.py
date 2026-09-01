@@ -294,6 +294,10 @@ def page(title, desc, canonical, body, extra_head=""):
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="{canonical}">
 <meta property="og:title" content="{html.escape(title)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="{BRAND}">
+<meta property="og:locale" content="en_US">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:image" content="{SITE}/og.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -314,7 +318,8 @@ def page(title, desc, canonical, body, extra_head=""):
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
 · <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
-<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
+<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@getlullable" rel="me noopener" target="_blank">YouTube</a>
+<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
 <script src="/consent.js" defer></script>
 </body>
@@ -588,7 +593,12 @@ def build():
         f"## Key pages\n- [Home]({SITE}/): what Lullable is, with an audio sample\n"
         f"- [The Sleep Library]({SITE}/sleep/): essays on sleep and pleasantly uneventful knowledge\n"
         f"- [Stories]({SITE}/stories/): every sleep story in the app\n\n"
-        f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n")
+        f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
+        f"## Elsewhere\n"
+        f"- [Instagram](https://www.instagram.com/getlullable/): the nightly fact cards\n"
+        f"- [YouTube](https://www.youtube.com/@getlullable): full-length sleep stories to listen to\n\n"
+        f"## About\n- Published by Tecnolog\u00edas Stellar, S.A. de C.V. (Mexico City), "
+        f"built by stellartech.xyz. Contact: info@getlullable.com\n")
 
     print(f"built {len(posts)} posts + {len(stories)} story pages -> sleep/ stories/ "
           f"+ sitemap + rss + robots + llms.txt")

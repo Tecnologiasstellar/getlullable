@@ -1,6 +1,6 @@
 ---
 title: Support
-description: How to reach a human at Lullable, and the five things people actually write in about — signing in, restoring a subscription, cancelling, deleting an account, and playback.
+description: How to reach a human at Lullable — plus the five things people write in about: signing in, restoring a subscription, cancelling, deleting an account, playback.
 updated: 2026-08-25
 ---
 
