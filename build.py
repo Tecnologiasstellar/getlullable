@@ -307,6 +307,8 @@ def page(title, desc, canonical, body, extra_head=""):
 <link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin>
+<script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments)}};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 {extra_head}<style>{CSS}</style>
 </head>
 <body>

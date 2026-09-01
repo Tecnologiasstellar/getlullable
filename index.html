@@ -30,6 +30,14 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-italic-latin.woff2" crossorigin>
 
+<!-- Vercel Web Analytics. In the head, not in consent.js loadTags(), and that is
+     deliberate: it sets no cookie and stores no identifier, so it needs no consent
+     (see the note in consent.js). Served from /_vercel/insights/ — first-party, so
+     the browser still never talks to a third party, and /privacy/ still gets to
+     say so. Cookie-setting tags go in loadTags() and nowhere else. -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getlullable.com/#org","name":"Lullable",
