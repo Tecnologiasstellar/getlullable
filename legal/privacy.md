@@ -1,12 +1,14 @@
 ---
 title: Privacy Policy
 description: What Lullable collects, which cookies run only if you allow them, and how to make us delete it all. Written plainly, with the short version first.
-updated: 2026-08-12
+updated: 2026-08-31
 ---
 
 ## The short version
 
 We collect one thing directly: your email address, and only if you hand it over.
+
+We also count how many people read each page, using a tool that sets no cookie and stores nothing on your device. It cannot tell one visitor from another, so there is nothing in it to ask you about.
 
 Beyond that, the site uses analytics and advertising cookies — the ordinary machinery that tells us which page brought you here and whether an ad was worth paying for. **None of it runs until you say yes.** Decline and you get the entire site anyway: every essay, every story, the audio sample, the newsletter. Nothing is withheld and nothing is degraded. We think that's the only version of consent that means anything.
 
@@ -32,7 +34,7 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 
 **When you visit the site.** Our host, Vercel, keeps standard server logs — IP address, browser and device type, the page requested, the time — for security and to keep the site up. Those logs are necessary to serve you a page at all, so they aren't optional, and we don't read them for marketing.
 
-**Fonts.** The site loads its typeface from Google Fonts, which means Google receives your IP address when a page loads.
+**Fonts.** The site's typefaces are served from our own domain, not from Google Fonts or any other font service. Loading a page does not tell a third party that you were here.
 
 **If you accept cookies.** Analytics and advertising tools then collect usage and device data — pages viewed, time on page, approximate location from your IP, referring site, device and browser type, and advertising identifiers assigned by the ad platforms. The next section names every one of them.
 
@@ -46,7 +48,9 @@ A banner asks you on your first visit. Until you answer it, nothing in the optio
 
 **Strictly necessary — always on.** Your cookie choice, and the security and load-balancing that our host applies to every request. Without these the site cannot be delivered, so there is nothing to consent to.
 
-**Analytics — only with your consent.** Google Analytics 4, and a cookieless analytics tool that counts visits without storing anything on your device. These tell us which essays people read and where readers arrive from.
+**Counting visits, without cookies — always on.** Vercel Web Analytics tells us how many people read a page and which site sent them. It sets no cookie, stores nothing on your device, and builds no profile — there is no identifier that follows you from one site to the next, or from one day to the next. There is nothing personal in it to consent to, so it runs without asking, and it is the only measurement that does.
+
+**Analytics — only with your consent.** Google Analytics 4, which unlike the above does set cookies and does record your visit as a visit by *you*. It would tell us which essays people read and where they arrived from.
 
 **Advertising — only with your consent.** Meta (Facebook and Instagram), TikTok, and Google Ads measurement tags. These tell an ad platform that a visit or a signup followed one of its ads, and allow it to show Lullable to you again elsewhere.
 
@@ -56,6 +60,8 @@ A banner asks you on your first visit. Until you answer it, nothing in the optio
 - Turn on **Global Privacy Control** in your browser or extension. We treat a GPC signal as a valid refusal of analytics and advertising cookies, and as a California opt-out of sharing, automatically and without you doing anything else.
 - Clear cookies in your browser settings, or block them there entirely.
 - Or email [info@getlullable.com](mailto:info@getlullable.com) and we'll handle it.
+
+**As of the date at the top of this page, none of the optional tags above is actually switched on.** The banner, the categories and the machinery are in place and waiting; the analytics and advertising tools they describe have not been added yet. When one is, we will say so here and ask again, as the last section promises.
 
 Refusing costs you nothing. There is no paywall, no nag, no reduced version of the site.
 
@@ -109,11 +115,10 @@ Refuse the optional ones through the cookie banner, by unsubscribing, or by writ
 
 We use a small number of providers, each doing one job, each bound to process data only as agreed:
 
-- **Vercel** — website hosting and server logs (United States).
+- **Vercel** — website hosting, server logs, and the cookieless visit counting described above (United States).
 - **Buttondown** — newsletter delivery and subscriber list (United States).
-- **Google** — Fonts on every page; Analytics 4 and Google Ads measurement only with your consent (United States and elsewhere).
+- **Google** — Analytics 4 and Google Ads measurement, only with your consent (United States and elsewhere). Not our font provider: the typefaces are our own.
 - **Meta and TikTok** — advertising measurement and retargeting, only with your consent (United States and elsewhere).
-- **Our cookieless analytics provider** — aggregate visit counts, with no cookie and no personal identifier.
 - **Apple** — app distribution, Sign in with Apple, and subscription payments.
 
 That is the complete list. We do not sell personal data for money, and we have no interest in doing so. We disclose data to authorities only where a valid legal order requires it.
@@ -156,7 +161,7 @@ If we change something that matters — a new tool, a new purpose — we'll upda
 
 **Tecnologías Stellar, S.A. de C.V.**, con domicilio en Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
 
-**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta.
+**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta.
 
 **Eliminación de su cuenta.** Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato su cuenta, su correo electrónico y todo su historial de escucha. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.
 
