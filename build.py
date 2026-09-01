@@ -9,6 +9,8 @@ The Sleep Library + Story pages — static generator. Zero runtime dependencies
     python3 build.py new <slug>      # scaffold an off-queue post
     python3 build.py story <slug>    # scaffold a story page (new app upload)
     python3 build.py ship "msg"      # build + commit + push = deployed to production
+    python3 build.py ping            # tell IndexNow what the last commit changed
+    python3 build.py ping --all      # resubmit every page (after a redesign)
 
 Pipeline principles, imported from SAUNAS.MX and SIMPLE.MX and recorded here
 so they survive refactors:
@@ -681,6 +683,103 @@ Two or three sentences on the mechanism — what this story gives a racing mind 
 """)
     print(f"created {path.relative_to(ROOT)}")
 
+# ---------------------------------------------------------------- indexnow
+# Bing and Yandex accept a push instead of waiting to be crawled, and Bing's
+# index is what ChatGPT search reads — so a new essay can be findable in an
+# LLM answer the same night instead of next week. Google ignores IndexNow;
+# it has Search Console and its own schedule. The key has been sitting in the
+# repo unused since launch. This is the two dozen lines that use it.
+
+INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
+
+
+def indexnow_key():
+    """The key, checked against the copy the search engine will fetch.
+
+    Two files have to agree: .indexnow-key is what we send, and <key>.txt at
+    the site root is what they fetch to prove the key is ours. A mismatch is a
+    silent no-op at their end — the submission is accepted and then dropped —
+    so it is worth two lines here to catch it loudly instead."""
+    try:
+        key = (ROOT / ".indexnow-key").read_text().strip()
+    except OSError:
+        print("indexnow: no .indexnow-key file — skipped")
+        return None
+    if not key:
+        print("indexnow: .indexnow-key is empty — skipped")
+        return None
+    proof = ROOT / f"{key}.txt"
+    if not proof.exists() or proof.read_text().strip() != key:
+        print(f"indexnow: {key}.txt missing or does not match .indexnow-key — skipped")
+        return None
+    return key
+
+
+def page_url(rel):
+    """Repo path -> public URL, or None when the file is not a page."""
+    if not rel.endswith("index.html"):
+        return None
+    return f"{SITE}/{rel[:-len('index.html')]}"
+
+
+def changed_urls(rev="HEAD"):
+    """Only the pages that changed in <rev>.
+
+    IndexNow is for telling them what is new. Resubmitting the whole site on
+    every deploy is what gets a key throttled, so the commit decides."""
+    import subprocess
+    try:
+        out = subprocess.run(["git", "diff", "--name-only", f"{rev}~1", rev],
+                             cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    except Exception:
+        return []
+    return sorted({u for u in (page_url(p) for p in out.split()) if u})
+
+
+def all_urls():
+    """Every page on the site — for a manual `ping --all` after a redesign."""
+    return sorted({u for u in (page_url(str(p.relative_to(ROOT)))
+                               for p in ROOT.rglob("index.html")) if u})
+
+
+def ping_indexnow(urls):
+    """Submit changed URLs. Never fatal — the deploy has already happened.
+
+    Timing is not a worry: they queue the URLs and crawl over the following
+    minutes to hours, long after Vercel has finished the ~30s build."""
+    import json as _json, urllib.request, urllib.error
+    key = indexnow_key()
+    if not key:
+        return
+    if not urls:
+        print("indexnow: no pages changed in this commit — nothing to submit")
+        return
+    payload = {"host": SITE.split("//")[1], "key": key,
+               "keyLocation": f"{SITE}/{key}.txt", "urlList": urls[:10000]}
+    req = urllib.request.Request(
+        INDEXNOW_ENDPOINT, data=_json.dumps(payload).encode(),
+        headers={"Content-Type": "application/json; charset=utf-8"})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            code = r.status
+    except urllib.error.HTTPError as e:
+        code = e.code
+    except Exception as e:
+        print(f"indexnow: endpoint unreachable ({str(e)[:60]}) — skipped, deploy is fine")
+        return
+    ok = code in (200, 202)                      # 202 = accepted, key check pending
+    print(f"indexnow: {'submitted' if ok else 'REFUSED'} {len(urls)} url(s) (HTTP {code})")
+    for u in urls:
+        print(f"  {u}")
+    if not ok:
+        print("  403 = key file not fetchable, 422 = key/host mismatch, 429 = throttled.")
+
+
+def cmd_ping(everything=False):
+    """Manual submit, for when a deploy happened outside `ship`."""
+    ping_indexnow(all_urls() if everything else changed_urls())
+
+
 def ship(message):
     """Build, commit, rebase, push. That is the entire deploy.
 
@@ -701,6 +800,7 @@ def ship(message):
     subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
     subprocess.run(["git", "push", "origin", "main"], cwd=ROOT, check=True)
     print(f"pushed. vercel builds main -> production in ~30s: {SITE}")
+    ping_indexnow(changed_urls())
 
 
 # ---------------------------------------------------------------- launch day
@@ -769,6 +869,65 @@ def cmd_appstore():
     return 0 if live else 1
 
 
+def app_schema_node(rec=None, description=None):
+    """The homepage's MobileApplication node — the markup that lets Google and
+    the answer engines say "iPhone app, free, iOS" instead of guessing.
+
+    It is authored here and emitted only by `golive`, because every field in it
+    is a claim that is false until the listing resolves. Where Apple's lookup
+    answers a question (version, price, minimum iOS), the answer comes from
+    Apple rather than from this file — the point is to have no second copy of a
+    fact that Apple owns.
+
+    Two deliberate omissions:
+      - No aggregateRating. Inventing one is a manual-action offence at Google
+        and there are no real reviews on day one. Add it when the App Store has
+        ratings worth quoting, from the lookup, or never.
+      - applicationCategory is LifestyleApplication, not HealthApplication.
+        The whole site is careful to say this is not a medical device; the
+        schema does not get to say otherwise."""
+    node = {
+        "@type": "MobileApplication",
+        "@id": f"{SITE}/#app",
+        "name": BRAND,
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "iOS",
+        "url": STORE_URL,
+        "installUrl": STORE_URL,
+        "publisher": {"@id": f"{SITE}/#org"},
+    }
+    if description:
+        node["description"] = description
+    if rec:
+        if rec.get("version"):
+            node["softwareVersion"] = rec["version"]
+        if rec.get("minimumOsVersion"):
+            node["operatingSystem"] = f"iOS {rec['minimumOsVersion']}+"
+        if rec.get("price") is not None:
+            # Apple hands back a float; "0.0" is a valid but sloppy price string.
+            price = rec["price"]
+            price = str(int(price)) if float(price).is_integer() else f"{float(price):.2f}"
+            node["offers"] = {"@type": "Offer",
+                              "price": price,
+                              "priceCurrency": rec.get("currency", "USD")}
+    return node
+
+
+def insert_app_schema(src, rec=None):
+    """Splice the app node into the homepage @graph. Idempotent."""
+    if f"{SITE}/#app" in src:
+        return src, False
+    desc = re.search(r'<meta name="description" content="([^"]*)"', src)
+    blob = json.dumps(app_schema_node(rec, desc.group(1) if desc else None),
+                      ensure_ascii=False, separators=(",", ":"))
+    anchor = '  "inLanguage":"en"}\n]}'
+    if anchor not in src:
+        print("WARNING: homepage @graph not found in the expected shape — "
+              "app schema NOT added. Add it by hand.")
+        return src, False
+    return src.replace(anchor, '  "inLanguage":"en"},\n ' + blob + '\n]}', 1), True
+
+
 def cmd_golive(force=False):
     """Flip the whole site from waitlist to download, in one command.
 
@@ -780,7 +939,9 @@ def cmd_golive(force=False):
       1. APP_STORE_URL is set (the JS then rewrites every .app-link at runtime,
          and this rewrite makes the same change statically so crawlers see it);
       2. every element with data-live-text takes its live wording;
-      3. the Safari Smart App Banner meta is added.
+      3. the Safari Smart App Banner meta is added;
+      4. the MobileApplication schema node joins the homepage @graph, built
+         from Apple's own lookup — see app_schema_node().
 
     Refuses unless Apple says the listing resolves. --force exists for the hour
     between "approved" and "propagated", and prints a loud warning."""
@@ -845,9 +1006,13 @@ def cmd_golive(force=False):
     out = out.replace('<meta name="color-scheme" content="dark">',
                       '<meta name="color-scheme" content="dark">\n' + banner.rstrip("\n"), 1)
 
+    out, schema_added = insert_app_schema(out, live[0] if live else None)
+
     index.write_text(out)
     print(f"index.html: APP_STORE_URL set, {swapped} strings swapped to live copy, "
           f"{n_links} CTAs pointed at the store, Smart App Banner added.")
+    print(f"index.html: MobileApplication schema {'added' if schema_added else 'NOT added'}"
+          f"{' (built from Apple lookup)' if schema_added and live else ''}.")
 
     for f in HANDWRITTEN[1:]:
         if not f.exists():
@@ -883,6 +1048,8 @@ if __name__ == "__main__":
         sys.exit(cmd_appstore())
     elif args and args[0] == "golive":
         cmd_golive(force="--force" in args)
+    elif args and args[0] == "ping":
+        cmd_ping(everything="--all" in args)
     elif args and args[0] == "ship":
         ship(args[1] if len(args) > 1 else f"Site update {date.today().isoformat()}")
     else:
