@@ -5,7 +5,7 @@ to ship. Nothing on the site may be a drawing of a screen we intend to build —
 if an asset is not on this list with status `APPROVED`, it does not go on a page.
 
 Source workspace for all product assets:
-`~/Documents/CLAUDE/02_LULLABLE/lullable_ios/` (read-only reference — the website
+`~/developer/lullable-ios/` (read-only reference — the website
 task never edits the app).
 
 Total weight of `assets/`: **~300 KB across 16 files**, plus 171 KB of
