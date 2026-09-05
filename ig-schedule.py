@@ -83,8 +83,16 @@ def credits(key):
     try:
         req = urllib.request.Request(USAGE, headers={"x-access-key": key})
         with urllib.request.urlopen(req, timeout=15) as r:
-            m = json.loads(r.read())["balance"]["monthly"]
-        return m["remaining"], m["limit"], m["cycleEnd"][:10]
+            b = json.loads(r.read())["balance"]
+        # Two pools, both spendable the same way. Purchased credits are bought
+        # outright and do not expire with the cycle. Reading only the monthly
+        # bucket made this refuse to book a whole month with 87 purchased
+        # credits in hand (2026-09-05) — the account would have gone quiet
+        # while paid-for credits sat unused.
+        m, p = b["monthly"], b.get("purchased") or {}
+        return (m["remaining"] + p.get("remaining", 0),
+                m["limit"] + p.get("total", 0),
+                m["cycleEnd"][:10])
     except (urllib.error.URLError, KeyError, ValueError):
         return None, None, None
 
