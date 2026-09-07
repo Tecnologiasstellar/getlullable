@@ -463,7 +463,7 @@ def page(title, desc, canonical, body, extra_head=""):
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
 <br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
 · <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
-<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.youtube.com/@getlullable" rel="me noopener" target="_blank">YouTube</a>
+<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a>
 <br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
 <script src="/consent.js" defer></script>
@@ -836,7 +836,7 @@ def build():
         (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
 
     # ---- sitemap / rss / robots / llms
-    urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/sleep/", f"{SITE}/stories/"]
+    urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
             + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories]
@@ -873,7 +873,8 @@ def build():
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
         f"- [Instagram](https://www.instagram.com/getlullable/): the nightly fact cards\n"
-        f"- [YouTube](https://www.youtube.com/@getlullable): full-length sleep stories to listen to\n\n"
+        f"- [TikTok](https://www.tiktok.com/@getlullable): the same cards, in motion\n"
+        f"- [YouTube](https://www.youtube.com/@lullableapp): full-length sleep stories to listen to\n\n"
         f"## About\n- Published by Tecnolog\u00edas Stellar, S.A. de C.V. (Mexico City), "
         f"built by stellartech.xyz. Contact: info@getlullable.com\n")
 
@@ -1226,7 +1227,7 @@ def cmd_golive(force=False):
     # Everything under sleep/, stories/ and the legal pages is generated and picks
     # the new state up from app_cta() on the next build. These two are written by
     # hand, so golive edits them directly.
-    HANDWRITTEN = [index, ROOT / "manifesto" / "index.html"]
+    HANDWRITTEN = [index, ROOT / "manifesto" / "index.html", ROOT / "press" / "index.html"]
 
     live = [r for r in appstore_status().values() if r and "__error__" not in r]
     if not live and not force:
