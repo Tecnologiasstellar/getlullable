@@ -18,15 +18,17 @@
       "monthly": "$14.99",
       "yearly": "$69.99",
       "source": "https://apps.apple.com/us/app/calm/id571800810",
-      "checked": "2026-09-01",
-      "storefront": "US"
+      "checked": "2026-09-07",
+      "storefront": "US",
+      "note": "Confirmed at source 2026-09-07: the listing description states $14.99/month and $69.99/year. The In-App Purchases list on the same page also shows Calm Premium SKUs at $16.99, $29.99 and $79.99 — legacy or non-default tiers. Cite the description figures; they are what a new US buyer sees."
     },
     "headspace": {
       "monthly": "$12.99",
       "yearly": "$69.99",
       "source": "https://apps.apple.com/us/app/headspace-sleep-meditation/id493145008",
-      "checked": "2026-09-01",
-      "storefront": "US"
+      "checked": "2026-09-07",
+      "storefront": "US",
+      "note": "Confirmed at source 2026-09-07: the listing description states $12.99/month and $69.99/year, and says explicitly that these prices are for the United States. The In-App Purchases list also shows Headspace Plus at $94.99."
     }
   }
 }
