@@ -32,8 +32,11 @@ module.exports = async (req, res) => {
   /* An address already on the list comes back 422. That is a success for the
      person standing at the form, and telling them otherwise would confirm to a
      stranger whether an address is subscribed. */
+  /* Log what Sender said either way. When a signup silently fails to produce
+     an email, the answer is always in this line: the subscriber's status. */
+  const said = await r.text().catch(() => "");
+  console.log("sender", r.status, said.slice(0, 400));
   if (!r.ok && r.status !== 422) {
-    console.error("sender", r.status, await r.text().catch(() => ""));
     return res.status(502).json({ ok: false, error: "upstream" });
   }
   return res.status(200).json({ ok: true });

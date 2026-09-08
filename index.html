@@ -1137,11 +1137,12 @@ form.addEventListener("submit", function(ev){
       if(!r.ok) throw new Error(String(r.status));
       form.style.display = "none";
       msg.className = "msg ok";
-      /* Double opt-in is on in Sender, so they are not finished yet and have to
-         be told so — an unconfirmed subscriber never hears from us again.
-         If double opt-in is ever switched off, this line becomes
-         "Done. Sunday night, in dark mode — nothing before then." */
-      msg.textContent = "Almost. There's a confirmation link in your inbox — nothing arrives until you click it. Check Promotions, where new senders start life.";
+      /* Single opt-in on this path: Sender's double opt-in only fires for
+         Sender's own forms, and ours posts through the API, so the welcome
+         email IS the confirmation. Say what actually happens. */
+      msg.textContent = APP_STORE_URL
+        ? "Done. There's a welcome email on its way — check Promotions, where new senders start life."
+        : "Done. You're on the list. There's a welcome email on its way — check Promotions, where new senders start life.";
       track("signup", {email_domain: value.split("@")[1], source: source});
     })
     .catch(function(){

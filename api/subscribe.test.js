@@ -4,7 +4,7 @@ const handler = require("./subscribe.js");
 
 const run = async (body, env, fetchImpl) => {
   Object.assign(process.env, { SENDER_API_TOKEN: "", SENDER_GROUP_ID: "", ...env });
-  global.fetch = fetchImpl || (async () => ({ ok: true, status: 200 }));
+  global.fetch = fetchImpl || (async () => ({ ok: true, status: 200, text: async () => "{}" }));
   let code = 0, json = null;
   await handler({ method: "POST", body }, { status(c) { code = c; return this; }, json(j) { json = j; return j; } });
   return { code, json };
@@ -25,7 +25,7 @@ const run = async (body, env, fetchImpl) => {
   let seen = "";
   await run({ email: "a@b.co", source: "ph" }, wired, async (url, opts) => {
     seen = url; assert.ok(JSON.parse(opts.body).fields.source === "ph", "source passed through");
-    return { ok: true, status: 200 };
+    return { ok: true, status: 200, text: async () => "{}" };
   });
   assert.equal(seen, "https://api.sender.net/v2/subscribers");
 
