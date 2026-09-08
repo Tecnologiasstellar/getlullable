@@ -1144,6 +1144,8 @@ form.addEventListener("submit", function(ev){
         ? "Done. There's a welcome email on its way — check Promotions, where new senders start life."
         : "Done. You're on the list. There's a welcome email on its way — check Promotions, where new senders start life.";
       track("signup", {email_domain: value.split("@")[1], source: source});
+      /* Google Ads "Sign-up" conversion — AW-18423437610, defined in consent.js */
+      if(window.lullConversion) window.lullConversion("AuWdCJnj0vEcEKqy_dBE");
     })
     .catch(function(){
       btn.disabled = false;

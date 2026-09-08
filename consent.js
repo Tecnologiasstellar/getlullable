@@ -26,15 +26,30 @@
     fbq('init', '1119733220389299');
     fbq('track', 'PageView');
 
+    /* Google tag (GA4 + Ads conversion), loaded only after this point. */
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    var gs = document.createElement('script');
+    gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18423437610';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'AW-18423437610');
+
     /* TODO, in this order of appetite, and only here:
-         - Google Analytics 4      (gtag.js)
-         - Google Ads conversion   (same gtag)
          - TikTok Pixel
        Cookieless analytics needs no consent and may load in the page head.
        Google Consent Mode v2 is required for Google tags in the EEA - if you
        add it, default every signal to "denied" and call gtag('consent','update')
        from here, not from the head. */
   }
+
+  /* The only way outside code may fire a Google Ads conversion: silently a
+     no-op until consent is given, so callers never need to check first. */
+  window.lullConversion = function (label) {
+    if (loaded && window.gtag) gtag('event', 'conversion', {send_to: 'AW-18423437610/' + label});
+  };
 
   function decline() {
     set("no");
