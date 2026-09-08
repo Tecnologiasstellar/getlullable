@@ -17,13 +17,21 @@
   function loadTags() {
     if (loaded) return;
     loaded = true;
-    /* TODO paste here, in this order of appetite:
+    /* Meta Pixel — only ever reached from here, after an explicit yes. */
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1119733220389299');
+    fbq('track', 'PageView');
+
+    /* TODO, in this order of appetite, and only here:
          - Google Analytics 4      (gtag.js)
          - Google Ads conversion   (same gtag)
-         - Meta Pixel
          - TikTok Pixel
        Cookieless analytics needs no consent and may load in the page head.
-       Google Consent Mode v2 is required for Google tags in the EEA — if you
+       Google Consent Mode v2 is required for Google tags in the EEA - if you
        add it, default every signal to "denied" and call gtag('consent','update')
        from here, not from the head. */
   }
