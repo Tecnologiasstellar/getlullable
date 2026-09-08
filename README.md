@@ -59,10 +59,10 @@ Then open http://localhost:8000
 Both are at the top of the `<script>` in [index.html](index.html):
 
 1. **`SUBSCRIBE_URL`** — any endpoint that accepts a POST with an `email` field.
-   Fastest: create a Buttondown account and use
-   `https://buttondown.com/api/emails/embed-subscribe/YOUR-USERNAME`
-   (no API key, no backend, free to 100 subscribers, $9/mo after).
-   Until it's set, the form tells the visitor it isn't wired up rather than faking success.
+   Wired to Sender.net through `api/subscribe.js`. Set `SENDER_API_TOKEN`
+   and `SENDER_GROUP_ID` in Vercel → Settings → Environment Variables.
+   Free to 2,500 subscribers. Until the env vars are set the function returns
+   an error and the form says so, rather than faking success.
 
 2. **`audio/sample-aristotle.mp3`** — the 3:50 sampler, mono 64kbps, cut from the
    production master with `ffmpeg -t 230 -ac 1 -b:a 64k`. Re-cut it whenever the
@@ -113,7 +113,7 @@ Costs $0.
 | Thing | Monthly |
 |---|---|
 | Vercel (static) | $0 |
-| Buttondown (<100 subs) | $0 → $9 |
+| Sender (<2,500 subs) | $0 → $15 |
 | Domain | ~$1 |
 | **Total to launch** | **~$1** |
 

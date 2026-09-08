@@ -30,7 +30,7 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 
 ## What we collect
 
-**If you join the waitlist or the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Buttondown, our newsletter provider. Every email we send has a one-click unsubscribe link that works without contacting anybody.
+**If you join the waitlist or the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). Every email we send has a one-click unsubscribe link that works without contacting anybody.
 
 **When you visit the site.** Our host, Vercel, keeps standard server logs — IP address, browser and device type, the page requested, the time — for security and to keep the site up. Those logs are necessary to serve you a page at all, so they aren't optional, and we don't read them for marketing.
 
@@ -116,7 +116,7 @@ Refuse the optional ones through the cookie banner, by unsubscribing, or by writ
 We use a small number of providers, each doing one job, each bound to process data only as agreed:
 
 - **Vercel** — website hosting, server logs, and the cookieless visit counting described above (United States).
-- **Buttondown** — newsletter delivery and subscriber list (United States).
+- **Sender** — newsletter delivery and subscriber list (Lithuania, European Union).
 - **Google** — Analytics 4 and Google Ads measurement, only with your consent (United States and elsewhere). Not our font provider: the typefaces are our own.
 - **Meta and TikTok** — advertising measurement and retargeting, only with your consent (United States and elsewhere).
 - **Apple** — app distribution, Sign in with Apple, and subscription payments.
@@ -171,7 +171,7 @@ If we change something that matters — a new tool, a new purpose — we'll upda
 
 **Medios para limitar el uso o divulgación.** Rechace las cookies opcionales en el aviso que aparece en su primera visita, o cámbielo después desde el enlace en el pie de página; active la señal Global Privacy Control en su navegador; o escríbanos a [info@getlullable.com](mailto:info@getlullable.com).
 
-**Transferencias.** Sus datos se almacenan y procesan en Estados Unidos por nuestros proveedores de hosting, correo, analítica y publicidad (Vercel, Buttondown, Google, Meta, TikTok). Al proporcionarnos su correo electrónico y al aceptar las cookies opcionales usted acepta estas transferencias; si no las acepta, por favor rechace las cookies, no se suscriba, y escríbanos para eliminar cualquier dato existente.
+**Transferencias.** Sus datos se almacenan y procesan en Estados Unidos por nuestros proveedores de hosting, correo, analítica y publicidad (Vercel, Google, Meta, TikTok) y en la Unión Europea por nuestro proveedor de correo (Sender). Al proporcionarnos su correo electrónico y al aceptar las cookies opcionales usted acepta estas transferencias; si no las acepta, por favor rechace las cookies, no se suscriba, y escríbanos para eliminar cualquier dato existente.
 
 **Derechos ARCO y revocación del consentimiento.** Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos, así como revocar su consentimiento, enviando su solicitud a [info@getlullable.com](mailto:info@getlullable.com) con su nombre, medio de contacto, acreditación de identidad y la descripción clara de lo que solicita. Responderemos en un plazo máximo de 20 días hábiles, sin costo alguno.
 

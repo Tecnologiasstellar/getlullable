@@ -449,7 +449,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <a href="#night">How it works</a>
       <a href="#stories">Stories</a>
       <a href="/sleep/">The Sleep Library</a>
-      <a class="btn sm app-link" data-placement="header" data-live="Get the app" href="#join">Join the waitlist</a>
+      <a class="btn sm app-link" data-placement="header" data-live="Get the app" href="#signup">Join the waitlist</a>
     </nav>
   </div>
 </header>
@@ -477,7 +477,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <p class="lead">Fascinating truths, read so softly you fall asleep mid-sentence. Nothing to follow, nothing to remember.</p>
 
       <div class="hero-ctas">
-        <a class="btn solid btn-badge app-link" data-placement="hero" href="#join">
+        <a class="btn solid btn-badge app-link" data-placement="hero" href="#signup">
           <img src="/assets/brand/mark-128.webp" width="26" height="26" alt="" decoding="async">
           <span><span class="b1" data-live-text="On the App&nbsp;Store">Coming to the App&nbsp;Store</span><span class="b2" data-live-text="Get the app">Join the waitlist</span></span>
         </a>
@@ -600,7 +600,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
   <div class="wrap band-in">
     <p>That's the whole app. Four screens, and then you're asleep.</p>
     <div class="side">
-      <a class="btn solid app-link" data-placement="after-walkthrough" data-live="Get the app" href="#join">Join the waitlist</a>
+      <a class="btn solid app-link" data-placement="after-walkthrough" data-live="Get the app" href="#signup">Join the waitlist</a>
       <small data-live-text="Free to download. Aristotle is free to listen to.">Free. One email a week, never after 9&nbsp;pm.</small>
     </div>
   </div>
@@ -876,15 +876,15 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
 </section>
 
 <!-- ══════════ JOIN ══════════ -->
-<section class="s-lg final" id="join">
+<section class="s-lg final" id="signup">
   <div class="wrap">
-    <p class="eyebrow" data-live-text="Get the app">Join the Midnight Salon</p>
+    <p class="eyebrow" data-live-text="Get the app">Boringly Brilliant</p>
     <h2 data-live-text="It's on the App&nbsp;Store.">Be there the night it opens.</h2>
-    <p class="lead" style="margin-top:1.3rem;max-width:32rem" data-live-text="Free to download, with one story free to listen to. And if you want the Sunday letter as well — “Boringly Brilliant”, three quiet paragraphs of history or physics — leave an address below.">One address, two things: your place on the App&nbsp;Store waitlist, and “Boringly Brilliant” — three quiet paragraphs of history or physics, Sunday night. Both, or neither.</p>
+    <p class="lead" style="margin-top:1.3rem;max-width:32rem" data-live-text="Free to download, with one story free to listen to. And if you want the letter as well — “Boringly Brilliant”, three quiet paragraphs of history or physics, Sunday night — leave an address below.">One address, two things: your place on the App&nbsp;Store waitlist, and “Boringly Brilliant” — three quiet paragraphs of history or physics, Sunday night. Both, or neither.</p>
 
     <form id="signup-form" novalidate>
       <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
-      <button type="submit" class="btn solid" id="submit" data-live-text="Send me the Sunday letter">Join the waitlist</button>
+      <button type="submit" class="btn solid" id="submit" data-live-text="Send me Sundays">Join the waitlist</button>
     </form>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
 
@@ -925,7 +925,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
           <li><a href="/sleep/">The Sleep Library</a></li>
           <li><a href="/manifesto/">Manifesto</a></li>
           <li><a href="/stories/">Story pages</a></li>
-          <li><a href="#join">The Sunday letter</a></li>
+          <li><a href="#signup">Boringly Brilliant</a></li>
         </ul>
       </div>
       <div>
@@ -949,11 +949,13 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
 <script>
 /* ---------------------------------------------------------------
    Launch config.
-   - SUBSCRIBE_URL: Buttondown (tecnologiasstellar).
+   - SUBSCRIBE_URL: our own /api/subscribe, which talks to Sender.net
+     server-side (the API token can read the whole list, so it never ships
+     to the browser). Env: SENDER_API_TOKEN, SENDER_GROUP_ID in Vercel.
    - APP_STORE_URL: paste the store link on launch day and every CTA
      on the site flips from waitlist to download. One line, no build.
    --------------------------------------------------------------- */
-var SUBSCRIBE_URL = "https://buttondown.com/api/emails/embed-subscribe/tecnologiasstellar";
+var SUBSCRIBE_URL = "/api/subscribe";
 var EVENTS_URL    = "";
 /* Launch day: run `python3 build.py golive` — it verifies the app is actually
    live on the App Store first, then writes the URL in here, flips every CTA and
@@ -1124,20 +1126,28 @@ form.addEventListener("submit", function(ev){
     return;
   }
   btn.disabled = true; msg.className = "msg"; msg.textContent = "One moment.";
-  var body = new FormData(); body.append("email", value);
-  fetch(SUBSCRIBE_URL, {method:"POST", body:body, mode:"no-cors"})
-    .then(function(){
+  /* where they came from, for the source field in Sender: ?ref=ph, ?ref=ig … */
+  var source = (new URLSearchParams(location.search).get("ref") || "web").slice(0, 40);
+  fetch(SUBSCRIBE_URL, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({email: value, source: source})
+  })
+    .then(function(r){
+      if(!r.ok) throw new Error(String(r.status));
       form.style.display = "none";
       msg.className = "msg ok";
-      msg.textContent = APP_STORE_URL
-        ? "Done. Sunday night, in dark mode — nothing before then."
-        : "Done. You're on the waitlist. Sunday night, in dark mode — nothing before then.";
-      track("signup", {email_domain: value.split("@")[1]});
+      /* Double opt-in is on in Sender, so they are not finished yet and have to
+         be told so — an unconfirmed subscriber never hears from us again.
+         If double opt-in is ever switched off, this line becomes
+         "Done. Sunday night, in dark mode — nothing before then." */
+      msg.textContent = "Almost. There's a confirmation link in your inbox — nothing arrives until you click it. Check Promotions, where new senders start life.";
+      track("signup", {email_domain: value.split("@")[1], source: source});
     })
     .catch(function(){
       btn.disabled = false;
       msg.className = "msg err";
-      msg.textContent = "That didn't go through. Try again, or email info@getlullable.com.";
+      msg.textContent = "That didn't go through. Try again, or email info@getlullable.com and we'll add you by hand.";
       track("signup_failed");
     });
 });

@@ -25,7 +25,7 @@ Deploy is `python3 build.py ship "what changed"` — build, commit, push. Vercel
 
 ### Why not Neon + Prisma + Next.js (yet)
 
-A database earns its keep when data *changes at runtime* — accounts, payments, app-generated content. This site has none of that: the waitlist lives in Buttondown, events can POST to a single serverless function later, and posts change once a day at build time. A Postgres instance here would be a monthly bill and a failure mode guarding nothing.
+A database earns its keep when data *changes at runtime* — accounts, payments, app-generated content. This site has none of that: the list lives in Sender (one serverless function, `api/subscribe.js`, holds the API token), events can POST to a single serverless function later, and posts change once a day at build time. A Postgres instance here would be a monthly bill and a failure mode guarding nothing.
 
 **Migration trigger, written down now:** when the app launches and the site needs accounts, personalized cards ("your last fact" on the web), or paywalled content — *then* this becomes a Next.js app on Vercel with Neon, and the generated pages port over as static routes. The markdown files move over unchanged, which is the point of keeping them as markdown.
 
