@@ -594,33 +594,37 @@ CHRONO_Q = [
      [("Definitely a morning type", 6), ("More morning than evening", 4),
       ("More evening than morning", 2), ("Definitely an evening type", 0)]),
 ]
-# slug, name, article, lowest score, type line, description, the share line
+# slug, name, article, lowest score, type line, description, the share line.
+# Lullable's own five: quiet, true animals from the story world, morning to night.
 CHRONO = [
-    ("chickadee", "Chickadee", "a", 22, "Definitely a morning type",
-     "Up before the sun, and glad of it. Your best hour is one most people sleep "
-     "through, and by nine in the evening the day has quietly closed behind you. "
-     "The trouble is rarely falling asleep. It is the world expecting you to be awake at ten.",
+    ("blackbird", "Blackbird", "a", 22, "Definitely a morning type",
+     "The first voice in the dawn chorus, singing before there is light to sing by. "
+     "Your best hour is one most people sleep through, and by nine in the evening the "
+     "day has quietly closed behind you. The trouble is rarely falling asleep. It is "
+     "the world expecting you to be awake at ten.",
      "up before the sun and asleep before the news."),
-    ("rabbit", "Rabbit", "a", 18, "Moderately a morning type",
-     "An early riser who keeps to the daylight. You wake without much of a fight, "
-     "do your clearest thinking before lunch, and fade in step with the evening. "
-     "Late nights are possible, but they are paid for the next morning.",
-     "my day runs on daylight and closes with it."),
-    ("chipmunk", "Chipmunk", "a", 12, "Neither, and in good company",
-     "Neither lark nor owl, and the most common of the five. You wake with the light, "
-     "work best through the middle of the day, and are ready for bed a while after "
-     "dark. Your rhythm follows the sun, give or take an hour, which is why a routine suits you so well.",
-     "the most common chronotype, and I have never been prouder of being average."),
-    ("fox", "Fox", "a", 8, "Moderately an evening type",
-     "The evening is where you come alive. Mornings are a negotiation, the afternoon "
-     "is fine, and somewhere after dinner the ideas start arriving. Midnight feels "
-     "like a reasonable bedtime, even when the alarm disagrees.",
-     "my best ideas arrive after dinner and my alarm has never forgiven me."),
-    ("owl", "Owl", "an", 4, "Definitely an evening type",
+    ("tortoise", "Tortoise", "a", 18, "Moderately a morning type",
+     "An early riser who keeps to the daylight and is in no hurry inside it. You wake "
+     "without much of a fight, do your clearest thinking before lunch, and fade in step "
+     "with the evening. Late nights are possible, but they are paid for the next morning.",
+     "my day runs on daylight, and I take it slowly."),
+    ("sheep", "Sheep", "a", 12, "Neither, and in good company",
+     "Neither lark nor owl, and the most common of the five, which seems fitting. You "
+     "wake with the light, work best through the middle of the day, and are ready for "
+     "bed a while after dark. Your rhythm follows the sun, give or take an hour, which "
+     "is why a routine suits you so well.",
+     "the most common chronotype, and the only one that gets counted."),
+    ("moth", "Moth", "a", 8, "Moderately an evening type",
+     "The evening is where you come alive, usually near a lamp. Mornings are a "
+     "negotiation, the afternoon is fine, and somewhere after dinner the ideas start "
+     "arriving. Midnight feels like a reasonable bedtime, even when the alarm disagrees.",
+     "my best ideas arrive after dinner, usually near a lamp."),
+    ("octopus", "Octopus", "an", 4, "Definitely an evening type",
      "You do not properly get going until the sun has gone down. Midnight is early; "
      "one or two is more honest. Mornings, when they cannot be avoided, are endured. "
-     "The mind that keeps you up is the same one that does its best work at eleven "
-     "at night. It just needs somewhere quiet to go when it is done.",
+     "The mind that keeps you up is the same one that does its best work at eleven at "
+     "night, and with three hearts' worth of curiosity it needs somewhere quiet to go "
+     "when it is done.",
      "midnight is early and my brain clocks off long after I do."),
 ]
 CHRONO_CSS = """<style>
@@ -693,13 +697,12 @@ document.getElementById("quiz").addEventListener("submit",function(e){{
   var s=0;new FormData(e.target).forEach(function(v){{s+=+v}});
   var t={buckets};
   try{{sessionStorage.setItem("lull_chrono",t)}}catch(_){{}}
-  va("event",{{name:"chronotype_result",data:{{type:t,score:s}}}});
   location.href="/chronotype/"+t+"/";
 }});
 </script>"""
     (out / "index.html").write_text(page(
         "What's your sleep chronotype? A two-minute quiz — Lullable",
-        "Five questions from the sleep researchers' own questionnaire, and one of five animals at the end. Chickadee, rabbit, chipmunk, fox or owl?",
+        "Five questions from the sleep researchers' own questionnaire, and one of five animals at the end. Blackbird, tortoise, sheep, moth or octopus?",
         f"{SITE}/chronotype/", body, CHRONO_CSS))
     urls = [f"{SITE}/chronotype/"]
 
@@ -735,10 +738,8 @@ try{{mine=sessionStorage.getItem("lull_chrono")===slug}}catch(_){{}}
 if(mine){{document.getElementById("eb").textContent="Your chronotype";
   document.getElementById("h").textContent="You’re {art} {name}.";}}
 var sh=document.getElementById("sh"),cp=document.getElementById("cp");
-function hit(via){{va("event",{{name:"chronotype_share",data:{{type:slug,via:via}}}})}}
-if(navigator.share){{sh.hidden=false;sh.onclick=function(){{navigator.share({{text:text,url:url}}).then(function(){{hit("native")}}).catch(function(){{}})}}}}
-cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.textContent="Copied";hit("copy")}})}};
-document.querySelectorAll(".share a").forEach(function(a){{a.addEventListener("click",function(){{hit(a.textContent.toLowerCase())}})}});
+if(navigator.share){{sh.hidden=false;sh.onclick=function(){{navigator.share({{text:text,url:url}}).catch(function(){{}})}}}}
+cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.textContent="Copied"}})}};
 }})();
 </script>"""
         (d / "index.html").write_text(page(
@@ -1054,7 +1055,7 @@ def build():
         f"## Key pages\n- [Home]({SITE}/): what Lullable is, with an audio sample\n"
         f"- [The Sleep Library]({SITE}/sleep/): essays on sleep and pleasantly uneventful knowledge\n"
         f"- [Stories]({SITE}/stories/): every sleep story in the app\n"
-        f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals\n\n"
+        f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals (blackbird to octopus)\n\n"
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
         f"- [Instagram](https://www.instagram.com/getlullable/): the nightly fact cards\n"

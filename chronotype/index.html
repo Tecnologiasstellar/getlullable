@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>What&#x27;s your sleep chronotype? A two-minute quiz — Lullable</title>
-<meta name="description" content="Five questions from the sleep researchers&#x27; own questionnaire, and one of five animals at the end. Chickadee, rabbit, chipmunk, fox or owl?">
+<meta name="description" content="Five questions from the sleep researchers&#x27; own questionnaire, and one of five animals at the end. Blackbird, tortoise, sheep, moth or octopus?">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://getlullable.com/chronotype/">
 <meta property="og:title" content="What&#x27;s your sleep chronotype? A two-minute quiz — Lullable">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lullable">
 <meta property="og:locale" content="en_US">
-<meta property="og:description" content="Five questions from the sleep researchers&#x27; own questionnaire, and one of five animals at the end. Chickadee, rabbit, chipmunk, fox or owl?">
+<meta property="og:description" content="Five questions from the sleep researchers&#x27; own questionnaire, and one of five animals at the end. Blackbird, tortoise, sheep, moth or octopus?">
 <meta property="og:image" content="https://getlullable.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="Lullable — The Sleep Library" href="https://getlullable.com/rss.xml">
@@ -179,16 +179,15 @@ display:flex;flex-direction:column;transition:border-color .3s}
 <button class="go" type="submit">Reveal my chronotype</button>
 </form>
 <h2>The five animals</h2>
-<ul class="animals"><li><a href="/chronotype/chickadee/"><b>Chickadee</b>Definitely a morning type. Up before the sun, and glad of it.</a></li><li><a href="/chronotype/rabbit/"><b>Rabbit</b>Moderately a morning type. An early riser who keeps to the daylight.</a></li><li><a href="/chronotype/chipmunk/"><b>Chipmunk</b>Neither, and in good company. Neither lark nor owl, and the most common of the five.</a></li><li><a href="/chronotype/fox/"><b>Fox</b>Moderately an evening type. The evening is where you come alive.</a></li><li><a href="/chronotype/owl/"><b>Owl</b>Definitely an evening type. You do not properly get going until the sun has gone down.</a></li></ul>
+<ul class="animals"><li><a href="/chronotype/blackbird/"><b>Blackbird</b>Definitely a morning type. The first voice in the dawn chorus, singing before there is light to sing by.</a></li><li><a href="/chronotype/tortoise/"><b>Tortoise</b>Moderately a morning type. An early riser who keeps to the daylight and is in no hurry inside it.</a></li><li><a href="/chronotype/sheep/"><b>Sheep</b>Neither, and in good company. Neither lark nor owl, and the most common of the five, which seems fitting.</a></li><li><a href="/chronotype/moth/"><b>Moth</b>Moderately an evening type. The evening is where you come alive, usually near a lamp.</a></li><li><a href="/chronotype/octopus/"><b>Octopus</b>Definitely an evening type. You do not properly get going until the sun has gone down.</a></li></ul>
 <p class="post-meta" style="margin-top:2rem">Adapted from Adan &amp; Almirall (1991), the reduced form of Horne &amp; Östberg's questionnaire. A tendency, not a diagnosis. Chronotypes drift with age and nothing here is medical advice.</p>
 </article>
 <script>
 document.getElementById("quiz").addEventListener("submit",function(e){
   e.preventDefault();
   var s=0;new FormData(e.target).forEach(function(v){s+=+v});
-  var t=s>=22?"chickadee":s>=18?"rabbit":s>=12?"chipmunk":s>=8?"fox":"owl";
+  var t=s>=22?"blackbird":s>=18?"tortoise":s>=12?"sheep":s>=8?"moth":"octopus";
   try{sessionStorage.setItem("lull_chrono",t)}catch(_){}
-  va("event",{name:"chronotype_result",data:{type:t,score:s}});
   location.href="/chronotype/"+t+"/";
 });
 </script>
