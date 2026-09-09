@@ -64,7 +64,7 @@ module.exports = async (req, res) => {
   return res.status(200).json({ ok: true });
 };
 
-const PIXEL_ID = "1119733220389299";
+const PIXEL_ID = "2120190601930707";
 
 const sha256 = (v) =>
   require("crypto").createHash("sha256").update(String(v).trim().toLowerCase()).digest("hex");
