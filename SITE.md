@@ -117,9 +117,13 @@ product reads to you. Three local woff2 files cover both, `font-display:swap`;
 the homepage preloads Inter and Newsreader italic, the generated pages preload
 Inter and Newsreader roman.
 
-**The wordmark is type, not a logo lockup:** lowercase `lullable`, weight 300,
-`letter-spacing: .30em`. The handoff calls the tracking the identity and forbids
-going below `.28em`. The mascot mark sits beside it at 30 px.
+**The wordmark is the official lockup (2026-09-09):** four echo-contour arcs
+(`assets/brand/mark.svg`) beside lowercase `lullable` in Newsreader roman, in the
+logo's own cream `#E9D6B6`. The stacked version with the wordmark as outlines is
+`assets/brand/logo.svg` (footer, press kit). Both are path-only SVG rebuilt from
+the supplied raster, so they render identically on the dark ground. The earlier
+tracked-sans wordmark and the mascot mark beside it are retired; the mascot
+stays only inside the App Store button, where it is the app icon.
 
 Scale: display `clamp(2.35rem, 4.7vw, 4.5rem)`, section `clamp(2rem, 4vw,
 3.6rem)`, lead `clamp(1.06rem, 1.25vw, 1.28rem)`, labels ≥ 12 px always.

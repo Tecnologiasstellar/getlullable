@@ -330,16 +330,17 @@ background:radial-gradient(110% 70% at 50% 0%,rgba(145,132,217,.07),transparent 
 .measure{max-width:36rem;margin-inline:auto}
 header{padding:1.75rem 0}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.mark{display:inline-flex;align-items:center;gap:.7rem;min-height:44px;font-weight:300;font-size:17px;
-letter-spacing:.30em;text-transform:lowercase;text-decoration:none;color:var(--cream)}
-.mark img{width:28px;height:28px;border-radius:50%}
+/* the official lockup: four echo-contour arcs beside a serif wordmark (assets/brand/logo.svg) */
+.mark{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;font:400 21px/1 var(--serif);
+letter-spacing:.01em;text-transform:lowercase;text-decoration:none;color:#E9D6B6}
+.mark img{width:38px;height:19px}
 .bar nav{display:flex;align-items:center;gap:1.4rem;font-size:.875rem;color:var(--dim)}
 .bar nav a{text-decoration:none}
 .bar nav a:hover{color:var(--text)}
 .navbtn{border:1.5px solid var(--cream);color:var(--cream);border-radius:11px;padding:.55rem 1rem;
 transition:background .18s ease}
 .navbtn:hover{background:rgba(236,228,211,.10);color:var(--cream)}
-@media(max-width:560px){.bar nav a:first-child{display:none}}
+@media(max-width:560px){.bar nav a:nth-child(-n+2){display:none}}
 h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.5vw,2.7rem);line-height:1.18;letter-spacing:-.015em;margin:0 0 1rem}
 h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:2.5rem 0 1rem}
 h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75rem}
@@ -456,8 +457,8 @@ def page(title, desc, canonical, body, extra_head=""):
 <body>
 <div class="wrap">
 <header class="bar">
-<a class="mark" href="/"><img src="/assets/brand/mark-128.webp" width="28" height="28" alt="" loading="lazy" decoding="async">{BRAND.lower()}</a>
-<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a class="navbtn" href="{nav_href}">{nav_label}</a></nav>
+<a class="mark" href="/"><img src="/assets/brand/mark.svg" width="38" height="19" alt="" decoding="async">{BRAND.lower()}</a>
+<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a href="/chronotype/">Chronotype quiz</a><a class="navbtn" href="{nav_href}">{nav_label}</a></nav>
 </header>
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
@@ -544,21 +545,18 @@ def read_minutes(body):
 
 # ---------------------------------------------------------------- story cards
 
-def story_card(s, outdir):
-    """Per-story share image via make-card.py. Optional: a missing card must
-    never block a publish. If this python lacks Pillow, retry with the macOS
-    system python (/usr/bin/python3), which ships with it here — homebrew's
-    python3 took over PATH on 2026-08-11 and silently dropped the cards."""
-    args = (str(outdir / "og.png"), s["title"],
-            f"“{s['sample'].strip()}”",
-            f"{s['mins']} minutes · read by {s['narrator']}",
-            f"Last night, you drifted off during {s['title']}.")
+def share_card(path, when, quote, footer, headline=None):
+    """A share image via make-card.py. Optional: a missing card must never
+    block a publish. If this python lacks Pillow, retry with the macOS system
+    python (/usr/bin/python3), which ships with it here — homebrew's python3
+    took over PATH on 2026-08-11 and silently dropped the cards."""
+    args = (str(path), when, quote, footer, headline or "")
     try:
         import importlib.util
         spec = importlib.util.spec_from_file_location("makecard", ROOT / "make-card.py")
         mc = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mc)
-        mc.card(*args[:4], headline=args[4])
+        mc.card(*args[:4], headline=headline)
         return True
     except Exception:
         import subprocess
@@ -566,8 +564,191 @@ def story_card(s, outdir):
                            capture_output=True, text=True)
         if r.returncode == 0:
             return True
-        print(f"  note: no share card for {s['slug']} ({r.stderr.strip()[:80] or 'no Pillow found'})")
+        print(f"  note: no share card for {path} ({r.stderr.strip()[:80] or 'no Pillow found'})")
         return False
+
+def story_card(s, outdir):
+    return share_card(outdir / "og.png", s["title"], f"“{s['sample'].strip()}”",
+                      f"{s['mins']} minutes · read by {s['narrator']}",
+                      headline=f"Last night, you drifted off during {s['title']}.")
+
+# ---------------------------------------------------------------- chronotype quiz
+# /chronotype/ — the reduced Morningness–Eveningness Questionnaire (Adan &
+# Almirall, 1991): five questions, scored 4–25, mapped onto five animals. The
+# result page IS the share page: the quiz redirects to /chronotype/<animal>/,
+# which carries its own OG card, so a WhatsApp preview reads "I'm an Owl" and
+# the friend lands one tap from taking it themselves. That is the whole loop.
+CHRONO_Q = [
+    ("If you were entirely free to plan your day, when would you get up?",
+     [("Between 5:00 and 6:30", 5), ("6:30 to 7:45", 4), ("7:45 to 9:45", 3),
+      ("9:45 to 11:00", 2), ("11:00 or later", 1)]),
+    ("In the first half hour after waking, how do you feel?",
+     [("Very tired", 1), ("Fairly tired", 2), ("Fairly refreshed", 3), ("Very refreshed", 4)]),
+    ("In the evening, when do you start to feel tired and in need of sleep?",
+     [("8:00 to 9:00 pm", 5), ("9:00 to 10:15 pm", 4), ("10:15 pm to 12:45 am", 3),
+      ("12:45 to 2:00 am", 2), ("2:00 am or later", 1)]),
+    ("At what time of day do you feel at your best?",
+     [("5 to 8 am", 5), ("8 to 10 am", 4), ("10 am to 5 pm", 3),
+      ("5 to 10 pm", 2), ("10 pm to 5 am", 1)]),
+    ("People talk about morning types and evening types. Which are you?",
+     [("Definitely a morning type", 6), ("More morning than evening", 4),
+      ("More evening than morning", 2), ("Definitely an evening type", 0)]),
+]
+# slug, name, article, lowest score, type line, description, the share line
+CHRONO = [
+    ("chickadee", "Chickadee", "a", 22, "Definitely a morning type",
+     "Up before the sun, and glad of it. Your best hour is one most people sleep "
+     "through, and by nine in the evening the day has quietly closed behind you. "
+     "The trouble is rarely falling asleep. It is the world expecting you to be awake at ten.",
+     "up before the sun and asleep before the news."),
+    ("rabbit", "Rabbit", "a", 18, "Moderately a morning type",
+     "An early riser who keeps to the daylight. You wake without much of a fight, "
+     "do your clearest thinking before lunch, and fade in step with the evening. "
+     "Late nights are possible, but they are paid for the next morning.",
+     "my day runs on daylight and closes with it."),
+    ("chipmunk", "Chipmunk", "a", 12, "Neither, and in good company",
+     "Neither lark nor owl, and the most common of the five. You wake with the light, "
+     "work best through the middle of the day, and are ready for bed a while after "
+     "dark. Your rhythm follows the sun, give or take an hour, which is why a routine suits you so well.",
+     "the most common chronotype, and I have never been prouder of being average."),
+    ("fox", "Fox", "a", 8, "Moderately an evening type",
+     "The evening is where you come alive. Mornings are a negotiation, the afternoon "
+     "is fine, and somewhere after dinner the ideas start arriving. Midnight feels "
+     "like a reasonable bedtime, even when the alarm disagrees.",
+     "my best ideas arrive after dinner and my alarm has never forgiven me."),
+    ("owl", "Owl", "an", 4, "Definitely an evening type",
+     "You do not properly get going until the sun has gone down. Midnight is early; "
+     "one or two is more honest. Mornings, when they cannot be avoided, are endured. "
+     "The mind that keeps you up is the same one that does its best work at eleven "
+     "at night. It just needs somewhere quiet to go when it is done.",
+     "midnight is early and my brain clocks off long after I do."),
+]
+CHRONO_CSS = """<style>
+.q{border:0;padding:0;margin:0 0 2.2rem}
+.q legend{font-family:var(--serif);font-size:1.15rem;line-height:1.4;color:var(--text);margin-bottom:.9rem}
+.q label{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;margin-bottom:.5rem;border:1px solid var(--haze);
+border-radius:12px;background:var(--ink-2);color:var(--dim);cursor:pointer;transition:border-color .18s}
+.q label:hover{border-color:rgba(145,132,217,.45)}
+.q label:has(:checked){border-color:var(--amber);background:rgba(145,132,217,.10);color:var(--text)}
+.q input{accent-color:var(--amber);width:18px;height:18px;margin:0;flex:none}
+.go{display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;background:var(--cream);color:var(--ink);
+border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;font:500 1rem var(--sans);cursor:pointer}
+.go:hover{background:#F5F0E6}
+.share{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.75rem 0 1rem}
+.share a,.share button{display:inline-flex;align-items:center;min-height:48px;border:1.5px solid var(--cream);color:var(--cream);
+background:none;border-radius:14px;padding:.7rem 1.2rem;font:500 .95rem var(--sans);text-decoration:none;cursor:pointer}
+.share a:hover,.share button:hover{background:rgba(236,228,211,.10)}
+.animals{list-style:none;padding:0;margin:1.5rem 0 0;display:grid;gap:.75rem}
+.animals a{display:block;text-decoration:none;background:var(--ink-2);border:1px solid var(--haze);border-radius:14px;
+padding:1rem 1.2rem;color:var(--dim);font-size:.95rem;line-height:1.5;transition:border-color .3s}
+.animals a b{display:block;font:400 1.15rem var(--serif);color:var(--text)}
+.animals a:hover{border-color:rgba(145,132,217,.35)}
+</style>
+"""
+
+def chrono_share_text(c):
+    slug, name, art, _, _, _, line = c
+    return f"I'm {art} {name}: {line} Find your sleep chronotype in two minutes:"
+
+def chrono_animals(skip=None):
+    items = "".join(
+        f'<li><a href="/chronotype/{c[0]}/"><b>{c[1]}</b>{c[4]}. {html.escape(c[5].split(". ")[0])}.</a></li>'
+        for c in CHRONO if c[0] != skip)
+    return f'<ul class="animals">{items}</ul>'
+
+def chrono_cta():
+    href, label = app_cta()
+    return ('<div class="cta">\n<p>Whatever hour you finally lie down, the moment is the same: a mind '
+            'still running. Lullable reads you true, quietly fascinating things in a voice that gets '
+            'softer every minute, so the thinking has somewhere to go.</p>\n'
+            f'<a href="{href}">{label}</a>\n</div>')
+
+def build_chronotype():
+    """Writes /chronotype/ (the quiz) and /chronotype/<animal>/ (five result
+    pages, each with its own share card). Returns their URLs for the sitemap."""
+    from urllib.parse import quote
+    out = ROOT / "chronotype"; out.mkdir(exist_ok=True)
+    qs = ""
+    for i, (q, opts) in enumerate(CHRONO_Q):
+        rows = "".join(f'<label><input type="radio" name="q{i}" value="{v}" required>{html.escape(t)}</label>'
+                       for t, v in opts)
+        qs += f'<fieldset class="q"><legend>{i + 1}. {html.escape(q)}</legend>{rows}</fieldset>\n'
+    buckets = "".join(f's>={c[3]}?"{c[0]}":' for c in CHRONO[:-1]) + f'"{CHRONO[-1][0]}"'
+    body = f"""<div class="post-head"><p class="eyebrow">Five questions, two minutes</p>
+<h1>What's your sleep chronotype?</h1>
+<p class="post-meta">Lullable has a rule against quizzes. This is the one exception: there are no wrong answers and nothing to remember.</p></div>
+<article class="measure">
+<p>Most of when you want to sleep was decided for you. A roughly 24-hour clock in your body cues when you feel sharp, when you feel hungry and when you finally feel tired, and your <strong>chronotype</strong> is where that clock sits against everyone else's. Early types peak before lunch. Late types come alive after dark. Most people sit somewhere in the middle, and the setting drifts with age: children run early, teenagers run late.</p>
+<p>The five questions below are adapted from the reduced Morningness–Eveningness Questionnaire, the short form of the instrument sleep researchers have used since 1976. Answer for the life you would choose, not the one your alarm imposes.</p>
+<form id="quiz">
+{qs}<button class="go" type="submit">Reveal my chronotype</button>
+</form>
+<h2>The five animals</h2>
+{chrono_animals()}
+<p class="post-meta" style="margin-top:2rem">Adapted from Adan &amp; Almirall (1991), the reduced form of Horne &amp; Östberg's questionnaire. A tendency, not a diagnosis. Chronotypes drift with age and nothing here is medical advice.</p>
+</article>
+<script>
+document.getElementById("quiz").addEventListener("submit",function(e){{
+  e.preventDefault();
+  var s=0;new FormData(e.target).forEach(function(v){{s+=+v}});
+  var t={buckets};
+  try{{sessionStorage.setItem("lull_chrono",t)}}catch(_){{}}
+  va("event",{{name:"chronotype_result",data:{{type:t,score:s}}}});
+  location.href="/chronotype/"+t+"/";
+}});
+</script>"""
+    (out / "index.html").write_text(page(
+        "What's your sleep chronotype? A two-minute quiz — Lullable",
+        "Five questions from the sleep researchers' own questionnaire, and one of five animals at the end. Chickadee, rabbit, chipmunk, fox or owl?",
+        f"{SITE}/chronotype/", body, CHRONO_CSS))
+    urls = [f"{SITE}/chronotype/"]
+
+    for c in CHRONO:
+        slug, name, art, lo, kind, desc, line = c
+        url = f"{SITE}/chronotype/{slug}/"
+        d = out / slug; d.mkdir(exist_ok=True)
+        has_card = share_card(d / "og.png", name, line[0].upper() + line[1:],
+                              "Find your sleep chronotype in two minutes · five animals, no wrong answers",
+                              headline=f"I'm {art} {name}.")
+        og = f"{url}og.png" if has_card else f"{SITE}/og.png"
+        text = chrono_share_text(c)
+        body = f"""<div class="post-head"><p class="eyebrow" id="eb">A sleep chronotype</p>
+<h1 id="h">The {name}</h1>
+<p class="post-meta">{kind} · one of five</p></div>
+<article class="measure">
+<p>{html.escape(desc)}</p>
+<div class="share">
+<button id="sh" hidden>Share my result</button>
+<a href="https://wa.me/?text={quote(text + ' ' + url)}" target="_blank" rel="noopener">WhatsApp</a>
+<a href="https://x.com/intent/post?text={quote(text)}&amp;url={quote(url)}" target="_blank" rel="noopener">X</a>
+<button id="cp">Copy link</button>
+</div>
+<p class="post-meta">Not you? <a href="/chronotype/">Take the two-minute quiz</a>.</p>
+{chrono_cta()}
+<h2>The other four</h2>
+{chrono_animals(skip=slug)}
+</article>
+<script>
+(function(){{
+var slug="{slug}",url="{url}",text={json.dumps(text)},mine=false;
+try{{mine=sessionStorage.getItem("lull_chrono")===slug}}catch(_){{}}
+if(mine){{document.getElementById("eb").textContent="Your chronotype";
+  document.getElementById("h").textContent="You’re {art} {name}.";}}
+var sh=document.getElementById("sh"),cp=document.getElementById("cp");
+function hit(via){{va("event",{{name:"chronotype_share",data:{{type:slug,via:via}}}})}}
+if(navigator.share){{sh.hidden=false;sh.onclick=function(){{navigator.share({{text:text,url:url}}).then(function(){{hit("native")}}).catch(function(){{}})}}}}
+cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.textContent="Copied";hit("copy")}})}};
+document.querySelectorAll(".share a").forEach(function(a){{a.addEventListener("click",function(){{hit(a.textContent.toLowerCase())}})}});
+}})();
+</script>"""
+        (d / "index.html").write_text(page(
+            f"I'm {art} {name}. What's your sleep chronotype?",
+            f"{kind}: {line[0].upper() + line[1:]} Five questions, two minutes, no wrong answers.",
+            url, body, CHRONO_CSS + f'<meta property="og:image" content="{og}">\n'))
+        urls.append(url)
+    print(f"built chronotype quiz + {len(CHRONO)} result pages -> chronotype/")
+    return urls
+
 
 # ---------------------------------------------------------------- build
 
@@ -835,8 +1016,11 @@ def build():
         body = f'<article>\n{head_band}\n<div class="measure">\n{md(l["body"])}\n</div>\n</article>'
         (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
 
+    chrono_urls = build_chronotype()
+
     # ---- sitemap / rss / robots / llms
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
+            + chrono_urls
             + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories]
@@ -869,7 +1053,8 @@ def build():
         f"Not a medical device.\n\n"
         f"## Key pages\n- [Home]({SITE}/): what Lullable is, with an audio sample\n"
         f"- [The Sleep Library]({SITE}/sleep/): essays on sleep and pleasantly uneventful knowledge\n"
-        f"- [Stories]({SITE}/stories/): every sleep story in the app\n\n"
+        f"- [Stories]({SITE}/stories/): every sleep story in the app\n"
+        f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals\n\n"
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
         f"- [Instagram](https://www.instagram.com/getlullable/): the nightly fact cards\n"

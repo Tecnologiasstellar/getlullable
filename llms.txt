@@ -6,6 +6,7 @@
 - [Home](https://getlullable.com/): what Lullable is, with an audio sample
 - [The Sleep Library](https://getlullable.com/sleep/): essays on sleep and pleasantly uneventful knowledge
 - [Stories](https://getlullable.com/stories/): every sleep story in the app
+- [Chronotype quiz](https://getlullable.com/chronotype/): five questions, one of five sleep animals
 
 ## Essays
 - [Boring voices to fall asleep to, and what makes one work](https://getlullable.com/sleep/boring-voices-to-fall-asleep-to/): The narrator qualities nobody writes about: narrow pitch, even pace, no performance. What the acoustics research says a voice has to stop doing.

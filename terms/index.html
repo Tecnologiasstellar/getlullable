@@ -56,16 +56,17 @@ background:radial-gradient(110% 70% at 50% 0%,rgba(145,132,217,.07),transparent 
 .measure{max-width:36rem;margin-inline:auto}
 header{padding:1.75rem 0}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.mark{display:inline-flex;align-items:center;gap:.7rem;min-height:44px;font-weight:300;font-size:17px;
-letter-spacing:.30em;text-transform:lowercase;text-decoration:none;color:var(--cream)}
-.mark img{width:28px;height:28px;border-radius:50%}
+/* the official lockup: four echo-contour arcs beside a serif wordmark (assets/brand/logo.svg) */
+.mark{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;font:400 21px/1 var(--serif);
+letter-spacing:.01em;text-transform:lowercase;text-decoration:none;color:#E9D6B6}
+.mark img{width:38px;height:19px}
 .bar nav{display:flex;align-items:center;gap:1.4rem;font-size:.875rem;color:var(--dim)}
 .bar nav a{text-decoration:none}
 .bar nav a:hover{color:var(--text)}
 .navbtn{border:1.5px solid var(--cream);color:var(--cream);border-radius:11px;padding:.55rem 1rem;
 transition:background .18s ease}
 .navbtn:hover{background:rgba(236,228,211,.10);color:var(--cream)}
-@media(max-width:560px){.bar nav a:first-child{display:none}}
+@media(max-width:560px){.bar nav a:nth-child(-n+2){display:none}}
 h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.5vw,2.7rem);line-height:1.18;letter-spacing:-.015em;margin:0 0 1rem}
 h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:2.5rem 0 1rem}
 h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75rem}
@@ -139,8 +140,8 @@ display:flex;flex-direction:column;transition:border-color .3s}
 <body>
 <div class="wrap">
 <header class="bar">
-<a class="mark" href="/"><img src="/assets/brand/mark-128.webp" width="28" height="28" alt="" loading="lazy" decoding="async">lullable</a>
-<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a class="navbtn" href="/#signup">Join the waitlist</a></nav>
+<a class="mark" href="/"><img src="/assets/brand/mark.svg" width="38" height="19" alt="" decoding="async">lullable</a>
+<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a href="/chronotype/">Chronotype quiz</a><a class="navbtn" href="/#signup">Join the waitlist</a></nav>
 </header>
 <article>
 <div class="post-head"><p class="eyebrow">Lullable</p><h1>Terms of Service</h1><p class="post-meta">Last updated <time datetime="2026-08-12">August 12, 2026</time></p></div>
