@@ -12,7 +12,7 @@
   /* GA4. Paste the G-XXXXXXXXXX measurement id here and analytics starts on the
      next deploy — the Google tag below already loads, so this costs no extra
      request. Empty means "not installed yet", not "broken". */
-  var GA4_ID = "";
+  var GA4_ID = "G-3GV2X5BPB1";
 
   function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
