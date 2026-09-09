@@ -41,6 +41,9 @@ module.exports = async (req, res) => {
      mentions the address exists). Anything else is a real failure. */
   const dup = r.status === 409 || r.status === 422 || /already|exist|duplicate/i.test(said);
   if (!r.ok && !dup) {
+    /* Print the address too: while Sender is refusing, this log line is the
+       only record that someone tried to join, and they can be added by hand. */
+    console.error("subscribe LOST", email, "sender said", r.status);
     return res.status(502).json({ ok: false, error: "upstream", status: r.status });
   }
   return res.status(200).json({ ok: true });
