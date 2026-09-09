@@ -425,8 +425,11 @@ def story_cta(s):
             f'It lives in the Lullable app.</p>\n'
             f'<a href="{href}">{label}</a>\n</div>')
 
-def page(title, desc, canonical, body, extra_head=""):
+def page(title, desc, canonical, body, extra_head="", og_image=None):
     nav_href, nav_label = app_cta()
+    # One og:image only. Crawlers (WhatsApp, Facebook) take the FIRST tag, so a
+    # per-page card appended after the default was silently never shown.
+    og_image = og_image or f"{SITE}/og.png"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -442,7 +445,9 @@ def page(title, desc, canonical, body, extra_head=""):
 <meta property="og:site_name" content="{BRAND}">
 <meta property="og:locale" content="en_US">
 <meta property="og:description" content="{html.escape(desc)}">
-<meta property="og:image" content="{SITE}/og.png">
+<meta property="og:image" content="{og_image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="{BRAND} — The Sleep Library" href="{SITE}/rss.xml">
 <link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
@@ -745,7 +750,7 @@ cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.te
         (d / "index.html").write_text(page(
             f"I'm {art} {name}. What's your sleep chronotype?",
             f"{kind}: {line[0].upper() + line[1:]} Five questions, two minutes, no wrong answers.",
-            url, body, CHRONO_CSS + f'<meta property="og:image" content="{og}">\n'))
+            url, body, CHRONO_CSS, og_image=og))
         urls.append(url)
     print(f"built chronotype quiz + {len(CHRONO)} result pages -> chronotype/")
     return urls
@@ -852,7 +857,7 @@ def build():
             "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Stories", "item": f"{SITE}/stories/"},
                 {"@type": "ListItem", "position": 2, "name": s["title"], "item": url}]}]
-        head = jsonld(schemas) + f'<meta property="og:image" content="{og}">\n'
+        head = jsonld(schemas)
         chips = (f'<div class="chips"><span class="chip amber">▶ {s["mins"]} min</span>'
                  f'<span class="chip">{html.escape(s["genre"])}</span>'
                  f'<span class="chip">{html.escape(s["mood"])}</span>'
@@ -870,7 +875,7 @@ def build():
         body = (f"<article>\n{head_band}\n<div class=\"measure\">\n"
                 f"{md(s['body'])}\n{sample}\n{story_cta(s)}\n</div>\n{related_html(siblings + essays)}\n</article>")
         title = f"{s['title']} — a {s['mins']}-minute sleep story"
-        (out / "index.html").write_text(page(f"{title} — {BRAND}", s["blurb"], url, body, head))
+        (out / "index.html").write_text(page(f"{title} — {BRAND}", s["blurb"], url, body, head, og_image=og))
 
     # ---- hub pages (the facets)
     # Templated, and deliberately almost none. The risk here is not Google's
