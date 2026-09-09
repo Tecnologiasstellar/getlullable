@@ -36,8 +36,12 @@ module.exports = async (req, res) => {
      an email, the answer is always in this line: the subscriber's status. */
   const said = await r.text().catch(() => "");
   console.log("sender", r.status, said.slice(0, 400));
-  if (!r.ok && r.status !== 422) {
-    return res.status(502).json({ ok: false, error: "upstream" });
+  /* Already-on-the-list is a success for the person standing at the form, and
+     Sender has more than one way of saying it (422, 409, or a 400 whose body
+     mentions the address exists). Anything else is a real failure. */
+  const dup = r.status === 409 || r.status === 422 || /already|exist|duplicate/i.test(said);
+  if (!r.ok && !dup) {
+    return res.status(502).json({ ok: false, error: "upstream", status: r.status });
   }
   return res.status(200).json({ ok: true });
 };
