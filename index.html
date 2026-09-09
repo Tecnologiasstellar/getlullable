@@ -7,6 +7,7 @@
 <meta name="description" content="An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://getlullable.com/">
+<meta name="facebook-domain-verification" content="mbevkdbwvqfrs43v9zsiudcten36a0">
 
 <meta property="og:title" content="Lullable — bedtime stories for minds that won't switch off">
 <meta property="og:description" content="An iPhone sleep-stories app for curious, overactive minds. Fascinating truths, told so softly you fall asleep mid-sentence.">
@@ -1128,10 +1129,18 @@ form.addEventListener("submit", function(ev){
   btn.disabled = true; msg.className = "msg"; msg.textContent = "One moment.";
   /* where they came from, for the source field in Sender: ?ref=ph, ?ref=ig … */
   var source = (new URLSearchParams(location.search).get("ref") || "web").slice(0, 40);
+  /* One id, two paths: the browser pixel below and the server's Conversions API
+     call both send it, and Meta counts the lead once. */
+  var eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+              : String(Date.now()) + "-" + Math.random().toString(36).slice(2);
   fetch(SUBSCRIBE_URL, {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({email: value, source: source})
+    body: JSON.stringify({
+      email: value, source: source, event_id: eventId,
+      /* the server mirrors to Meta only if the visitor already said yes */
+      consent: !!(window.lullConsented && window.lullConsented())
+    })
   })
     .then(function(r){
       if(!r.ok) throw new Error(String(r.status));
@@ -1146,6 +1155,10 @@ form.addEventListener("submit", function(ev){
       track("signup", {email_domain: value.split("@")[1], source: source});
       /* Google Ads "Sign-up" conversion — AW-18423437610, defined in consent.js */
       if(window.lullConversion) window.lullConversion("AuWdCJnj0vEcEKqy_dBE");
+      /* Meta "Lead" — the only conversion Meta can optimise a campaign towards.
+         Same eventId the server sends, so the pair is deduplicated. */
+      if(window.lullMeta) window.lullMeta("Lead", {content_name: "Sunday letter", source: source}, eventId);
+      if(window.lullGa) window.lullGa("sign_up", {method: "newsletter", source: source});
     })
     .catch(function(){
       btn.disabled = false;

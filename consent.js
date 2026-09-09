@@ -9,6 +9,11 @@
 (function () {
   var KEY = "lull_consent";
 
+  /* GA4. Paste the G-XXXXXXXXXX measurement id here and analytics starts on the
+     next deploy — the Google tag below already loads, so this costs no extra
+     request. Empty means "not installed yet", not "broken". */
+  var GA4_ID = "";
+
   function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
 
@@ -36,6 +41,7 @@
     document.head.appendChild(gs);
     gtag('js', new Date());
     gtag('config', 'AW-18423437610');
+    if (GA4_ID) gtag('config', GA4_ID);
 
     /* TODO, in this order of appetite, and only here:
          - TikTok Pixel
@@ -50,6 +56,23 @@
   window.lullConversion = function (label) {
     if (loaded && window.gtag) gtag('event', 'conversion', {send_to: 'AW-18423437610/' + label});
   };
+
+  /* Meta standard events. eventId is the deduplication key shared with the
+     Conversions API call made by /api/subscribe — Meta keeps whichever of the
+     two arrives first and discards the twin, so a blocked browser still counts
+     and an unblocked one is never counted twice. */
+  window.lullMeta = function (name, params, eventId) {
+    if (loaded && window.fbq) fbq('track', name, params || {}, eventId ? {eventID: eventId} : undefined);
+  };
+
+  /* GA4 event. No-op while GA4_ID is empty. */
+  window.lullGa = function (name, params) {
+    if (loaded && GA4_ID && window.gtag) gtag('event', name, params || {});
+  };
+
+  /* Did the visitor say yes? /api/subscribe asks before it mirrors anything to
+     Meta server-side: the promise in /privacy/ covers our own server too. */
+  window.lullConsented = function () { return get() === "yes"; };
 
   function decline() {
     set("no");

@@ -29,5 +29,36 @@ const run = async (body, env, fetchImpl) => {
   });
   assert.equal(seen, "https://api.sender.net/v2/subscribers");
 
-  console.log("subscribe: 6 checks passed");
+  /* Conversions API. The consent gate is the check that must never regress:
+     /privacy/ promises nothing optional fires until the visitor says yes, and
+     that promise covers this server, not just the browser. */
+  const capiCalls = async (body, env) => {
+    const hit = [];
+    await run(body, { ...wired, ...env }, async (url, opts) => {
+      hit.push({ url, opts });
+      return { ok: true, status: 200, text: async () => "{}" };
+    });
+    return hit.filter((h) => String(h.url).includes("graph.facebook.com"));
+  };
+
+  assert.equal((await capiCalls({ email: "a@b.co", consent: true }, { META_CAPI_TOKEN: "" })).length, 0,
+    "no token, no Meta call");
+  assert.equal((await capiCalls({ email: "a@b.co", consent: false }, { META_CAPI_TOKEN: "t" })).length, 0,
+    "consent declined, no Meta call");
+  assert.equal((await capiCalls({ email: "a@b.co" }, { META_CAPI_TOKEN: "t" })).length, 0,
+    "consent absent, no Meta call");
+
+  const sent = await capiCalls({ email: "A@B.co", source: "fb", event_id: "e-1", consent: true },
+    { META_CAPI_TOKEN: "t" });
+  assert.equal(sent.length, 1, "consented signup mirrors to Meta");
+  const ev = JSON.parse(sent[0].opts.body).data[0];
+  assert.equal(ev.event_name, "Lead");
+  assert.equal(ev.event_id, "e-1", "dedup id survives to Meta");
+  assert.equal(ev.user_data.em[0],
+    require("crypto").createHash("sha256").update("a@b.co").digest("hex"),
+    "email is lowercased, trimmed and hashed - never sent in the clear");
+  assert.ok(!sent[0].opts.body.includes("A@B.co"), "raw address never leaves this server");
+  assert.equal((await run({ email: " a@b.co " }, wired)).code, 400, "whitespace address still rejected");
+
+  console.log("subscribe: 14 checks passed");
 })();
