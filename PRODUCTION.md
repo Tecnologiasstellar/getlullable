@@ -152,6 +152,20 @@ multi-word phrase broken by a line wrap slid straight past it ("it will help you
 better"). Markdown wraps at ~90 chars and every prohibited phrase is 2-5 words, so it was
 failing open on roughly half the copy it exists to stop. It now collapses whitespace first.
 
+**Posts ship direct to main; code does not (2026-09-10).** The daily post is the whole
+point of leaving the loop unattended, so `ship` pushes it straight to `main` and Vercel
+deploys it. Changes to `build.py` — the gates themselves — go through a pull request
+instead, even when the loop authored them. A gate that a human never saw change is a gate
+that stopped being a review. Same reasoning as everything above: the drafter must not be
+able to quietly widen its own permission to publish.
+
+```bash
+git checkout -b loop/<what-changed>
+# edit build.py, commit
+git push -u origin loop/<what-changed>
+gh pr create --fill
+```
+
 Rollback, if a post is wrong:
 
 ```bash
