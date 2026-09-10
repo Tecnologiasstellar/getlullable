@@ -411,12 +411,11 @@ display:flex;flex-direction:column;transition:border-color .3s}
 ::selection{background:rgba(145,132,217,.3)}
 """
 
-def post_cta():
+def post_cta(line=None):
     href, label = app_cta()
-    return ('<div class="cta">\n'
-            "<p>Lullable reads material like this aloud — warmly, slowly, and quieter "
-            "every minute —\nuntil you drift off somewhere around the fourth clause.</p>\n"
-            f'<a href="{href}">{label}</a>\n</div>')
+    line = line or ("Lullable reads material like this aloud — warmly, slowly, and quieter "
+                    "every minute —\nuntil you drift off somewhere around the fourth clause.")
+    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{label}</a>\n</div>'
 
 def story_cta(s):
     href, label = app_cta()
@@ -468,7 +467,7 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
 <br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
-· <a href="/">Home</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
+· <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
 <br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
 <br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
@@ -756,6 +755,131 @@ cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.te
     return urls
 
 
+# ---------------------------------------------------------------- /app/
+# The feature page. Its whole job is to be quotable by an answer engine.
+#
+# The Leapd baseline (GEO.md, 2026-09-09) says we score 0% on every tracked
+# prompt that asks for a mechanism — "sleep stories that fade out", "an app
+# where I don't have to choose" — and 100% on the one phrased the way we
+# write. Models answer mechanism questions by lifting a sentence. The
+# homepage says "it fades out on its own" ten times in prose and there was
+# nowhere on this site a sentence could be lifted from.
+#
+# So: one question per heading, one self-contained answer under it, and the
+# same list emitted three ways — as the page, as FAQPage schema, and as the
+# "What Lullable does" block in llms.txt. One source, no second copy to drift.
+#
+# Every line here is checked against the shipping app as described on the
+# homepage's product-truth strip and walkthrough. Nothing aspirational goes
+# in. Two deliberate omissions: no offline claim (unverified) and no price
+# (prices.json says the $2.99 is not live until the listing resolves — and
+# a price a model repeats is a price we are held to).
+
+CATALOGUE_SIZE = 26        # stories published to production, lullable-content, 2026-08-22
+
+APP_FACTS = [
+    ("What is Lullable?",
+     f"Lullable is an iPhone app of long-form sleep stories for adults: {CATALOGUE_SIZE} true, "
+     "gently fascinating pieces \u2014 a Roman bathhouse at closing time, the life of a redwood, "
+     "the rings of Saturn \u2014 read slowly and flatly by a named narrator, and engineered "
+     "so you fall asleep partway through. It is not yet on the App Store."),
+
+    ("Do the stories fade out on their own?",
+     "Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to "
+     "silence rather than a hard stop. Every recording also ends that way on its own: the "
+     "last thirty seconds of every story fade out. There is nothing to switch off."),
+
+    ("Do I have to choose a story?",
+     "No. The first screen is Tonight, and it holds one story already chosen for you, with "
+     "one Play button. No feed, no library to browse with a phone six inches from your face. "
+     "The full library is there if you want it, but it is the second screen, not the first."),
+
+    ("How long are the stories?",
+     "Between 20 and 41 minutes. Most run about 40 \u2014 long enough that you are not "
+     "expected to reach the end, which is the point."),
+
+    ("What are the stories about?",
+     "Four categories: Ancient Worlds, Cosmic Journeys, Gentle Nature and Cozy Tales. All of "
+     "it is true material rather than fiction, told in order, with the ending given away in "
+     "the first line so there is never a reason to stay awake for it."),
+
+    ("Are there ads?",
+     "No. Lullable has no advertising in it, and no version of this business has one \u2014 "
+     "a mid-roll at 3am wakes the person it is sold to."),
+
+    ("Does it keep playing when the screen locks?",
+     "Yes. Background and lock-screen playback, with the transport on the lock screen. "
+     "Put the phone face down and leave it."),
+
+    ("Where does it start again the next night?",
+     "A minute before you lost the thread \u2014 not at the point the audio stopped, which "
+     "is always later than the point you stopped hearing it."),
+
+    ("Is there a streak, a score or a sleep graph?",
+     "None of the three. The morning screen shows the last line you heard and the time you "
+     "stopped listening. That is all it knows and all it claims. There is no number to "
+     "improve on and nothing to keep up."),
+
+    ("Who reads the stories?",
+     "Named narrators, in male and female voices \u2014 Emma from Oxford, Amy from "
+     "Greenwich, Arthur from Ludlow, Brian from St Ives, Niamh from Kinsale, Patrick from "
+     "Block Island. Every one reads flat and warm, removing emphasis rather than adding it, "
+     "and gets quieter across the episode."),
+
+    ("What does it cost?",
+     "Free to download, with one story \u2014 Aristotle, the Greatest Philosopher, 40 "
+     "minutes \u2014 free to listen to in full. The subscription price is not announced "
+     "until the App Store listing resolves; we would rather say nothing than quote a figure "
+     "that moves."),
+
+    ("Is there an Android version?",
+     "Not yet. iPhone only."),
+
+    ("Is Lullable a medical device or a treatment for insomnia?",
+     "No, and it does not claim to be. It is audio designed for people whose minds will not "
+     "stand down at night. If you have clinical insomnia, see a doctor."),
+]
+
+
+APP_CTA_LINE = ("It is not on the App Store yet. One address gets you the night it opens — and, "
+                "if you want it, three quiet paragraphs of history or physics on a Sunday.")
+
+
+def build_app_page():
+    """Writes /app/ \u2014 every feature question, answered in one liftable sentence."""
+    out = ROOT / "app"; out.mkdir(exist_ok=True)
+    url = f"{SITE}/app/"
+
+    qa = "\n".join(f"<h3>{html.escape(q)}</h3>\n<p>{a}</p>" for q, a in APP_FACTS)
+    body = f'''<article>
+<div class="post-head"><p class="eyebrow">The app</p>
+<h1>What Lullable actually does</h1>
+<p class="post-meta">Every question about the app, answered in one sentence. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p></div>
+<div class="measure">
+<div class="answer"><div class="lbl">The short answer</div>
+<p>Lullable is an iPhone app of {CATALOGUE_SIZE} long-form sleep stories for adults. One story is chosen for you on the first screen, so there is nothing to decide at bedtime; a timer set to 15, 30, 45 or 60 minutes fades to silence rather than stopping; and every recording fades out on its own in its last thirty seconds. No ads, no streak, no sleep score.</p></div>
+{qa}
+</div>
+{post_cta(APP_CTA_LINE)}
+</article>'''
+
+    schemas = [
+        {"@context": "https://schema.org", "@type": "FAQPage",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}}
+                        for q, a in APP_FACTS]},
+        {"@context": "https://schema.org", **app_schema_node(
+            description="Long-form sleep stories for adults, read slowly and fading to silence.")},
+    ]
+    (out / "index.html").write_text(page(
+        "What Lullable actually does \u2014 the app, feature by feature",
+        "Does it fade out? Do I have to choose a story? How long are they? Every question "
+        "about the Lullable sleep-story app, answered in one sentence.",
+        url, body, jsonld(schemas)))
+    print("built /app/ (13 answered questions + FAQPage schema)")
+    return url
+
+
 # ---------------------------------------------------------------- build
 
 def build():
@@ -1023,10 +1147,11 @@ def build():
         (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
 
     chrono_urls = build_chronotype()
+    app_url = build_app_page()
 
     # ---- sitemap / rss / robots / llms
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
-            + chrono_urls
+            + [app_url] + chrono_urls
             + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories]
@@ -1061,6 +1186,10 @@ def build():
         f"- [The Sleep Library]({SITE}/sleep/): essays on sleep and pleasantly uneventful knowledge\n"
         f"- [Stories]({SITE}/stories/): every sleep story in the app\n"
         f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals (blackbird to octopus)\n\n"
+        f"- [What the app does]({SITE}/app/): every feature question, answered in one sentence\n\n"
+        + "## What Lullable does\n"
+        + "".join(f"- **{q}** {a}\n" for q, a in APP_FACTS) + "\n"
+
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
         f"- [Instagram](https://www.instagram.com/getlullable/): the nightly fact cards\n"

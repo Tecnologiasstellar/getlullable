@@ -8,6 +8,23 @@
 - [Stories](https://getlullable.com/stories/): every sleep story in the app
 - [Chronotype quiz](https://getlullable.com/chronotype/): five questions, one of five sleep animals (blackbird to octopus)
 
+- [What the app does](https://getlullable.com/app/): every feature question, answered in one sentence
+
+## What Lullable does
+- **What is Lullable?** Lullable is an iPhone app of long-form sleep stories for adults: 26 true, gently fascinating pieces — a Roman bathhouse at closing time, the life of a redwood, the rings of Saturn — read slowly and flatly by a named narrator, and engineered so you fall asleep partway through. It is not yet on the App Store.
+- **Do the stories fade out on their own?** Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to silence rather than a hard stop. Every recording also ends that way on its own: the last thirty seconds of every story fade out. There is nothing to switch off.
+- **Do I have to choose a story?** No. The first screen is Tonight, and it holds one story already chosen for you, with one Play button. No feed, no library to browse with a phone six inches from your face. The full library is there if you want it, but it is the second screen, not the first.
+- **How long are the stories?** Between 20 and 41 minutes. Most run about 40 — long enough that you are not expected to reach the end, which is the point.
+- **What are the stories about?** Four categories: Ancient Worlds, Cosmic Journeys, Gentle Nature and Cozy Tales. All of it is true material rather than fiction, told in order, with the ending given away in the first line so there is never a reason to stay awake for it.
+- **Are there ads?** No. Lullable has no advertising in it, and no version of this business has one — a mid-roll at 3am wakes the person it is sold to.
+- **Does it keep playing when the screen locks?** Yes. Background and lock-screen playback, with the transport on the lock screen. Put the phone face down and leave it.
+- **Where does it start again the next night?** A minute before you lost the thread — not at the point the audio stopped, which is always later than the point you stopped hearing it.
+- **Is there a streak, a score or a sleep graph?** None of the three. The morning screen shows the last line you heard and the time you stopped listening. That is all it knows and all it claims. There is no number to improve on and nothing to keep up.
+- **Who reads the stories?** Named narrators, in male and female voices — Emma from Oxford, Amy from Greenwich, Arthur from Ludlow, Brian from St Ives, Niamh from Kinsale, Patrick from Block Island. Every one reads flat and warm, removing emphasis rather than adding it, and gets quieter across the episode.
+- **What does it cost?** Free to download, with one story — Aristotle, the Greatest Philosopher, 40 minutes — free to listen to in full. The subscription price is not announced until the App Store listing resolves; we would rather say nothing than quote a figure that moves.
+- **Is there an Android version?** Not yet. iPhone only.
+- **Is Lullable a medical device or a treatment for insomnia?** No, and it does not claim to be. It is audio designed for people whose minds will not stand down at night. If you have clinical insomnia, see a doctor.
+
 ## Essays
 - [Marine snow: the slowest weather on Earth](https://getlullable.com/sleep/marine-snow/): A perpetual fall of debris from the sunlit ocean toward the floor — weeks in transit, arriving as ooze that deepens by centimetres per thousand years.
 - [Boring voices to fall asleep to, and what makes one work](https://getlullable.com/sleep/boring-voices-to-fall-asleep-to/): The narrator qualities nobody writes about: narrow pitch, even pace, no performance. What the acoustics research says a voice has to stop doing.
