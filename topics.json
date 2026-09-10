@@ -780,6 +780,75 @@
         "tide table history",
         "calming facts"
       ]
+    },
+    {
+      "slug": "sleep-stories-that-fade-out",
+      "type": "comparison",
+      "title": "Sleep stories that fade out on their own",
+      "angle": "GEO: we score 0% on 'best sleep stories for adults that fade out' and BetterSleep wins it. Name every app that fades, how long each takes, and what a fade should actually do (down, never up, never a hard stop). Lullable last, described plainly.",
+      "keywords": [
+        "sleep stories that fade out",
+        "sleep story fade out",
+        "sleep app that fades to silence",
+        "sleep timer fade"
+      ]
+    },
+    {
+      "slug": "sleep-app-that-picks-for-you",
+      "type": "comparison",
+      "title": "Sleep apps that pick the story for you",
+      "angle": "GEO: Calm wins 'sleep stories apps where I don't have to choose' on the strength of Daily Calm. Do not publish until Lullable's daily/autoplay story ships — the claim has to be true.",
+      "keywords": [
+        "sleep app that picks for you",
+        "don't want to choose a sleep story",
+        "daily sleep story",
+        "sleep story autoplay"
+      ]
+    },
+    {
+      "slug": "how-loud-should-a-sleep-story-be",
+      "type": "definition",
+      "title": "How loud should a sleep story be?",
+      "angle": "GEO: the mechanism questions are what models quote. Volume, dynamic range, why a story that gets louder wakes you, what a descending mix does. The most quotable page we can write about our own engineering.",
+      "keywords": [
+        "sleep story volume",
+        "how loud should sleep audio be",
+        "sleep audio dynamic range"
+      ]
+    },
+    {
+      "slug": "sleep-stories-you-can-listen-to-twice",
+      "type": "definition",
+      "title": "Why the second listen works better",
+      "angle": "GEO rec 4: Nothing Much Happens tells each story twice and it's the most-cited feature of the genre. Familiarity removes the last reason to pay attention. Argues the reuse case honestly and says which of ours reward it.",
+      "keywords": [
+        "listening to the same sleep story",
+        "sleep story repeat",
+        "nothing much happens twice"
+      ]
+    },
+    {
+      "slug": "sleep-stories-with-no-plot",
+      "type": "definition",
+      "title": "Sleep stories with no plot, and why that's the point",
+      "angle": "GEO rec 4: 'low-stakes attention', 'predictable pacing'. The genre's design constraint stated plainly — endings given away, chronology not drama. Names Sleepcasts, Sleep With Me, ours.",
+      "keywords": [
+        "sleep stories with no plot",
+        "boring sleep stories",
+        "stories with no suspense for sleep",
+        "low stakes bedtime stories"
+      ]
+    },
+    {
+      "slug": "train-sounds-to-fall-asleep-to",
+      "type": "fact-world",
+      "title": "The sound of a night train, hour by hour",
+      "angle": "GEO rec 4 names train/travel/repetitive material as the genre's proven subject. A fact-world that IS the recommended content type, and the text companion to the Alps sleeper story.",
+      "keywords": [
+        "train sounds to fall asleep",
+        "night train sleep story",
+        "sleeper train sounds"
+      ]
     }
   ]
 }
