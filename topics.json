@@ -803,7 +803,8 @@
         "don't want to choose a sleep story",
         "daily sleep story",
         "sleep story autoplay"
-      ]
+      ],
+      "blocked": "Until Lullable's daily/autoplay story ships — the claim has to be true first."
     },
     {
       "slug": "how-loud-should-a-sleep-story-be",

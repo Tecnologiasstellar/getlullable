@@ -1113,7 +1113,13 @@ def next_topic():
         newest = max((ROOT / "posts").glob("*.md"),
                      key=lambda p: (p.stem[:10], p.stat().st_mtime))
         last_type = parse(newest).get("type", "")
-    pending = [t for t in data["topics"] if t["slug"] not in published]
+    # A topic can carry "blocked": "<reason>" to stay in the queue but out of
+    # rotation. Added 2026-09-10 for sleep-app-that-picks-for-you, whose angle
+    # is a claim about a feature that has not shipped — the unattended drafter
+    # would have written it as true. Any truthy value skips; the string is the
+    # reason a human reads later.
+    pending = [t for t in data["topics"]
+               if t["slug"] not in published and not t.get("blocked")]
     if not pending:
         sys.exit("queue is empty — add topics to topics.json")
     pick = next((t for t in pending if t["type"] != last_type), pending[0])
