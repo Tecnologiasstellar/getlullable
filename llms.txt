@@ -26,6 +26,7 @@
 - **Is Lullable a medical device or a treatment for insomnia?** No, and it does not claim to be. It is audio designed for people whose minds will not stand down at night. If you have clinical insomnia, see a doctor.
 
 ## Essays
+- [How Lullable is made: where the facts come from, and how the voice is produced](https://getlullable.com/sleep/how-lullable-is-made/): The narration is synthesised, the material is true, and the build refuses to publish a figure without two sources. The whole pipeline, stated plainly.
 - [Marine snow: the slowest weather on Earth](https://getlullable.com/sleep/marine-snow/): A perpetual fall of debris from the sunlit ocean toward the floor — weeks in transit, arriving as ooze that deepens by centimetres per thousand years.
 - [Boring voices to fall asleep to, and what makes one work](https://getlullable.com/sleep/boring-voices-to-fall-asleep-to/): The narrator qualities nobody writes about: narrow pitch, even pace, no performance. What the acoustics research says a voice has to stop doing.
 - [Sleep stories without ads, and why a mid-roll at 3am is the whole problem](https://getlullable.com/sleep/sleep-stories-without-ads/): Almost everything written for this search is a children's app. Why an ad at 3am is structural rather than annoying, and what paying actually buys.
