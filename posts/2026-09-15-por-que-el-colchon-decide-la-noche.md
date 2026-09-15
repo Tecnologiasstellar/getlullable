@@ -63,7 +63,7 @@ apoyada cuando estás boca arriba.
 
 Si por la mañana te duele la zona lumbar, o llevas años en la misma superficie y
 notas un valle donde duermes, ese es el problema físico y ningún audio lo arregla.
-[Simple](https://simple.mx/products/colchon) arma en México un colchón de espuma
+[Simple](https://simple.mx/product/premium-memory-foam-mattress) arma en México un colchón de espuma
 multicapa con memory foam con gel arriba y soporte de alta densidad abajo, firmeza
 media-firme, con 101 noches de prueba y 10 años de garantía —que es, honestamente,
 la parte que más dice de un fabricante: cuánto tiempo está dispuesto a responder por
