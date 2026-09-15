@@ -102,6 +102,8 @@ def md(body):
             if lines[1:]: out.append(f"<p>{inline(' '.join(lines[1:]))}</p>")
         elif all(l.startswith("- ") for l in lines):
             out.append("<ul>" + "".join(f"<li>{inline(l[2:])}</li>" for l in lines) + "</ul>")
+        elif all(re.match(r"\d+\. ", l) for l in lines):
+            out.append("<ol>" + "".join(f"<li>{inline(l.split('. ', 1)[1])}</li>" for l in lines) + "</ol>")
         elif all(l.startswith("> ") for l in lines):
             out.append(f"<blockquote>{inline(' '.join(l[2:] for l in lines))}</blockquote>")
         else:
@@ -348,11 +350,15 @@ h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75r
 .eyebrow{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
 .post-meta{font-size:.82rem;color:var(--dimmer)}
 .post-meta b{color:var(--dim);font-weight:400}
+/* a pitch page's sub-headline: readable, not a document's date line */
+.post-meta.tagline{font-family:var(--serif);font-size:1.08rem;line-height:1.55;color:var(--dim);max-width:32rem;margin-inline:auto}
 .meta{font:500 .75rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
 article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
 article strong{color:var(--text);font-weight:400;font-style:italic}
 article a{color:var(--text)}
-article ul{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ul,article ol{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ol li{padding-left:.25rem;margin-bottom:.4rem}
+article ol li::marker{color:var(--iris-dim);font-family:var(--sans);font-size:.9rem}
 article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
 font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
 /* the short answer — the block AI assistants and skimmers both take */
@@ -370,8 +376,16 @@ padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,
 /* The one filled button, spent on the one action a story page wants. */
 .cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
 border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
-font-size:1rem;font-weight:500;transition:background .18s ease}
+font-size:1rem;font-weight:500;transition:background .18s ease,transform .1s ease-out}
 .cta a:hover{background:#F5F0E6}
+/* Feedback lives on the press, and it is instant — not on release. */
+.cta a:active{transform:scale(.97)}
+/* The page-top CTA: just the button under the headline, no card. The card is
+   for the end of the page, where a box earns its keep by stopping the scroll. */
+.cta-top{background:none;border:0;box-shadow:none;padding:0;margin:0 0 2.75rem}
+.cta-note{font:400 .85rem/1.5 var(--sans);color:var(--dimmer);margin:.9rem 0 0}
+.cta .cta-note{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* related content as cards; stories carry the app's gradient covers */
 .sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
 .sources .lbl{font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
@@ -1322,11 +1336,24 @@ def build():
         url = f"{SITE}/{l['slug']}/"
         out = ROOT / l["slug"]
         out.mkdir(exist_ok=True)
+        # A page with a `tagline:` is a pitch, not a document: the sub-headline
+        # replaces "Last updated". `cta:` + `cta_href:` put the one action under
+        # the headline and again at the end, so it is the most obvious thing on
+        # the page at both places a reader decides.
+        meta_line = (html.escape(l["tagline"]) if l.get("tagline") else
+                     f'Last updated <time datetime="{l["updated"]}">{pretty(l["updated"])}</time>')
         head_band = (f'<div class="post-head"><p class="eyebrow">{BRAND}</p>'
                      f"<h1>{html.escape(l['title'])}</h1>"
-                     f'<p class="post-meta">Last updated <time datetime="{l["updated"]}">'
-                     f'{pretty(l["updated"])}</time></p></div>')
-        body = f'<article>\n{head_band}\n<div class="measure">\n{md(l["body"])}\n</div>\n</article>'
+                     f'<p class="post-meta{" tagline" if l.get("tagline") else ""}">{meta_line}</p></div>')
+        cta_top = cta_end = ""
+        if l.get("cta") and l.get("cta_href"):
+            button = (f'<a href="{html.escape(l["cta_href"], quote=True)}">{html.escape(l["cta"])}</a>')
+            note = f'<p class="cta-note">{inline(l["cta_note"])}</p>' if l.get("cta_note") else ""
+            cta_top = f'<div class="cta cta-top">{button}{note}</div>\n'
+            cta_end = f'<div class="cta">{button}{note}</div>\n'
+        text = l["body"].replace("{{launch}}", launch_copy())
+        body = (f'<article>\n{head_band}\n{cta_top}<div class="measure">\n{md(text)}\n'
+                f'{cta_end}</div>\n</article>')
         (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
 
     chrono_urls = build_chronotype()
@@ -1654,6 +1681,30 @@ def go_rules():
     return [store, home]
 
 
+def launch_copy():
+    """The one paragraph on /creators/ that depends on launch state, written for
+    all three states here so the page can never say the app is in the App Store
+    while golive still refuses, and never say "not yet" after it has run. The
+    markdown carries a {{launch}} token; the build substitutes the truth."""
+    url, _ = app_cta()
+    if not url.startswith("https://apps.apple.com"):
+        return ("The app is not in the App Store yet. Your link works today: it sends people to "
+                "the waitlist, tagged with your code, and we will tell you how many signed up "
+                "(reported, not paid). Once the listing is live and Apple has issued our campaign "
+                "tag — a day or two after launch — the same link sends iPhones straight to the "
+                "App Store with your tag. We email you the day it starts counting; hold your push "
+                "until then. Everyone you sent to the waitlist gets the launch email with your "
+                "link that same day. Nothing about your link changes.")
+    if not APPLE_PT:
+        return ("The app is on the App Store. Your link sends iPhones straight to the listing and "
+                "everyone else to our site. Apple issues our campaign tag a day or two after launch, "
+                "and downloads made before it exists cannot be tied to a code — so wait for our "
+                "email confirming your link is tagged before you push. Then go.")
+    return ("The app is on the App Store. Your link sends iPhones straight to the listing with "
+            "your tag attached, and everyone else to our site. Apple counts first-time downloads "
+            "per tag from the moment of the tap; there is nothing to wait for.")
+
+
 def sync_go_rules():
     """Keep vercel.json's /go/ redirects in step with the launch state, the way
     every generated page reads app_cta(): one constant, no second copy."""
@@ -1882,7 +1933,7 @@ def cmd_golive(force=False):
     print("  2. Launch email button: https://getlullable.com/go/{{ source | default: \"waitlist\" }}")
     print("     (Sender Liquid tag). Test-send once. Apple only credits downloads within 24h")
     print("     of the tap, so this is how pre-launch audiences get credited to their creator.")
-    print("  3. legal/creators.md: delete the 'Before the app launches' section.")
+    print("  /creators/ rewrites its own launch paragraph on each build (launch_copy()).")
     # The listing going live is also the moment Apple Search Ads becomes usable.
     # You cannot advertise — or read Search Popularity for — an app that is not
     # live, which is why the account opened on 2026-09-01 had nothing to select.
