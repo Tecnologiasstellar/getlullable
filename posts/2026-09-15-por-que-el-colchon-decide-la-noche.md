@@ -81,6 +81,10 @@ escritas para que las abandones, con el final regalado en el primer minuto para 
 haya ninguna razón para quedarte. No es un tratamiento y no promete nada sobre tu
 noche; un insomnio persistente merece un clínico, no una lista de reproducción.
 
+Simple publicó la contraparte de este ensayo desde su lado del problema —[por qué una
+historia para dormir funciona cuando un podcast no](https://simple.mx/blogs/salud-del-sueno/historias-para-dormir-para-adultos)—
+y es el mismo argumento visto desde la otra orilla.
+
 Ninguna de las dos cosas sustituye a la otra. Arregla la superficie y la cabeza sigue
 hablando. Calla la cabeza y la cadera sigue hundiéndose. Lo raro es que casi siempre
 se intenta una sola.
