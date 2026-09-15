@@ -112,6 +112,9 @@ thing to check each month instead of nineteen chances for a silent cron to fail.
 
 ## Loop 4 — creator payouts, monthly
 
+The whole process — approval, attribution, launch day, edge cases — is `CREATORS.md`.
+The ritual, kept here so the loops read in one place:
+
 The creator program ([/creators/](https://getlullable.com/creators/), terms at
 [/creator-terms/](https://getlullable.com/creator-terms/)) has no software of its own.
 Each creator has one link, `getlullable.com/go/<code>`, which `vercel.json` redirects
