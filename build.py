@@ -918,11 +918,11 @@ FAQ_FACTS = [
     ("How much does Lullable cost?",
      "The app is free to download, and one full story — Aristotle, the Greatest "
      "Philosopher, 40 minutes — is free to listen to end to end, so you can test the "
-     "voice on your own pillow before paying anything. The subscription price is announced "
-     "when the App Store listing goes live, and it will sit well under what this category "
-     "charges: Calm is $14.99 a month and Headspace is $12.99 a month on the US App Store "
-     "(both read at the source on September 7, 2026). We would rather say nothing than quote "
-     "a figure that moves."),
+     "voice on your own pillow before paying anything. The subscription price is not "
+     "announced until the App Store listing resolves; we would rather say nothing than "
+     "quote a figure that moves. For what the category charges today: Calm is $14.99 a "
+     "month and Headspace is $12.99 a month on the US App Store, both read at the source "
+     "on September 7, 2026."),
 
     ("Is a sleep-story app worth paying for?",
      "Test it before you decide, which is why the free story is not a trailer: same length, "
