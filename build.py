@@ -467,7 +467,7 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 {body}
 <footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
 <br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
-· <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
+· <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/faq/">FAQ</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
 <br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
 <br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
@@ -880,6 +880,147 @@ def build_app_page():
     return url
 
 
+# ---------------------------------------------------------------- /faq/
+# The second quotable page. /app/ answers *feature* questions ("does it fade
+# out?") for someone already looking at the app. This one answers the
+# questions a stranger types at 1am — how it works, whether it is worth
+# paying for, how it differs from Calm, from a podcast, from rain sounds.
+#
+# Different job, so a different page: overlapping FAQPage blocks on one
+# domain compete with each other. Nothing here repeats a question from
+# APP_FACTS; when a reader wants the feature detail, we link to /app/.
+#
+# Rules that apply to every answer below:
+#   - It must stand alone out of context. A model lifts one <p>, not a page.
+#   - Mechanism, never outcome. The claim gate in this file bans "fall asleep
+#     faster" and its family for good reason; the honest version of our
+#     pitch is how the thing is built, not what it will do to you.
+#   - Any competitor price comes from prices.json with its source and date.
+
+FAQ_FACTS = [
+    ("How does Lullable work?",
+     "You press play once. A named narrator reads you a true story — the life of a "
+     "redwood, a Roman bathhouse at closing time, the rings of Saturn — slowly, flatly, "
+     "and a little quieter every minute. Somewhere in the middle you stop following it. The "
+     "story carries on without you and fades to silence on its own. In the morning the app "
+     "shows the last line you heard and the time you stopped, and the next night it starts "
+     "again a minute before that. There is nothing to set up, nothing to score and nothing "
+     "to finish."),
+
+    ("Why does a story quiet a racing mind when lying still doesn’t?",
+     "Because a mind that will not stop can be occupied more easily than it can be emptied. "
+     "Lying in the dark gives your attention nothing to hold, so it returns to the email, the "
+     "mortgage, the thing you said in 2011. A true story told in order, at a flat pitch, with "
+     "no jeopardy and the ending given away in the first line, gives attention somewhere dull "
+     "to rest. That is the entire design of the app. It is a mechanism, not a promise — "
+     "sleep is not a thing software can hand you."),
+
+    ("How much does Lullable cost?",
+     "The app is free to download, and one full story — Aristotle, the Greatest "
+     "Philosopher, 40 minutes — is free to listen to end to end, so you can test the "
+     "voice on your own pillow before paying anything. The subscription price is announced "
+     "when the App Store listing goes live, and it will sit well under what this category "
+     "charges: Calm is $14.99 a month and Headspace is $12.99 a month on the US App Store "
+     "(both read at the source on September 7, 2026). We would rather say nothing than quote "
+     "a figure that moves."),
+
+    ("Is a sleep-story app worth paying for?",
+     "Test it before you decide, which is why the free story is not a trailer: same length, "
+     "same narrator, same fade as the paid ones. A week of it tells you more than any review. "
+     "What a subscription adds is the rest of the catalogue — 26 stories, a new one most "
+     "weeks — and an app with no advertising in it, which matters more at 1am than "
+     "anywhere else, because a mid-roll wakes precisely the person it was sold to. Set the "
+     "monthly figure against the forty minutes a night you already spend on the phone "
+     "instead, and decide from there."),
+
+    ("How is Lullable different from Calm or Headspace?",
+     "Calm and Headspace are broad wellness apps — meditation, breathwork, music, "
+     "courses, celebrity readings, with a sleep section among them. Lullable does one thing: "
+     "long-form true stories for adults, read to be slept through. No meditation, no "
+     "breathing exercises, no streak, no sleep score, no feed to scroll at bedtime. Their "
+     "sleep content is largely fiction and guided relaxation; ours is real material, told in "
+     "order. They cost $14.99 and $12.99 a month respectively on the US App Store (checked "
+     "September 7, 2026); Lullable is free to download with one story free in full."),
+
+    ("Why not just put on a podcast or an audiobook?",
+     "Because both are built to keep you listening, and at midnight that is the wrong goal. A "
+     "podcast has two people interrupting each other, laughter, a level jump into an ad read, "
+     "and a host whose job is to bring you back next week. An audiobook has a plot that "
+     "punishes you for drifting. Lullable is engineered the other way: one voice, no second "
+     "speaker, no jeopardy, the level dropping across the episode, and a last thirty seconds "
+     "that fade to silence. Anything made to hold attention is the wrong tool for losing it."),
+
+    ("Is a sleep story better than white noise or rain sounds?",
+     "It is a different job, and which one fits depends on what is keeping you up. Noise masks "
+     "the room — traffic, a partner, a thin wall — but it gives a busy mind nothing "
+     "to do, which is why some people lie there listening to rain and thinking anyway. A story "
+     "occupies the part of the mind that is narrating. If the problem is the street outside, "
+     "use white noise. If the problem is your own commentary, a story is the better tool, and "
+     "there is nothing stopping you running both."),
+
+    ("Will it work if meditation has never worked for me?",
+     "That is exactly who it is built for. Meditation asks you to empty your mind and to "
+     "notice, without judgement, each time it wanders — which, to a mind already racing, "
+     "is one more task to be bad at, at midnight. Lullable asks nothing of you. You press play "
+     "and somebody explains how a cathedral was built. There is no practice to fail at, no "
+     "breath to count, no wandering to catch."),
+
+    ("Do I actually learn anything if I sleep through it?",
+     "You keep whatever you were awake for, which is usually the first ten minutes, and the "
+     "morning screen shows you the last line you heard so that part is not lost. This is the "
+     "point of the category: everything in Lullable is true — marine snow, the standard "
+     "railway gauge, the weather at the bottom of the sea — so the stretch you stay "
+     "awake for is worth having, and the stretch you sleep through is not a plot you now have "
+     "to go back for."),
+
+    ("Who is Lullable for, and who is it not for?",
+     "It is for adults who cannot switch off at night: overthinkers, 3am wakers, people who "
+     "have tried a meditation app and bounced off it, people who used to fall asleep to "
+     "documentaries. It is written for grown-up attention — no fairytales, no baby "
+     "voices. It is not a children’s app, not a medical device and not a treatment for "
+     "insomnia, and it does not claim to be one. If you have clinical insomnia, see a doctor."),
+]
+
+FAQ_CTA_LINE = ("Lullable is not on the App Store yet. One address gets you the night it opens — "
+                "and, if you want it, three quiet paragraphs of history or physics on a Sunday.")
+
+
+def build_faq_page():
+    """Writes /faq/ — the ten questions a stranger asks, each answered standalone."""
+    out = ROOT / "faq"; out.mkdir(exist_ok=True)
+    url = f"{SITE}/faq/"
+
+    qa = "\n".join(f"<h2>{html.escape(q)}</h2>\n<p>{a}</p>" for q, a in FAQ_FACTS)
+    body = f'''<article>
+<div class="post-head"><p class="eyebrow">Questions</p>
+<h1>Lullable, answered</h1>
+<p class="post-meta">Ten questions about the app, each answered on its own. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p></div>
+<div class="measure">
+<div class="answer"><div class="lbl">The short answer</div>
+<p>Lullable is an iPhone app of {CATALOGUE_SIZE} long-form true stories for adults, read slowly and flatly and engineered to be slept through rather than finished. One story is already chosen for you when you open it, every recording fades to silence on its own, and the morning screen shows the last line you heard. It is free to download with one 40-minute story free in full. It is not a medical device.</p></div>
+{qa}
+<p class="post-meta">Looking for the feature detail — timer lengths, narrators, offline, lock screen? That is all on <a href="/app/">what the app actually does</a>.</p>
+</div>
+{post_cta(FAQ_CTA_LINE)}
+</article>'''
+
+    schemas = [
+        {"@context": "https://schema.org", "@type": "FAQPage",
+         "mainEntity": [{"@type": "Question", "name": q,
+                         "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}}
+                        for q, a in FAQ_FACTS]},
+        {"@context": "https://schema.org", **app_schema_node(
+            description="Long-form true sleep stories for adults, read slowly and fading to silence.")},
+    ]
+    (out / "index.html").write_text(page(
+        "Lullable FAQ — how the sleep-story app works, and what it costs",
+        "How does Lullable work? Why does a story quiet a racing mind? What does it cost, and "
+        "how is it different from Calm, a podcast or rain sounds? Ten questions, answered.",
+        url, body, jsonld(schemas)))
+    print(f"built /faq/ ({len(FAQ_FACTS)} answered questions + FAQPage schema)")
+    return url
+
+
 # ---------------------------------------------------------------- build
 
 def build():
@@ -1148,10 +1289,11 @@ def build():
 
     chrono_urls = build_chronotype()
     app_url = build_app_page()
+    faq_url = build_faq_page()
 
     # ---- sitemap / rss / robots / llms
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
-            + [app_url] + chrono_urls
+            + [app_url, faq_url] + chrono_urls
             + [f"{SITE}/{l['slug']}/" for l in legal]
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories]
@@ -1187,8 +1329,12 @@ def build():
         f"- [Stories]({SITE}/stories/): every sleep story in the app\n"
         f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals (blackbird to octopus)\n\n"
         f"- [What the app does]({SITE}/app/): every feature question, answered in one sentence\n\n"
+        f"- [FAQ]({SITE}/faq/): how it works, what it costs, and how it differs from Calm, podcasts and white noise\n\n"
         + "## What Lullable does\n"
         + "".join(f"- **{q}** {a}\n" for q, a in APP_FACTS) + "\n"
+
+        + "## Common questions\n"
+        + "".join(f"- **{q}** {a}\n" for q, a in FAQ_FACTS) + "\n"
 
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
