@@ -97,11 +97,15 @@ h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75r
 .eyebrow{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
 .post-meta{font-size:.82rem;color:var(--dimmer)}
 .post-meta b{color:var(--dim);font-weight:400}
+/* a pitch page's sub-headline: readable, not a document's date line */
+.post-meta.tagline{font-family:var(--serif);font-size:1.08rem;line-height:1.55;color:var(--dim);max-width:32rem;margin-inline:auto}
 .meta{font:500 .75rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
 article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
 article strong{color:var(--text);font-weight:400;font-style:italic}
 article a{color:var(--text)}
-article ul{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ul,article ol{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ol li{padding-left:.25rem;margin-bottom:.4rem}
+article ol li::marker{color:var(--iris-dim);font-family:var(--sans);font-size:.9rem}
 article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
 font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
 /* the short answer — the block AI assistants and skimmers both take */
@@ -119,8 +123,16 @@ padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,
 /* The one filled button, spent on the one action a story page wants. */
 .cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
 border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
-font-size:1rem;font-weight:500;transition:background .18s ease}
+font-size:1rem;font-weight:500;transition:background .18s ease,transform .1s ease-out}
 .cta a:hover{background:#F5F0E6}
+/* Feedback lives on the press, and it is instant — not on release. */
+.cta a:active{transform:scale(.97)}
+/* The page-top CTA: just the button under the headline, no card. The card is
+   for the end of the page, where a box earns its keep by stopping the scroll. */
+.cta-top{background:none;border:0;box-shadow:none;padding:0;margin:0 0 2.75rem}
+.cta-note{font:400 .85rem/1.5 var(--sans);color:var(--dimmer);margin:.9rem 0 0}
+.cta .cta-note{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* related content as cards; stories carry the app's gradient covers */
 .sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
 .sources .lbl{font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}

@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Creators &amp; podcasters — get paid per download — Lullable</title>
-<meta name="description" content="Partner with Lullable. One link, paid per iPhone download the App Store attributes to you, monthly. How it works, what we pay, what you can say, and the assets to say it with.">
+<title>Creators — $0.50 per iPhone download you send — Lullable</title>
+<meta name="description" content="Lullable&#x27;s creator program for podcasters, YouTubers and short-form creators. One link, paid per App Store download, monthly. Apply by email.">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://getlullable.com/creators/">
-<meta property="og:title" content="Creators &amp; podcasters — get paid per download — Lullable">
+<meta property="og:title" content="Creators — $0.50 per iPhone download you send — Lullable">
 <meta property="og:url" content="https://getlullable.com/creators/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lullable">
 <meta property="og:locale" content="en_US">
-<meta property="og:description" content="Partner with Lullable. One link, paid per iPhone download the App Store attributes to you, monthly. How it works, what we pay, what you can say, and the assets to say it with.">
+<meta property="og:description" content="Lullable&#x27;s creator program for podcasters, YouTubers and short-form creators. One link, paid per App Store download, monthly. Apply by email.">
 <meta property="og:image" content="https://getlullable.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -76,11 +76,15 @@ h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75r
 .eyebrow{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
 .post-meta{font-size:.82rem;color:var(--dimmer)}
 .post-meta b{color:var(--dim);font-weight:400}
+/* a pitch page's sub-headline: readable, not a document's date line */
+.post-meta.tagline{font-family:var(--serif);font-size:1.08rem;line-height:1.55;color:var(--dim);max-width:32rem;margin-inline:auto}
 .meta{font:500 .75rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
 article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
 article strong{color:var(--text);font-weight:400;font-style:italic}
 article a{color:var(--text)}
-article ul{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ul,article ol{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ol li{padding-left:.25rem;margin-bottom:.4rem}
+article ol li::marker{color:var(--iris-dim);font-family:var(--sans);font-size:.9rem}
 article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
 font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
 /* the short answer — the block AI assistants and skimmers both take */
@@ -98,8 +102,16 @@ padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,
 /* The one filled button, spent on the one action a story page wants. */
 .cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
 border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
-font-size:1rem;font-weight:500;transition:background .18s ease}
+font-size:1rem;font-weight:500;transition:background .18s ease,transform .1s ease-out}
 .cta a:hover{background:#F5F0E6}
+/* Feedback lives on the press, and it is instant — not on release. */
+.cta a:active{transform:scale(.97)}
+/* The page-top CTA: just the button under the headline, no card. The card is
+   for the end of the page, where a box earns its keep by stopping the scroll. */
+.cta-top{background:none;border:0;box-shadow:none;padding:0;margin:0 0 2.75rem}
+.cta-note{font:400 .85rem/1.5 var(--sans);color:var(--dimmer);margin:.9rem 0 0}
+.cta .cta-note{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* related content as cards; stories carry the app's gradient covers */
 .sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
 .sources .lbl{font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
@@ -146,50 +158,39 @@ display:flex;flex-direction:column;transition:border-color .3s}
 <nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a href="/chronotype/">Chronotype quiz</a><a class="navbtn" href="/#signup">Join the waitlist</a></nav>
 </header>
 <article>
-<div class="post-head"><p class="eyebrow">Lullable</p><h1>Creators &amp; podcasters — get paid per download</h1><p class="post-meta">Last updated <time datetime="2026-09-14">September 14, 2026</time></p></div>
+<div class="post-head"><p class="eyebrow">Lullable</p><h1>Creators — $0.50 per iPhone download you send</h1><p class="post-meta tagline">One link. Paid monthly. Free to join. For podcasters, YouTubers and short-form creators with a bedtime-shaped audience.</p></div>
+<div class="cta cta-top"><a href="mailto:info@getlullable.com?subject=Creator%20program&amp;body=Name%3A%0AWhere%20I%20publish%20%28links%29%3A%0AAudience%20size%2C%20roughly%3A%0AThe%20code%20I%27d%20like%20%28lowercase%20letters%2C%20numbers%20or%20hyphens%29%3A%0APayout%20by%20%28PayPal%20or%20Wise%29%3A%0A">Apply by email</a><p class="cta-note">Opens a pre-filled email; a person replies within a week. No mail app? Write to info@getlullable.com with your name, your links, your audience size, the code you'd like, and PayPal or Wise.</p></div>
 <div class="measure">
-<p>Lullable is an iPhone app where a calm voice reads you fascinating true things — the slow life of a redwood, a Roman bathhouse at closing time, the weather at the bottom of the sea — so unhurriedly that you are not meant to reach the end. No music, no breathing exercises, nothing to do. If you already talk to an audience at bedtime, we would like you to tell them about it, and we would like to pay you properly when they download it.</p>
-<h2>The offer</h2>
-<ul><li><strong>$0.50 for every first-time iPhone download</strong> the App Store credits to your link.</li><li><strong>One link</strong>, yours: getlullable.com/go/yourcode. Say it on air, print it in the notes, put it in your bio.</li><li><strong>Paid monthly</strong>, by PayPal or Wise. No network to join, no dashboard to learn, no exclusivity.</li></ul>
-<h2>Who this is for</h2>
-<ul><li>Podcasters, especially anything people put on to wind down — history, science, slow fiction, ASMR, "boring" on purpose.</li><li>YouTube, TikTok and Instagram creators in sleep, overthinking, ADHD, parenting, and the pleasantly uneventful corners of the internet.</li><li>Newsletter writers with a bedtime-shaped audience.</li><li>Not for coupon or deal sites, paid search, or anyone who would need to promise a result to make the sale. We never promise results, and neither can you.</li></ul>
+<p>Lullable is an iPhone app where a calm voice reads you fascinating true things — the slow life of a redwood, a Roman bathhouse at closing time — so unhurriedly that you are not meant to reach the end. If you already talk to an audience at bedtime, tell them about it, and get paid when they download it.</p>
 <h2>How it works</h2>
-<ul><li><strong>1. Email us.</strong> Tell us where you publish (links), roughly how many people listen or watch, and the code you would like — usually your show or handle, lowercase, letters only. We reply within a week; every creator is approved by a person.</li><li><strong>2. You get your link.</strong> getlullable.com/go/yourcode. It is the only thing your audience needs to remember.</li><li><strong>3. You get paid.</strong> Every first-time download Apple attributes to your link earns $0.50. You get a statement on the first of each month and the money thirty days later.</li></ul>
-<h2>What we pay, exactly</h2>
-<ul><li><strong>$0.50 per first-time download</strong> that App Store Connect attributes to your code. Re-downloads, your own installs, and anything Apple flags do not count.</li><li><strong>Apple's window is 24 hours:</strong> a download counts if it happens within a day of the tap on your link, and the most recent link wins. That is Apple's rule, not ours, and it is the same for every creator.</li><li><strong>Pilot terms:</strong> the first twenty creators, up to 500 paid downloads per creator per month. Both numbers go up once the first statements are out; we are proving the mechanism before we scale it.</li><li><strong>Statement on the 1st</strong> for the previous month; <strong>paid thirty days later</strong> by PayPal or Wise, your choice. Anything under $25 rolls into the next month.</li><li><strong>The number comes from Apple's own campaign report,</strong> which shows first-time downloads per link. It is the same figure we both see. There is no cookie, no pixel, and nothing installed in the app to make this work — which is also why it cannot be gamed by either of us.</li></ul>
-<h2>Before the app launches</h2>
-<p>The app is not in the App Store yet. Your link works today: it sends people to the waitlist, tagged with your code, and we will tell you how many signed up. We do not pay for signups. On launch day the same link starts sending iPhones straight to the App Store with your tag attached, and everyone you sent to the waitlist gets the launch email carrying your code — so the audience you build now is credited to you when the downloads happen. Nothing about your link changes.</p>
-<h2>What you can say</h2>
-<ul><li><strong>The mechanism:</strong> a calm voice reads true, gently fascinating material so slowly that you are not meant to make it to the end. Interesting beats relaxing at bedtime.</li><li><strong>Your own experience:</strong> which story you never got to the end of, what you learned three minutes of before you were gone.</li><li><strong>The facts:</strong> iPhone only, there is a free tier, built by one person, no music, no sleep score, no streaks.</li></ul>
-<h2>What you cannot say</h2>
-<ul><li>Nothing about treating, curing or fixing anything. Lullable is not a medical device, and a story is not care.</li><li>No promised results — nothing about faster, deeper or better sleep, no before-and-after, no numbers. We describe what it does, never what it will do for someone.</li><li>Nothing "proven", nothing "recommended by" anyone.</li><li>Not the price. It is not announced yet. "There's a free tier" is the whole sentence.</li><li>No paid ads on the word Lullable, no coupon sites, no incentives for people to download.</li></ul>
-<p><strong>Say that we pay you, out loud and up front.</strong> The line is: <em>"Lullable pays me a commission if you download through my link."</em> In the audio or on screen at the start of the mention, not only in the description. This is the law in the US, the UK, the EU and Mexico, and it is also just honest — the reason your audience trusts you is the reason we want to work with you.</p>
-<h2>Assets</h2>
-<ul><li><a href="/press/lullable-press-kit.zip">The press kit</a> — logo, app icon, screenshots. Everything in <a href="/press/">/press/</a> is yours to use, unedited.</li><li><strong>The app icon</strong> exactly as supplied: no recolouring, cropping or rounding of your own.</li><li><strong>The App Store badge:</strong> use Apple's black badge as Apple supplies it, one per video or layout. Apple's <a href="https://toolbox.marketingtools.apple.com/">marketing tools</a> have the file.</li><li><strong>Screenshots:</strong> as they are, or inside Apple's own device frames from Apple's <a href="https://developer.apple.com/design/resources/">design resources</a>. Never a drawing of a phone.</li><li><strong>Three talking points, ranked:</strong> (1) a calm voice reads you true things so slowly you are not meant to reach the end; (2) no music, no exercises, nothing to do — press play and lie there; (3) iPhone, free tier, one person made it. <strong>One mandatory line:</strong> your link, said twice.</li></ul>
-<h2>A sixty-second read</h2>
+<ol><li><strong>Email us</strong> where you publish, roughly how many people listen or watch, and the code you'd like — your show or handle, in lowercase letters, numbers or hyphens.</li><li><strong>You get your link:</strong> getlullable.com/go/yourcode. Say it on air, put it in the notes and your bio.</li><li><strong>You get paid.</strong> Every first-time download the App Store credits to your link earns $0.50. Statement on the 1st, money thirty days later.</li></ol>
+<h2>Your link and the App Store</h2>
+<p>The app is not in the App Store yet. Your link works today: it sends people to the waitlist, tagged with your code, and we will tell you how many signed up (reported, not paid). Once the listing is live and Apple has issued our campaign tag — a day or two after launch — the same link sends iPhones straight to the App Store with your tag. We email you the day it starts counting; hold your push until then. Everyone you sent to the waitlist gets the launch email with your link that same day. Nothing about your link changes.</p>
+<h2>What we pay</h2>
+<ul><li><strong>$0.50 per first-time download</strong> that App Store Connect attributes to your code. Re-downloads and your own installs don't count.</li><li><strong>Apple's window is 24 hours</strong> from the tap, and the most recent link wins. There is no cookie, so no thirty-day window; that is Apple's rule and it is the same for everyone.</li><li><strong>Pilot:</strong> the first twenty creators, up to 500 paid downloads each per month. If the pilot is full we say so in the reply. Both numbers are reviewed after the first statements.</li><li><strong>Paid by PayPal or Wise</strong> thirty days after the monthly statement. Under $25 rolls forward.</li><li><strong>Apple's campaign report is the ledger.</strong> The same number for both of us. Apple shows a campaign only once it has five first-time downloads, so a slow first month can read as zero. No pixel, nothing inside the app.</li></ul>
+<h2>Say this</h2>
+<ul><li><strong>The mechanism:</strong> a calm voice reads true, gently fascinating material so slowly that you are not meant to make it to the end. Interesting beats relaxing at bedtime.</li><li><strong>Your own experience:</strong> which story you never got to the end of.</li><li><strong>The facts:</strong> iPhone only, free tier, made by one person, no music, no sleep score, no streaks.</li><li><strong>Your link, said twice.</strong> That is the one mandatory line.</li><li><strong>That we pay you, first.</strong> <em>"Lullable pays me a commission if you download through my link."</em> Out loud, at the start of the mention, not only in the description. It is the law in the US, the UK, the EU and Mexico, and it is also the point.</li></ul>
+<h2>Not this</h2>
+<ul><li>Nothing about treating, curing or fixing anything. Lullable is not a medical device, and a story is not care.</li><li>No promised results: nothing about faster, deeper or better sleep, no before-and-after.</li><li>Nothing "proven", nothing "recommended by" anyone.</li><li>Not the price. "There's a free tier" is the whole sentence.</li><li>No ads on the word Lullable, no coupon sites, no incentives to download.</li></ul>
+<h2>Your kit</h2>
+<p><a href="/press/lullable-press-kit.zip">The press kit</a> has the logo, the app icon and screenshots. Use them unedited: the icon exactly as supplied, Apple's black App Store badge as <a href="https://toolbox.marketingtools.apple.com/">Apple supplies it</a>, screenshots as they are or in Apple's own <a href="https://developer.apple.com/design/resources/">device frames</a>.</p>
+<h3>A sixty-second read</h3>
 <blockquote>Quick word about Lullable, which I've been using at bedtime. It's an iPhone app where a calm voice reads you fascinating true things — the history of lighthouses, how glass is made — slowly enough that you're not meant to make it to the end. I never have. That's the whole idea: no music, no breathing exercises, nothing to do. You press play and lie there. It's built by one person, and there's a free tier. Full disclosure: Lullable pays me a small commission when you download through my link. If you want to try it, go to getlullable.com slash go slash [your code] — that's getlullable dot com, slash go, slash [your code] — and it takes you straight to the App Store. Tell me which one you fell asleep to.</blockquote>
-<p>About 125 words; it comes in under a minute with room to improvise. Swap the two topics for the stories you actually listened to, and say the link twice, no more.</p>
-<h2>Eight hooks for short video</h2>
-<ul><li>"POV: it's minute four of the history of lighthouses and you're already gone."</li><li>"I have no idea how any of these stories end."</li><li>"Stop scrolling if it's past midnight and you're still here."</li><li>"An app that reads you true facts so slowly you can't stay awake for them."</li><li>"Unpopular opinion: rain sounds don't do it for me. A calm voice explaining how glass is made does."</li><li>"Night 1 vs night 14 of falling asleep to someone explaining lighthouses."</li><li>"Nobody talks about this but 'interesting' beats 'relaxing' at bedtime."</li><li>"Things I learned three minutes of before passing out."</li></ul>
-<p>Fifteen to thirty seconds, vertical, a real screen recording of the app playing, you on camera. Text on screen from the first frame: <em>Lullable · free on the App Store · link in bio.</em> Spoken: your link.</p>
-<h2>Questions people ask before applying</h2>
+<p>About 125 words, under a minute with room to improvise. Swap the two topics for stories you actually listened to. Say the link twice, no more.</p>
+<h3>Seven hooks for short video</h3>
+<ul><li>"POV: it's minute four of the history of lighthouses and you're already gone."</li><li>"I have no idea how any of these stories end."</li><li>"Stop scrolling if it's past midnight and you're still here."</li><li>"An app that reads you true facts so slowly you're not meant to reach the end."</li><li>"Unpopular opinion: rain sounds don't do it for me. A calm voice explaining how glass is made does."</li><li>"Nobody talks about this but 'interesting' beats 'relaxing' at bedtime."</li><li>"Things I learned three minutes of before passing out."</li></ul>
+<p>Fifteen to thirty seconds, vertical, a real screen recording of the app playing, you on camera. On screen from the first frame: <em>Lullable · free to download · link in bio.</em> Spoken: your link.</p>
+<h2>Questions</h2>
 <h3>How do you know a download came from me?</h3>
-<p>Your link carries your code. Before launch it lands people on our site with the code attached, and the code is saved if they join the waitlist. After launch it sends iPhones to the App Store with the code as Apple's campaign tag, and App Store Connect counts first-time downloads per tag. We read that report once a month and pay from it.</p>
-<h3>Is there a cookie?</h3>
-<p>No. The code travels in the link and nowhere else. Nothing is stored on anyone's device, which is why the window is Apple's 24 hours rather than the thirty or sixty days you may have seen elsewhere.</p>
-<h3>What if someone hears the episode and downloads a week later?</h3>
-<p>Then Apple cannot connect it to you, and we cannot pay for it. We know that undercounts you. It is also why we pay per download rather than per subscriber, and why the rate is what it is.</p>
+<p>Your link carries your code as Apple's campaign tag, and App Store Connect counts first-time downloads per tag. We read that report once a month and pay from it.</p>
+<h3>Someone hears the episode and downloads a week later?</h3>
+<p>Then Apple cannot connect it to you, and we cannot pay for it. We know that undercounts you. It is also why the rate is per download rather than per subscriber.</p>
 <h3>Android?</h3>
 <p>Not yet. iPhone only. Android listeners who tap your link land on our site and can join the newsletter.</p>
-<h3>Can I offer a discount code?</h3>
-<p>Not yet. When there is a paid tier and enough volume, top partners will get an App Store offer code to say on air. Ask.</p>
-<h3>Can I run ads for my link?</h3>
-<p>Not on the word Lullable, and not on coupon or deal sites. Your own channels, your own audience, your own words.</p>
-<h3>When exactly do I get paid?</h3>
-<p>Statement on the first of the month for the previous month, payment thirty days later, PayPal or Wise, once the balance is $25 or more.</p>
-<h2>Apply</h2>
-<p><a href="mailto:info@getlullable.com?subject=Creator%20program&amp;body=Name%3A%0AWhere%20I%20publish%20%28links%29%3A%0AAudience%20size%2C%20roughly%3A%0AThe%20code%20I%27d%20like%20%28lowercase%2C%20letters%20only%29%3A%0APayout%20by%20%28PayPal%20or%20Wise%29%3A%0A">Email info@getlullable.com</a> with where you publish, your audience size, and the code you'd like. A person reads it and replies within a week.</p>
-<p>The short, plain <a href="/creator-terms/">creator program terms</a> are the whole agreement. Nothing is hidden in them, and you can end it any time by email.</p>
+<h3>Can I offer a discount code, or run ads for my link?</h3>
+<p>Not yet on codes: once there is volume, top partners get an App Store offer code to say on air. No ads on the word Lullable and no coupon sites — your own channels, your own audience, your own words.</p>
+<p>The <a href="/creator-terms/">creator program terms</a> are the whole agreement, short on purpose. Either side can end it by email.</p>
+<div class="cta"><a href="mailto:info@getlullable.com?subject=Creator%20program&amp;body=Name%3A%0AWhere%20I%20publish%20%28links%29%3A%0AAudience%20size%2C%20roughly%3A%0AThe%20code%20I%27d%20like%20%28lowercase%20letters%2C%20numbers%20or%20hyphens%29%3A%0APayout%20by%20%28PayPal%20or%20Wise%29%3A%0A">Apply by email</a><p class="cta-note">Opens a pre-filled email; a person replies within a week. No mail app? Write to info@getlullable.com with your name, your links, your audience size, the code you'd like, and PayPal or Wise.</p></div>
 </div>
 </article>
 <footer>Lullable — the low-arousal knowledge engine. Not a medical device.

@@ -142,8 +142,11 @@ Launch day + 1: App Store Connect › Analytics › Acquisition › Campaigns �
 it into `APPLE_PT` in `build.py`, build, ship. Set the launch-email button to
 `https://getlullable.com/go/{{ source | default: "waitlist" }}` and test-send once: Apple
 only credits a download within 24h of the tap, so this is how a creator's pre-launch
-audience is credited to them. Then delete the "Before the app launches" section from
-`legal/creators.md`. `build.py golive` prints all three.
+audience is credited to them. **Do not send that email before `APPLE_PT` is in and shipped** —
+clicks before the tag exists are unattributable, and the creators page promises the
+waitlist email arrives the day their link starts counting. Email each creator that day. `/creators/` rewrites its own launch paragraph on every
+build from the same constant (`launch_copy()` in `build.py`): waitlist, live-without-tag,
+live-with-tag. `build.py golive` prints all of this.
 
 ## Failure policy (adapted from SAUNAS.MX's table)
 
