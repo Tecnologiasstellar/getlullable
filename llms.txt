@@ -12,6 +12,8 @@
 
 - [FAQ](https://getlullable.com/faq/): how it works, what it costs, and how it differs from Calm, podcasts and white noise
 
+- [Creators](https://getlullable.com/creators/): the creator and podcast partner program — one link, paid per download the App Store attributes to it
+
 ## What Lullable does
 - **What is Lullable?** Lullable is an iPhone app of long-form sleep stories for adults: 26 true, gently fascinating pieces — a Roman bathhouse at closing time, the life of a redwood, the rings of Saturn — read slowly and flatly by a named narrator, and engineered so you fall asleep partway through. It is not yet on the App Store.
 - **Do the stories fade out on their own?** Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to silence rather than a hard stop. Every recording also ends that way on its own: the last thirty seconds of every story fade out. There is nothing to switch off.

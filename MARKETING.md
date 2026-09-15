@@ -178,7 +178,7 @@ The app notices when you've gone — the phone stops moving, the room goes still
 2. **Gift a month of sleep.** For "the friend who texts you at 1 AM." The gift note writes itself, and the recipient is pre-qualified by definition.
 3. **The Salon pass-along** (§3): a monthly, private, high-trust link designed to be handed to exactly one person.
 4. **Reverse testimonials.** We ask happy customers for the worst-sounding praise they can write — *"Honestly couldn't tell you what any episode is about. 90 nights straight."* A wall of these converts better than any claim about restfulness, because it could only be true of this product.
-5. **What we will never build:** referral codes, leaderboards against other users, streaks, or share-to-unlock. The moment sharing is incentivized, the card stops being credible testimony and becomes an ad. The loop runs on charm or it doesn't run.
+5. **What we will never build:** referral codes, leaderboards against other users, streaks, or share-to-unlock. The moment sharing is incentivized, the card stops being credible testimony and becomes an ad. The loop runs on charm or it doesn't run. (This is about *users*. Paid, disclosed creator partnerships — [/creators/](https://getlullable.com/creators/), one link per creator, paid per App Store-attributed download — are advertising, and live under a different rule: never a claim we couldn't make ourselves.)
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Privacy Policy
 description: What Lullable collects, which cookies run only if you allow them, and how to make us delete it all. Written plainly, with the short version first.
-updated: 2026-08-31
+updated: 2026-09-14
 ---
 
 ## The short version
@@ -33,6 +33,8 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 **If you join the waitlist or the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). Every email we send has a one-click unsubscribe link that works without contacting anybody.
 
 **When you visit the site.** Our host, Vercel, keeps standard server logs — IP address, browser and device type, the page requested, the time — for security and to keep the site up. Those logs are necessary to serve you a page at all, so they aren't optional, and we don't read them for marketing.
+
+**Creator links.** If you arrive through a link like getlullable.com/go/name, the name is a code for the creator who sent you. It travels in the address — as `ref=` on our site today, and as an App Store campaign tag once the app is downloadable — so we can pay that creator for the download. It sets no cookie and is stored nowhere, unless you then join the newsletter, in which case it is saved with your email as the signup's *source* (at Sender, with the same retention as the email itself) and never anywhere else.
 
 **Fonts.** The site's typefaces are served from our own domain, not from Google Fonts or any other font service. Loading a page does not tell a third party that you were here.
 
@@ -161,7 +163,7 @@ If we change something that matters — a new tool, a new purpose — we'll upda
 
 **Tecnologías Stellar, S.A. de C.V.**, con domicilio en Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
 
-**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta.
+**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta. Si llega a través del enlace de un creador (getlullable.com/go/nombre), ese nombre viaja en la dirección para que podamos pagarle al creador por la descarga; no coloca ninguna cookie y solo se conserva, junto con su correo, si usted se suscribe al boletín.
 
 **Eliminación de su cuenta.** Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato su cuenta, su correo electrónico y todo su historial de escucha. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.
 

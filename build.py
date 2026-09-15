@@ -469,7 +469,7 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 <br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
 · <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/faq/">FAQ</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
 <br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
-<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
+<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/creators/">Creators</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
 </div>
 <script src="/consent.js" defer></script>
 </body>
@@ -1333,6 +1333,8 @@ def build():
     app_url = build_app_page()
     faq_url = build_faq_page()
 
+    sync_go_rules()
+
     # ---- sitemap / rss / robots / llms
     urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
             + [app_url, faq_url] + chrono_urls
@@ -1372,6 +1374,7 @@ def build():
         f"- [Chronotype quiz]({SITE}/chronotype/): five questions, one of five sleep animals (blackbird to octopus)\n\n"
         f"- [What the app does]({SITE}/app/): every feature question, answered in one sentence\n\n"
         f"- [FAQ]({SITE}/faq/): how it works, what it costs, and how it differs from Calm, podcasts and white noise\n\n"
+f"- [Creators]({SITE}/creators/): the creator and podcast partner program — one link, paid per download the App Store attributes to it\n\n"
         + "## What Lullable does\n"
         + "".join(f"- **{q}** {a}\n" for q, a in APP_FACTS) + "\n"
 
@@ -1615,6 +1618,54 @@ def app_cta():
 APPLE_ID = "6800138113"   # App Store Connect record "GetLullable", confirmed 2026-08-12
 STORE_URL = f"https://apps.apple.com/app/id{APPLE_ID}"
 
+# Apple's campaign provider token (the pt= in a campaign link). It exists only
+# after the app has been live and downloading for ~24h: App Store Connect ›
+# Analytics › Acquisition › Campaigns › (+) shows it. Paste it here on launch
+# day + 1, run `python3 build.py`, ship. Until then /go/ links reach the store
+# without a token and Apple cannot credit the creator.
+APPLE_PT = ""
+GO_SOURCE = "/go/:code([a-z0-9-]{2,30})"   # Apple's campaign token is ≤30 chars
+
+
+def go_rules():
+    """The creator links, getlullable.com/go/<code>, as vercel.json redirects.
+
+    One rule while the app is on the waitlist: the code rides along as ?ref=,
+    which the signup form already stores in Sender as `source`. After golive,
+    iPhones go straight to the App Store with the code as Apple's campaign
+    token (ct=), so App Store Connect counts first-time downloads per creator
+    with no SDK in the app; everyone else still lands on the homepage, where
+    there is a pitch instead of a listing they cannot install. 307, never 308:
+    browsers cache a 308 forever and would freeze every creator link on
+    whichever destination they saw first."""
+    home = {"source": GO_SOURCE, "destination": "/?ref=:code", "permanent": False}
+    url, _ = app_cta()            # "/#signup" until golive, STORE_URL after
+    if not url.startswith("https://apps.apple.com"):
+        return [home]
+    if not APPLE_PT:
+        print("WARNING: APPLE_PT is empty — /go/ links reach the store without a campaign")
+        print("         token, so App Store Connect cannot credit creators. Generate the")
+        print("         campaign link (Analytics › Acquisition › Campaigns › +) and paste pt.")
+    pt = f"pt={APPLE_PT}&" if APPLE_PT else ""
+    store = {"source": GO_SOURCE,
+             "has": [{"type": "header", "key": "user-agent", "value": ".*(iPhone|iPad|iPod).*"}],
+             "destination": f"https://apps.apple.com/app/apple-store/id{APPLE_ID}?{pt}ct=:code&mt=8",
+             "permanent": False}
+    return [store, home]
+
+
+def sync_go_rules():
+    """Keep vercel.json's /go/ redirects in step with the launch state, the way
+    every generated page reads app_cta(): one constant, no second copy."""
+    path = ROOT / "vercel.json"
+    cfg = json.loads(path.read_text())
+    keep = [r for r in cfg.get("redirects", []) if not r["source"].startswith("/go/")]
+    cfg["redirects"] = keep + go_rules()
+    new = json.dumps(cfg, indent=2, ensure_ascii=False) + "\n"
+    if new != path.read_text():
+        path.write_text(new)
+        print("vercel.json: /go/ creator links updated")
+
 
 def appstore_status(apple_id=APPLE_ID):
     """Ask Apple whether the app is actually live, in a few storefronts.
@@ -1824,6 +1875,14 @@ def cmd_golive(force=False):
         print("No Apple badge asset present. The hero button stays plain Lullable type,")
         print("which is allowed; Apple's badge may only be used as the lockup they supply.")
     print("\nNow: python3 build.py  &&  browser-verify  &&  build.py ship \"Launch: get the app\"")
+    print("\nCreator links (/go/<code>) flip to the App Store on that build. Then, on day 2:")
+    print("  1. App Store Connect › Analytics › Acquisition › Campaigns › (+) — copy the pt=")
+    print("     value into APPLE_PT in build.py, `python3 build.py`, ship. Without it Apple")
+    print("     cannot credit a creator for a download.")
+    print("  2. Launch email button: https://getlullable.com/go/{{ source | default: \"waitlist\" }}")
+    print("     (Sender Liquid tag). Test-send once. Apple only credits downloads within 24h")
+    print("     of the tap, so this is how pre-launch audiences get credited to their creator.")
+    print("  3. legal/creators.md: delete the 'Before the app launches' section.")
     # The listing going live is also the moment Apple Search Ads becomes usable.
     # You cannot advertise — or read Search Popularity for — an app that is not
     # live, which is why the account opened on 2026-09-01 had nothing to select.
