@@ -880,6 +880,44 @@ def build_app_page():
     return url
 
 
+FAQ_CSS = """<style>
+/* Ten questions, all on one screen. <details> rather than a script: the answers
+   sit in the initial HTML either way (a crawler and the FAQPage schema never see
+   the closed state), and a native disclosure is keyboard- and screen-reader-
+   correct for free. Two columns from 900px, where a 56rem frame has the room.
+   NOTE: page() injects this BEFORE the shared sheet, so anything that collides
+   with a CSS class in it needs the extra class to win the tie (.post-head), and
+   the phone block has to be the last thing in this file. */
+.post-head.faq-head{padding:2rem 0 1.4rem}
+.faq-lead{max-width:40rem;margin-inline:auto;text-align:center;color:var(--dim);font-size:1.02rem;line-height:1.6}
+.faq-list{display:grid;gap:.5rem;margin:1.6rem 0 0}
+/* two independent columns, not a two-wide grid: in a grid, opening one answer
+   grew the whole row and left a hole beside it */
+.faq-col{display:grid;gap:.5rem;align-content:start}
+@media(min-width:900px){.faq-list{grid-template-columns:1fr 1fr;gap:.9rem;align-items:start}}
+.faq-list details{border:1px solid var(--haze);border-radius:12px;background:var(--ink-2);
+transition:border-color .18s}
+.faq-list details:hover{border-color:rgba(145,132,217,.35)}
+.faq-list details[open]{border-color:var(--amber-soft);background:rgba(145,132,217,.07)}
+.faq-list summary{display:flex;gap:.8rem;align-items:baseline;list-style:none;cursor:pointer;
+padding:.85rem 1.1rem;min-height:48px;font:400 1.02rem/1.4 var(--serif);color:var(--text)}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";margin-left:auto;flex:none;color:var(--dimmer);
+font:300 1.25rem/1 var(--sans);align-self:center}
+.faq-list details[open] summary::after{content:"−";color:var(--iris)}
+.faq-list summary:hover{color:var(--iris)}
+.faq-list summary:focus-visible{outline:2px solid var(--iris);outline-offset:-2px;border-radius:12px}
+.faq-list .a{margin:0;padding:0 1.1rem 1.05rem;color:var(--dim);font-size:.94rem;line-height:1.7}
+.faq-foot{text-align:center;margin-top:1.6rem}
+@media(max-width:700px){.post-head.faq-head{padding:1rem 0 .8rem}
+.faq-head h1{font-size:1.95rem}
+.faq-lead{font-size:.93rem;line-height:1.55}
+.faq-list{margin-top:1rem;gap:.35rem}
+.faq-list summary{padding:.62rem .9rem;min-height:44px;font-size:.95rem}
+.faq-foot{margin-top:1.2rem}}
+</style>
+"""
+
 # ---------------------------------------------------------------- /faq/
 # The second quotable page. /app/ answers *feature* questions ("does it fade
 # out?") for someone already looking at the app. This one answers the
@@ -990,17 +1028,21 @@ def build_faq_page():
     out = ROOT / "faq"; out.mkdir(exist_ok=True)
     url = f"{SITE}/faq/"
 
-    qa = "\n".join(f"<h2>{html.escape(q)}</h2>\n<p>{a}</p>" for q, a in FAQ_FACTS)
+    def col(items):
+        return ('<div class="faq-col">'
+                + "".join(f"<details><summary>{html.escape(q)}</summary>"
+                          f'<p class="a">{a}</p></details>' for q, a in items)
+                + "</div>")
+    half = (len(FAQ_FACTS) + 1) // 2
+    qa = col(FAQ_FACTS[:half]) + col(FAQ_FACTS[half:])
     body = f'''<article>
-<div class="post-head"><p class="eyebrow">Questions</p>
+<div class="post-head faq-head"><p class="eyebrow">Questions</p>
 <h1>Lullable, answered</h1>
-<p class="post-meta">Ten questions about the app, each answered on its own. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p></div>
-<div class="measure">
-<div class="answer"><div class="lbl">The short answer</div>
-<p>Lullable is an iPhone app of {CATALOGUE_SIZE} long-form true stories for adults, read slowly and flatly and engineered to be slept through rather than finished. One story is already chosen for you when you open it, every recording fades to silence on its own, and the morning screen shows the last line you heard. It is free to download with one 40-minute story free in full. It is not a medical device.</p></div>
+<p class="faq-lead">An iPhone app of {CATALOGUE_SIZE} long-form true stories for adults, read slowly and engineered to be slept through rather than finished. Free to download, one 40-minute story free in full, not a medical device.</p></div>
+<div class="faq-list">
 {qa}
-<p class="post-meta">Looking for the feature detail — timer lengths, narrators, offline, lock screen? That is all on <a href="/app/">what the app actually does</a>.</p>
 </div>
+<p class="post-meta faq-foot">Open any question for the full answer. Looking for the feature detail \u2014 timer lengths, narrators, lock screen? That is all on <a href="/app/">what the app actually does</a>. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p>
 {post_cta(FAQ_CTA_LINE)}
 </article>'''
 
@@ -1016,7 +1058,7 @@ def build_faq_page():
         "Lullable FAQ — how the sleep-story app works, and what it costs",
         "How does Lullable work? Why does a story quiet a racing mind? What does it cost, and "
         "how is it different from Calm, a podcast or rain sounds? Ten questions, answered.",
-        url, body, jsonld(schemas)))
+        url, body, jsonld(schemas) + FAQ_CSS))
     print(f"built /faq/ ({len(FAQ_FACTS)} answered questions + FAQPage schema)")
     return url
 
