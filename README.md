@@ -115,6 +115,7 @@ Costs $0.
 | Vercel (static) | $0 |
 | Sender (<2,500 subs) | $0 → $15 |
 | Domain | ~$1 |
+| Creator program (/creators/, /go/ links) | $0 — Apple's campaign report is the ledger; commissions are paid from it, not to a vendor. Note: Vercel's Hobby plan is contractually non-commercial and a paid creator program makes the commercial use explicit; Pro is $20/mo if that ever matters. |
 | **Total to launch** | **~$1** |
 
 ## What ships next — in order, not in parallel

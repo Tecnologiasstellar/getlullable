@@ -936,6 +936,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
         <h4>Company</h4>
         <ul>
           <li><a href="/press/">Press</a></li>
+          <li><a href="/creators/">Creators</a></li>
           <li><a href="/support/">Support</a></li>
           <li><a href="/privacy/">Privacy</a></li>
           <li><a href="/terms/">Terms</a></li>
@@ -1131,7 +1132,7 @@ form.addEventListener("submit", function(ev){
   }
   btn.disabled = true; msg.className = "msg"; msg.textContent = "One moment.";
   /* where they came from, for the source field in Sender: ?ref=ph, ?ref=ig … */
-  var source = (new URLSearchParams(location.search).get("ref") || "web").slice(0, 40);
+  var source = (new URLSearchParams(location.search).get("ref") || "web").slice(0, 30);  /* 30 = Apple campaign-token limit */
   /* One id, two paths: the browser pixel below and the server's Conversions API
      call both send it, and Meta counts the lead once. */
   var eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
