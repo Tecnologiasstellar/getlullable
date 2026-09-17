@@ -193,6 +193,8 @@ def validate_post(p, warnings):
         # the first paragraph IS the FAQ answer AI assistants quote; it must stand alone
         if not 30 <= fw <= 120:
             warnings.append(f"{p['path']}: answer paragraph {fw} words (target 30–120, self-contained)")
+    if p.get("lang") and p["lang"] not in LOCALES:
+        errs.append(f"lang must be one of {'|'.join(LOCALES)}, got {p['lang']!r}")
     if not p.get("type"):
         warnings.append(f"{p['path']}: no type: (question|definition|fact-world) — rotation can't see it")
     # Sources, required wherever the post makes a CHECKABLE claim. Added
@@ -468,13 +470,22 @@ def story_cta(s):
             f'It lives in the Lullable app.</p>\n'
             f'<a href="{href}">{label}</a>\n</div>')
 
-def page(title, desc, canonical, body, extra_head="", og_image=None):
+# `lang` describes the primary language of the page's prose. It stayed hardcoded
+# "en" while exactly one Spanish post existed (2026-09-15, a deliberate one-off).
+# With 12 Spanish topics in the queue it became a whole section telling Google it
+# was English, which works against the reason those topics exist at all. The
+# surrounding chrome — nav, footer, the SOURCES label — is still English on every
+# page: lang describes the article, and localising the furniture is a much bigger
+# job nobody has asked for.
+LOCALES = {"en": "en_US", "es": "es_MX"}
+
+def page(title, desc, canonical, body, extra_head="", og_image=None, lang="en"):
     nav_href, nav_label = app_cta()
     # One og:image only. Crawlers (WhatsApp, Facebook) take the FIRST tag, so a
     # per-page card appended after the default was silently never shown.
     og_image = og_image or f"{SITE}/og.png"
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -486,7 +497,7 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="{BRAND}">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{LOCALES.get(lang, 'en_US')}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:image" content="{og_image}">
 <meta property="og:image:width" content="1200">
@@ -1143,6 +1154,7 @@ def build():
             "@context": "https://schema.org", "@type": "Article",
             "headline": p["title"], "description": p["description"],
             "datePublished": p["date"], "mainEntityOfPage": url,
+            "inLanguage": p.get("lang", "en"),
             "author": {"@type": "Organization", "name": BRAND, "url": SITE},
         }]
         if p.get("question"):
@@ -1172,7 +1184,8 @@ def build():
                 f"\n{related_html(rel)}\n</article>")
         out = ROOT / "sleep" / p["slug"]
         out.mkdir(exist_ok=True)
-        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body, jsonld(schemas)))
+        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body,
+                                             jsonld(schemas), lang=p.get("lang", "en")))
 
     # ---- blog index: card grid
     kinds = {"question": "Question", "definition": "Definition", "fact-world": "Fact-world"}
@@ -1458,11 +1471,13 @@ def scaffold_post(slug, topic=None):
     if path.exists():
         sys.exit(f"{path.name} already exists")
     t = topic or {}
+    lang_line = f"lang: {t['lang']}\n" if t.get("lang") else ""
     q = f"question: {t.get('title', 'Optional — the search question this answers. Delete if none.')}\n" \
         if (t.get("type") == "question" or not topic) else ""
     path.write_text(f"""---
 title: {t.get('title', 'TITLE')}
 description: Meta description under 155 characters.
+{lang_line}
 {q}type: {t.get('type', 'question | definition | fact-world')}
 ---
 

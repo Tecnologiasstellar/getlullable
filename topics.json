@@ -860,7 +860,8 @@
         "por que espana tiene la hora de alemania",
         "huso horario de espana",
         "hora solar espana"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "que-escuchar-para-dormir",
@@ -871,7 +872,8 @@
         "que escuchar para dormir",
         "que poner para dormir",
         "audios para dormir"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "el-observatorio-del-ebro",
@@ -882,7 +884,8 @@
         "observatorio del ebro",
         "roquetes observatorio",
         "registros geomagneticos"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "que-es-el-ruido-marron",
@@ -893,7 +896,8 @@
         "que es el ruido marron",
         "ruido marron vs ruido blanco",
         "ruido rosa para dormir"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "el-archivo-de-indias",
@@ -904,7 +908,8 @@
         "archivo de indias",
         "archivo general de indias sevilla",
         "legajos de indias"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "apps-para-dormir-en-espanol",
@@ -915,7 +920,8 @@
         "apps para dormir",
         "mejor app para dormir",
         "alternativa a calm en espanol"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "la-sagrada-familia-lleva-140-anos",
@@ -926,7 +932,8 @@
         "cuanto lleva en obras la sagrada familia",
         "sagrada familia construccion",
         "obras que duran siglos"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "por-que-los-podcasts-me-desvelan",
@@ -937,7 +944,8 @@
         "por que los podcasts me desvelan",
         "escuchar podcast para dormir",
         "podcasts aburridos para dormir"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "el-chepe-noventa-anos-de-obra",
@@ -948,7 +956,8 @@
         "tren chepe historia",
         "chihuahua al pacifico",
         "barrancas del cobre tren"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "voces-para-dormir",
@@ -959,7 +968,8 @@
         "voces para dormir",
         "voz relajante para dormir",
         "narradores para dormir"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "la-corriente-de-humboldt",
@@ -970,7 +980,8 @@
         "corriente de humboldt",
         "corriente del peru",
         "corrientes oceanicas frias"
-      ]
+      ],
+      "lang": "es"
     },
     {
       "slug": "que-pensar-para-quedarse-dormido",
@@ -981,7 +992,8 @@
         "que pensar para dormir",
         "como dejar de pensar para dormir",
         "en que pensar para quedarse dormido"
-      ]
+      ],
+      "lang": "es"
     }
   ]
 }
