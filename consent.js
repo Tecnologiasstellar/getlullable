@@ -43,6 +43,10 @@
     gtag('config', 'AW-18423437610');
     if (GA4_ID) gtag('config', GA4_ID);
 
+    /* LaunchNest badge pixel — their install check. The badge link itself sits
+       in the footer unconditionally; only this call waits for a yes. */
+    new Image().src = 'https://launch-nest-ai.base44.app/functions/badgePixel?pid=YOUR_PRODUCT_ID';
+
     /* TODO, in this order of appetite, and only here:
          - TikTok Pixel
        Cookieless analytics needs no consent and may load in the page head.
