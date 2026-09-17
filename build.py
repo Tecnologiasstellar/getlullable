@@ -28,7 +28,7 @@ so they survive refactors:
   - Rendering is pure: improving a template here re-renders every page on the
     next build for free.
 """
-import html, json, re, sys
+import html, json, re, sys, unicodedata
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -61,7 +61,32 @@ PROHIBITED = [
     "proven to", "will help you sleep", "helps you fall asleep",
     "help you sleep better", "get you to sleep",
 ]
-NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ")
+# Spanish topics entered the queue 2026-09-17 and the loop is unattended, so the
+# list below stopped being allowed to be English-only. Phrases are written WITHOUT
+# accents because prohibited_claims_in() strips them before matching — otherwise
+# "clínicamente" and "clinicamente" would need two entries each, and the drafter
+# only has to drop an accent to walk through the gate.
+PROHIBITED += [
+    "cura el insomnio", "curar el insomnio", "cura para el insomnio", "cura tu insomnio",
+    "trata el insomnio", "tratar el insomnio", "tratamiento para el insomnio",
+    "tratamiento del insomnio",
+    "clinicamente probado", "cientificamente probado", "medicamente probado",
+    "clinicamente comprobado", "cientificamente comprobado",
+    "recomendado por medicos", "los medicos recomiendan", "recomendado por doctores",
+    "diagnosticar", "dosis de melatonina", "dosificacion",
+    # The outcome promises. Same reasoning as the English block above: describe
+    # mechanism, never a result. "Te ayudara a dormir mejor" is the single most
+    # natural sentence in Spanish sleep marketing, which is exactly why it is here.
+    "te ayuda a dormir", "te ayudara a dormir", "ayuda a dormir mejor",
+    "ayudarte a dormir", "te ayudara a conciliar",
+    "dormiras mas rapido", "te duermes mas rapido", "duermete mas rapido",
+    "dormirte mas rapido", "conciliar el sueno mas rapido",
+    "mejora la calidad del sueno", "mejora tu sueno", "mejorar tu sueno",
+    "mejora el sueno", "garantizado que", "te garantiza", "probado para",
+]
+
+NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ",
+            "nunca ", "sin ", "ni ", "jamas ", "tampoco ")
 
 def prohibited_claims_in(text):
     # Collapse whitespace before matching. Found 2026-09-01: markdown prose wraps
@@ -71,6 +96,11 @@ def prohibited_claims_in(text):
     # the copy it exists to stop. Positions stay consistent for the negation
     # lookback below because it reads the same collapsed string.
     low = re.sub(r"\s+", " ", text.lower())
+    # Strip diacritics so one unaccented entry covers both spellings. English
+    # phrases are unaffected; Spanish ones would otherwise be bypassed by the
+    # commonest typo in the language.
+    low = "".join(c for c in unicodedata.normalize("NFKD", low)
+                  if not unicodedata.combining(c))
     hits = []
     for phrase in PROHIBITED:
         for m in re.finditer(re.escape(phrase), low):
