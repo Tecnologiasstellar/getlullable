@@ -789,7 +789,7 @@ cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.te
 # (prices.json says the $2.99 is not announced publicly — and
 # a price a model repeats is a price we are held to).
 
-CATALOGUE_SIZE = 26        # stories published to production, lullable-content, 2026-08-22
+CATALOGUE_SIZE = 42        # story folders in lullable-content, 41 published, 2026-09-17
 
 APP_FACTS = [
     ("What is Lullable?",
@@ -979,7 +979,7 @@ FAQ_FACTS = [
     ("Is a sleep-story app worth paying for?",
      "Test it before you decide, which is why the free story is not a trailer: same length, "
      "same narrator, same fade as the paid ones. A week of it tells you more than any review. "
-     "What a subscription adds is the rest of the catalogue — 26 stories, a new one most "
+     "What a subscription adds is the rest of the catalogue — 42 stories, a new one most "
      "weeks — and an app with no advertising in it, which matters more at 1am than "
      "anywhere else, because a mid-roll wakes precisely the person it was sold to. Set the "
      "monthly figure against the forty minutes a night you already spend on the phone "
