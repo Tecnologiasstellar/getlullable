@@ -1112,7 +1112,8 @@ def build():
         schemas = [{
             "@context": "https://schema.org", "@type": "Article",
             "headline": p["title"], "description": p["description"],
-            "datePublished": p["date"], "mainEntityOfPage": url,
+            "datePublished": p["date"], "dateModified": p.get("updated", p["date"]),
+            "mainEntityOfPage": url,
             "author": {"@type": "Organization", "name": BRAND, "url": SITE},
         }]
         if p.get("question"):
@@ -1369,7 +1370,22 @@ def build():
             + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
             + [f"{SITE}/stories/{s['slug']}/" for s in stories]
             + hub_urls)
-    sm = "\n".join(f"<url><loc>{u}</loc></url>" for u in urls)
+    # lastmod, only where there is a real date behind it: the posts and stories
+    # themselves, plus the two index pages that genuinely change when one lands.
+    # The static pages deliberately carry none — Google discounts a lastmod it
+    # catches being wrong, so a stamp on a page that did not change costs more
+    # than it buys. Added 2026-09-17, after a Search Console export showed 10
+    # URLs "Discovered - currently not indexed": with no lastmod anywhere, a
+    # crawler had to re-diff all 49 pages to find the one that moved.
+    lastmod = {f"{SITE}/sleep/{p['slug']}/": p["date"] for p in posts}
+    lastmod.update({f"{SITE}/stories/{s['slug']}/": s["date"]
+                    for s in stories if s.get("date")})
+    lastmod[f"{SITE}/sleep/"] = max((p["date"] for p in posts), default="")
+    lastmod[f"{SITE}/stories/"] = max((s.get("date", "") for s in stories), default="")
+    sm = "\n".join(
+        f"<url><loc>{u}</loc>"
+        + (f"<lastmod>{lastmod[u]}</lastmod>" if lastmod.get(u) else "")
+        + "</url>" for u in urls)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}\n</urlset>')
