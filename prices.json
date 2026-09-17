@@ -1,15 +1,15 @@
 {
   "_rules": [
     "Every price that appears in a published post must be listed here, or the build hard-fails. Modelled on SIMPLE.MX's invented-price gate: a wrong price in a comparison table destroys the credibility the whole page runs on, and a comparison page is the one place this site makes falsifiable claims about other companies.",
-    "`source` must be the vendor's own page — their App Store listing or their pricing page, never a third-party comparison article. Apple's listing is the right source for an iOS comparison because it is the price an iPhone reader would actually pay.",
+    "`source` must be the vendor's own page \u2014 their App Store listing or their pricing page, never a third-party comparison article. Apple's listing is the right source for an iOS comparison because it is the price an iPhone reader would actually pay.",
     "`checked` is the date a human or the daily routine last SAW that figure at that URL. build.py warns past 90 days. Re-read before citing; these change without notice and vary by storefront.",
-    "All figures are the US storefront. Never write a price as if it were global — Headspace's own listing says so explicitly."
+    "All figures are the US storefront. Never write a price as if it were global \u2014 Headspace's own listing says so explicitly."
   ],
   "prices": {
     "lullable": {
       "monthly": "$2.99",
       "free_tier": true,
-      "source": "internal — confirmed by AV 2026-09-01",
+      "source": "internal \u2014 confirmed by AV 2026-09-01",
       "checked": "2026-09-01",
       "storefront": "US",
       "note": "Not yet on sale. Do not write this as a live price until the App Store listing resolves."
@@ -18,9 +18,9 @@
       "monthly": "$14.99",
       "yearly": "$69.99",
       "source": "https://apps.apple.com/us/app/calm/id571800810",
-      "checked": "2026-09-07",
+      "checked": "2026-09-17",
       "storefront": "US",
-      "note": "Confirmed at source 2026-09-07: the listing description states $14.99/month and $69.99/year. The In-App Purchases list on the same page also shows Calm Premium SKUs at $16.99, $29.99 and $79.99 — legacy or non-default tiers. Cite the description figures; they are what a new US buyer sees."
+      "note": "Re-confirmed at source 2026-09-17: the listing description states $14.99/month and $69.99/year. The In-App Purchases list on the same page also shows Calm Premium SKUs at $16.99, $29.99 and $79.99 \u2014 legacy or non-default tiers. Cite the description figures; they are what a new US buyer sees."
     },
     "headspace": {
       "monthly": "$12.99",
