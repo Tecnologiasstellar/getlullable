@@ -3,6 +3,7 @@ title: Por qué el colchón decide la noche
 description: Qué puede y qué no puede hacer la superficie sobre la que duermes, qué cambió la espuma viscoelástica y por qué la firmeza media aparece una y otra vez.
 question: ¿Qué tan importante es el colchón para dormir bien?
 type: question
+lang: es
 sources: https://pubmed.ncbi.nlm.nih.gov/29073401/, https://pubmed.ncbi.nlm.nih.gov/19674684/
 ---
 

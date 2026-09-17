@@ -28,7 +28,7 @@ so they survive refactors:
   - Rendering is pure: improving a template here re-renders every page on the
     next build for free.
 """
-import html, json, re, sys
+import html, json, re, sys, unicodedata
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -61,7 +61,32 @@ PROHIBITED = [
     "proven to", "will help you sleep", "helps you fall asleep",
     "help you sleep better", "get you to sleep",
 ]
-NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ")
+# Spanish topics entered the queue 2026-09-17 and the loop is unattended, so the
+# list below stopped being allowed to be English-only. Phrases are written WITHOUT
+# accents because prohibited_claims_in() strips them before matching — otherwise
+# "clínicamente" and "clinicamente" would need two entries each, and the drafter
+# only has to drop an accent to walk through the gate.
+PROHIBITED += [
+    "cura el insomnio", "curar el insomnio", "cura para el insomnio", "cura tu insomnio",
+    "trata el insomnio", "tratar el insomnio", "tratamiento para el insomnio",
+    "tratamiento del insomnio",
+    "clinicamente probado", "cientificamente probado", "medicamente probado",
+    "clinicamente comprobado", "cientificamente comprobado",
+    "recomendado por medicos", "los medicos recomiendan", "recomendado por doctores",
+    "diagnosticar", "dosis de melatonina", "dosificacion",
+    # The outcome promises. Same reasoning as the English block above: describe
+    # mechanism, never a result. "Te ayudara a dormir mejor" is the single most
+    # natural sentence in Spanish sleep marketing, which is exactly why it is here.
+    "te ayuda a dormir", "te ayudara a dormir", "ayuda a dormir mejor",
+    "ayudarte a dormir", "te ayudara a conciliar",
+    "dormiras mas rapido", "te duermes mas rapido", "duermete mas rapido",
+    "dormirte mas rapido", "conciliar el sueno mas rapido",
+    "mejora la calidad del sueno", "mejora tu sueno", "mejorar tu sueno",
+    "mejora el sueno", "garantizado que", "te garantiza", "probado para",
+]
+
+NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ",
+            "nunca ", "sin ", "ni ", "jamas ", "tampoco ")
 
 def prohibited_claims_in(text):
     # Collapse whitespace before matching. Found 2026-09-01: markdown prose wraps
@@ -71,6 +96,11 @@ def prohibited_claims_in(text):
     # the copy it exists to stop. Positions stay consistent for the negation
     # lookback below because it reads the same collapsed string.
     low = re.sub(r"\s+", " ", text.lower())
+    # Strip diacritics so one unaccented entry covers both spellings. English
+    # phrases are unaffected; Spanish ones would otherwise be bypassed by the
+    # commonest typo in the language.
+    low = "".join(c for c in unicodedata.normalize("NFKD", low)
+                  if not unicodedata.combining(c))
     hits = []
     for phrase in PROHIBITED:
         for m in re.finditer(re.escape(phrase), low):
@@ -163,6 +193,8 @@ def validate_post(p, warnings):
         # the first paragraph IS the FAQ answer AI assistants quote; it must stand alone
         if not 30 <= fw <= 120:
             warnings.append(f"{p['path']}: answer paragraph {fw} words (target 30–120, self-contained)")
+    if p.get("lang") and p["lang"] not in LOCALES:
+        errs.append(f"lang must be one of {'|'.join(LOCALES)}, got {p['lang']!r}")
     if not p.get("type"):
         warnings.append(f"{p['path']}: no type: (question|definition|fact-world) — rotation can't see it")
     # Sources, required wherever the post makes a CHECKABLE claim. Added
@@ -438,13 +470,22 @@ def story_cta(s):
             f'It lives in the Lullable app.</p>\n'
             f'<a href="{href}">{label}</a>\n</div>')
 
-def page(title, desc, canonical, body, extra_head="", og_image=None):
+# `lang` describes the primary language of the page's prose. It stayed hardcoded
+# "en" while exactly one Spanish post existed (2026-09-15, a deliberate one-off).
+# With 12 Spanish topics in the queue it became a whole section telling Google it
+# was English, which works against the reason those topics exist at all. The
+# surrounding chrome — nav, footer, the SOURCES label — is still English on every
+# page: lang describes the article, and localising the furniture is a much bigger
+# job nobody has asked for.
+LOCALES = {"en": "en_US", "es": "es_MX"}
+
+def page(title, desc, canonical, body, extra_head="", og_image=None, lang="en"):
     nav_href, nav_label = app_cta()
     # One og:image only. Crawlers (WhatsApp, Facebook) take the FIRST tag, so a
     # per-page card appended after the default was silently never shown.
     og_image = og_image or f"{SITE}/og.png"
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -456,7 +497,7 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="{BRAND}">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{LOCALES.get(lang, 'en_US')}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:image" content="{og_image}">
 <meta property="og:image:width" content="1200">
@@ -1113,6 +1154,7 @@ def build():
             "@context": "https://schema.org", "@type": "Article",
             "headline": p["title"], "description": p["description"],
             "datePublished": p["date"], "mainEntityOfPage": url,
+            "inLanguage": p.get("lang", "en"),
             "author": {"@type": "Organization", "name": BRAND, "url": SITE},
         }]
         if p.get("question"):
@@ -1142,7 +1184,8 @@ def build():
                 f"\n{related_html(rel)}\n</article>")
         out = ROOT / "sleep" / p["slug"]
         out.mkdir(exist_ok=True)
-        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body, jsonld(schemas)))
+        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body,
+                                             jsonld(schemas), lang=p.get("lang", "en")))
 
     # ---- blog index: card grid
     kinds = {"question": "Question", "definition": "Definition", "fact-world": "Fact-world"}
@@ -1428,11 +1471,13 @@ def scaffold_post(slug, topic=None):
     if path.exists():
         sys.exit(f"{path.name} already exists")
     t = topic or {}
+    lang_line = f"lang: {t['lang']}\n" if t.get("lang") else ""
     q = f"question: {t.get('title', 'Optional — the search question this answers. Delete if none.')}\n" \
         if (t.get("type") == "question" or not topic) else ""
     path.write_text(f"""---
 title: {t.get('title', 'TITLE')}
 description: Meta description under 155 characters.
+{lang_line}
 {q}type: {t.get('type', 'question | definition | fact-world')}
 ---
 
