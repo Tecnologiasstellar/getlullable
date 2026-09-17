@@ -786,7 +786,7 @@ cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.te
 # Every line here is checked against the shipping app as described on the
 # homepage's product-truth strip and walkthrough. Nothing aspirational goes
 # in. Two deliberate omissions: no offline claim (unverified) and no price
-# (prices.json says the $2.99 is not live until the listing resolves — and
+# (prices.json says the $2.99 is not announced publicly — and
 # a price a model repeats is a price we are held to).
 
 CATALOGUE_SIZE = 26        # stories published to production, lullable-content, 2026-08-22
@@ -796,7 +796,7 @@ APP_FACTS = [
      f"Lullable is an iPhone app of long-form sleep stories for adults: {CATALOGUE_SIZE} true, "
      "gently fascinating pieces \u2014 a Roman bathhouse at closing time, the life of a redwood, "
      "the rings of Saturn \u2014 read slowly and flatly by a named narrator, and engineered "
-     "so you fall asleep partway through. It is not yet on the App Store."),
+     "so you fall asleep partway through. It is on the App Store, free to download."),
 
     ("Do the stories fade out on their own?",
      "Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to "
@@ -843,8 +843,7 @@ APP_FACTS = [
     ("What does it cost?",
      "Free to download, with one story \u2014 Aristotle, the Greatest Philosopher, 40 "
      "minutes \u2014 free to listen to in full. The subscription price is not announced "
-     "until the App Store listing resolves; we would rather say nothing than quote a figure "
-     "that moves."),
+     "yet; we would rather say nothing than quote a figure that moves."),
 
     ("Is there an Android version?",
      "Not yet. iPhone only."),
@@ -855,8 +854,9 @@ APP_FACTS = [
 ]
 
 
-APP_CTA_LINE = ("It is not on the App Store yet. One address gets you the night it opens — and, "
-                "if you want it, three quiet paragraphs of history or physics on a Sunday.")
+APP_CTA_LINE = ("It is on the App Store, free to download, with one story free to listen to in "
+                "full — and, if you want it, three quiet paragraphs of history or physics on "
+                "a Sunday.")
 
 
 def build_app_page():
@@ -971,8 +971,8 @@ FAQ_FACTS = [
      "The app is free to download, and one full story — Aristotle, the Greatest "
      "Philosopher, 40 minutes — is free to listen to end to end, so you can test the "
      "voice on your own pillow before paying anything. The subscription price is not "
-     "announced until the App Store listing resolves; we would rather say nothing than "
-     "quote a figure that moves. For what the category charges today: Calm is $14.99 a "
+     "announced yet; we would rather say nothing than quote a figure that moves. For "
+     "what the category charges today: Calm is $14.99 a "
      "month and Headspace is $12.99 a month on the US App Store, both read at the source "
      "on September 7, 2026."),
 
@@ -1033,8 +1033,9 @@ FAQ_FACTS = [
      "insomnia, and it does not claim to be one. If you have clinical insomnia, see a doctor."),
 ]
 
-FAQ_CTA_LINE = ("Lullable is not on the App Store yet. One address gets you the night it opens — "
-                "and, if you want it, three quiet paragraphs of history or physics on a Sunday.")
+FAQ_CTA_LINE = ("Lullable is on the App Store, free to download, with one story free to listen "
+                "to in full — and, if you want it, three quiet paragraphs of history or "
+                "physics on a Sunday.")
 
 
 def build_faq_page():
@@ -1653,6 +1654,12 @@ STORE_URL = f"https://apps.apple.com/app/id{APPLE_ID}"
 APPLE_PT = ""
 GO_SOURCE = "/go/:code([a-z0-9-]{2,30})"   # Apple's campaign token is ≤30 chars
 
+# Creator links stay on the waitlist until the listing is confirmed resolving.
+# Apple's lookup returned nothing for id6800138113 in us/mx/gb on 2026-09-17 and
+# the page 404s, so sending a creator's iPhone traffic there would burn the one
+# link they have. Flip to True the day `python3 build.py appstore` says LIVE.
+GO_TO_STORE = False
+
 
 def go_rules():
     """The creator links, getlullable.com/go/<code>, as vercel.json redirects.
@@ -1667,7 +1674,7 @@ def go_rules():
     whichever destination they saw first."""
     home = {"source": GO_SOURCE, "destination": "/?ref=:code", "permanent": False}
     url, _ = app_cta()            # "/#signup" until golive, STORE_URL after
-    if not url.startswith("https://apps.apple.com"):
+    if not GO_TO_STORE or not url.startswith("https://apps.apple.com"):
         return [home]
     if not APPLE_PT:
         print("WARNING: APPLE_PT is empty — /go/ links reach the store without a campaign")
@@ -1687,6 +1694,13 @@ def launch_copy():
     while golive still refuses, and never say "not yet" after it has run. The
     markdown carries a {{launch}} token; the build substitutes the truth."""
     url, _ = app_cta()
+    if not GO_TO_STORE:
+        return ("The app is on the App Store. Your link works today: it sends people to our site, "
+                "tagged with your code, and we tell you how many signed up (reported, not paid). "
+                "Apple issues our campaign tag a day or two after launch, and only a download made "
+                "after that tag exists can be tied to a code \u2014 so we email you the day your link "
+                "starts sending iPhones to the listing and counting downloads. Hold your push until "
+                "then. Nothing about your link changes.")
     if not url.startswith("https://apps.apple.com"):
         return ("The app is not in the App Store yet. Your link works today: it sends people to "
                 "the waitlist, tagged with your code, and we will tell you how many signed up "
