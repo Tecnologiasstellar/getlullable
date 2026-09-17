@@ -1,22 +1,30 @@
 # Content Production Runbook
 
-Two loops run this site: a **daily essay** and a **story page per app upload**.
+Two loops run this site: a **weekly essay** and a **story page per app upload**.
 The practices here were lifted from SAUNAS.MX and SIMPLE.MX after reviewing both
 engines — what shipped, what silently broke, and why.
 
 ---
 
-## Loop 1 — the daily essay
+## Loop 1 — the weekly essay
+
+**Weekly since 2026-09-17, daily before that.** The Search Console coverage export
+that week read 36 indexed / 17 not indexed, and 10 of the 17 were "Discovered -
+currently not indexed" — Google declining to crawl URLs it already knew about —
+while impressions sat flat at ~4/day across five weeks in which the post count
+doubled. Publishing faster was adding to a queue Google was not working through.
+68 topics remain: weekly stretches them to sixteen months. The gates, the voice
+contract and the verify step are unchanged; only the cadence moved.
 
 ```bash
 python3 build.py next        # picks the next topic (rotation applied), scaffolds the file, prints the brief
 # write the post — or hand the printed brief to Claude with the voice contract below
 python3 build.py             # validate (hard gates) + regenerate everything
-python3 build.py ship "Daily post: the title"   # build + commit + rebase + push; Vercel builds main
+python3 build.py ship "Post: the title"   # build + commit + rebase + push; Vercel builds main
 # then BROWSER-VERIFY the new URL. A 200 from the deploy is not a rendered page.
 ```
 
-**`ship` rebases before it pushes.** Two loops write this repo — the daily essay and
+**`ship` rebases before it pushes.** Two loops write this repo — the weekly essay and
 the IG scheduler — so main moving ahead between your build and your push is normal.
 On 2026-08-15 that rejected a push with the post already committed. `git pull --rebase`
 now runs inside `ship`; a genuine conflict stops the deploy rather than merging around it.
