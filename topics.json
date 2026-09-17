@@ -850,6 +850,150 @@
         "night train sleep story",
         "sleeper train sounds"
       ]
+    },
+    {
+      "slug": "la-hora-que-espana-no-cambio",
+      "type": "fact-world",
+      "title": "La hora que España nunca deshizo",
+      "angle": "Spain sits on Berlin time because of a 1940 decree that was never reversed, so the country runs roughly an hour off its own sun. The railway-gauge shape exactly: an arbitrary choice nobody revisited, checkable in the BOE.",
+      "keywords": [
+        "por que espana tiene la hora de alemania",
+        "huso horario de espana",
+        "hora solar espana"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "que-escuchar-para-dormir",
+      "type": "question",
+      "title": "Qué escuchar para dormir",
+      "angle": "The Spanish counterpart of the English post Google actually indexed and kept. Same thesis, none of the same sentences: anything built to hold attention will hold it.",
+      "keywords": [
+        "que escuchar para dormir",
+        "que poner para dormir",
+        "audios para dormir"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "el-observatorio-del-ebro",
+      "type": "fact-world",
+      "title": "Cien años de lecturas en Roquetes",
+      "angle": "A geophysical observatory on the Ebro delta taking continuous readings since 1904. The Ben Nevis shape in Spanish — patience, instruments, an unbroken series of numbers nobody needed urgently.",
+      "keywords": [
+        "observatorio del ebro",
+        "roquetes observatorio",
+        "registros geomagneticos"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "que-es-el-ruido-marron",
+      "type": "definition",
+      "title": "Qué es el ruido marrón",
+      "angle": "A category term with real Spanish demand and no clinical SERP holding it. Describe the spectrum and what it masks; never what it does to a night. The Riedy review is the honest brake.",
+      "keywords": [
+        "que es el ruido marron",
+        "ruido marron vs ruido blanco",
+        "ruido rosa para dormir"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "el-archivo-de-indias",
+      "type": "fact-world",
+      "title": "Ochenta millones de páginas en Sevilla",
+      "angle": "The Archivo General de Indias: shelves measured in kilometres, catalogued slowly for decades. Verifiable at the Ministerio de Cultura, and dull in the way the product is dull.",
+      "keywords": [
+        "archivo de indias",
+        "archivo general de indias sevilla",
+        "legajos de indias"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "apps-para-dormir-en-espanol",
+      "type": "comparison",
+      "title": "Apps para dormir en español, honestamente",
+      "angle": "The commercial SERP in Spanish is thin and mostly affiliate lists. Concede first, like the Calm post: what each app does well, what it costs at its own store page, and who should not buy any of them. Every price through prices.json.",
+      "keywords": [
+        "apps para dormir",
+        "mejor app para dormir",
+        "alternativa a calm en espanol"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "la-sagrada-familia-lleva-140-anos",
+      "type": "fact-world",
+      "title": "Una obra que empezó en 1882",
+      "angle": "A building site that has outlived everyone who started it, funded by visitors, with a completion date that keeps moving. Slow, true, and entirely unactionable at 2am.",
+      "keywords": [
+        "cuanto lleva en obras la sagrada familia",
+        "sagrada familia construccion",
+        "obras que duran siglos"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "por-que-los-podcasts-me-desvelan",
+      "type": "question",
+      "title": "Por qué los podcasts me desvelan",
+      "angle": "The Spanish counterpart of another indexed English winner. The craft of making a podcast is the craft of preventing a drift — hooks, teasers, autoplay. Mechanism only, no outcome.",
+      "keywords": [
+        "por que los podcasts me desvelan",
+        "escuchar podcast para dormir",
+        "podcasts aburridos para dormir"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "el-chepe-noventa-anos-de-obra",
+      "type": "fact-world",
+      "title": "El tren que tardó noventa años",
+      "angle": "The Chihuahua al Pacífico: surveyed in the 1860s, finished in 1961, 37 bridges and 86 tunnels through the Barrancas del Cobre. Mexican material, checkable, and the right kind of slow.",
+      "keywords": [
+        "tren chepe historia",
+        "chihuahua al pacifico",
+        "barrancas del cobre tren"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "voces-para-dormir",
+      "type": "definition",
+      "title": "Qué hace que una voz sirva para dormir",
+      "angle": "The narrator spec in Spanish: narrow pitch, even pace, no performance. Boring is the specification, not a compromise. The prosody research carries it without a single claim about sleep.",
+      "keywords": [
+        "voces para dormir",
+        "voz relajante para dormir",
+        "narradores para dormir"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "la-corriente-de-humboldt",
+      "type": "fact-world",
+      "title": "La corriente que enfría un continente",
+      "angle": "Cold water travelling up the Pacific coast of South America, moving slowly enough to be described for forty minutes without anything happening. Oceanography, not wellness.",
+      "keywords": [
+        "corriente de humboldt",
+        "corriente del peru",
+        "corrientes oceanicas frias"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
+    },
+    {
+      "slug": "que-pensar-para-quedarse-dormido",
+      "type": "question",
+      "title": "Qué pensar para quedarse dormido",
+      "angle": "You cannot think about nothing, so the answer is a subject to hand it: true, concrete, flat and going nowhere. The Spanish long tail for the English post that already works.",
+      "keywords": [
+        "que pensar para dormir",
+        "como dejar de pensar para dormir",
+        "en que pensar para quedarse dormido"
+      ],
+      "blocked": "Spanish. Unblock when build.py's PROHIBITED list covers Spanish — it is an English wordlist today, so a Spanish post clears the claim gate unchecked, and the weekly loop is unattended."
     }
   ]
 }
