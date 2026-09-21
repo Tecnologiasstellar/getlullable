@@ -6,6 +6,7 @@
 <title>Lullable — bedtime stories for minds that won't switch off</title>
 <meta name="description" content="An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.">
 <meta name="color-scheme" content="dark">
+<meta name="apple-itunes-app" content="app-id=6800138113">
 <link rel="canonical" href="https://getlullable.com/">
 <meta name="facebook-domain-verification" content="mbevkdbwvqfrs43v9zsiudcten36a0">
 
@@ -49,7 +50,8 @@
  {"@type":"WebSite","@id":"https://getlullable.com/#site","url":"https://getlullable.com/",
   "name":"Lullable","publisher":{"@id":"https://getlullable.com/#org"},
   "description":"An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.",
-  "inLanguage":"en"}
+  "inLanguage":"en"},
+ {"@type":"MobileApplication","@id":"https://getlullable.com/#app","name":"Lullable","applicationCategory":"LifestyleApplication","operatingSystem":"iOS 17.0+","url":"https://apps.apple.com/app/id6800138113","installUrl":"https://apps.apple.com/app/id6800138113","publisher":{"@id":"https://getlullable.com/#org"},"description":"An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.","softwareVersion":"1.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 ]}
 </script>
 
@@ -451,7 +453,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <a href="#stories">Stories</a>
       <a href="/sleep/">The Sleep Library</a>
       <a href="/chronotype/">Chronotype quiz</a>
-      <a class="btn sm app-link" data-placement="header" data-live="Get the app" href="#signup">Join the waitlist</a>
+      <a class="btn sm app-link" data-placement="header" href="https://apps.apple.com/app/id6800138113">Get the app</a>
     </nav>
   </div>
 </header>
@@ -479,14 +481,14 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <p class="lead">Fascinating truths, read so softly you fall asleep mid-sentence. Nothing to follow, nothing to remember.</p>
 
       <div class="hero-ctas">
-        <a class="btn solid btn-badge app-link" data-placement="hero" href="#signup">
+        <a class="btn solid btn-badge app-link" data-placement="hero" href="https://apps.apple.com/app/id6800138113">
           <img src="/assets/brand/mark-128.webp" width="26" height="26" alt="" decoding="async">
-          <span><span class="b1" data-live-text="On the App&nbsp;Store">Coming to the App&nbsp;Store</span><span class="b2" data-live-text="Get the app">Join the waitlist</span></span>
+          <span><span class="b1">On the App&nbsp;Store</span><span class="b2">Get the app</span></span>
         </a>
         <a class="ghost" id="hero-play" href="#listen">Play the four-minute sample ↓</a>
       </div>
 
-      <p class="hero-note" data-live-text="Free to download. iPhone, dark by design.">Free. One email a week, never after 9&nbsp;pm.</p>
+      <p class="hero-note">Free to download. iPhone, dark by design.</p>
     </div>
 
     <div>
@@ -602,8 +604,8 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
   <div class="wrap band-in">
     <p>That's the whole app. Four screens, and then you're asleep.</p>
     <div class="side">
-      <a class="btn solid app-link" data-placement="after-walkthrough" data-live="Get the app" href="#signup">Join the waitlist</a>
-      <small data-live-text="Free to download. Aristotle is free to listen to.">Free. One email a week, never after 9&nbsp;pm.</small>
+      <a class="btn solid app-link" data-placement="after-walkthrough" href="https://apps.apple.com/app/id6800138113">Get the app</a>
+      <small>Free to download. Aristotle is free to listen to.</small>
     </div>
   </div>
 </section>
@@ -880,13 +882,13 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
 <!-- ══════════ JOIN ══════════ -->
 <section class="s-lg final" id="signup">
   <div class="wrap">
-    <p class="eyebrow" data-live-text="Get the app">Boringly Brilliant</p>
-    <h2 data-live-text="It's on the App&nbsp;Store.">Be there the night it opens.</h2>
-    <p class="lead" style="margin-top:1.3rem;max-width:32rem" data-live-text="Free to download, with one story free to listen to. And if you want the letter as well — “Boringly Brilliant”, three quiet paragraphs of history or physics, Sunday night — leave an address below.">One address, two things: your place on the App&nbsp;Store waitlist, and “Boringly Brilliant” — three quiet paragraphs of history or physics, Sunday night. Both, or neither.</p>
+    <p class="eyebrow">Get the app</p>
+    <h2>It's on the App&nbsp;Store.</h2>
+    <p class="lead" style="margin-top:1.3rem;max-width:32rem">Free to download, with one story free to listen to. And if you want the letter as well — “Boringly Brilliant”, three quiet paragraphs of history or physics, Sunday night — leave an address below.</p>
 
     <form id="signup-form" novalidate>
       <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required aria-label="Your email address">
-      <button type="submit" class="btn solid" id="submit" data-live-text="Send me Sundays">Join the waitlist</button>
+      <button type="submit" class="btn" id="submit">Send me Sundays</button>
     </form>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
 
@@ -976,7 +978,7 @@ var EVENTS_URL    = "";
    https://apps.apple.com/app/id6800138113 — but do not paste it by hand: as of
    2026-08-25 that page does not resolve, and a dead store link is worse than an
    honest waitlist. */
-var APP_STORE_URL = "";
+var APP_STORE_URL = "https://apps.apple.com/app/id6800138113";
 
 function track(name, meta){
   var e = {name:name, meta:meta||{}, ts:new Date().toISOString(), path:location.pathname};

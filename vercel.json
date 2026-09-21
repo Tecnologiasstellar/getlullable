@@ -32,6 +32,18 @@
     },
     {
       "source": "/go/:code([a-z0-9-]{2,30})",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(iPhone|iPad|iPod).*"
+        }
+      ],
+      "destination": "https://apps.apple.com/app/apple-store/id6800138113?ct=:code&mt=8",
+      "permanent": false
+    },
+    {
+      "source": "/go/:code([a-z0-9-]{2,30})",
       "destination": "/?ref=:code",
       "permanent": false
     }
