@@ -42,4 +42,4 @@ Ours are true, and short of a full night — twenty to forty minutes, on subject
 
 The thing to be straight about, since we just praised Slumber for being straight about it: our voices are synthesised. The narrator names in our catalogue are personas, not people. If a human reader matters to you — and for a lot of listeners it plainly does — Get Sleepy, Sleepy History and Nothing Much Happens are the better choice, and we would rather tell you that now than have you find out at midnight.
 
-The app is not out yet, so nothing here is a recommendation to buy anything. If you want one of the four above tonight, take Nothing Much Happens for worry and Sleepy History for curiosity, and you will have chosen well.
+Lullable is on the App Store now, so take this page for what it is: the one where we send you somewhere else. If you want one of the four above tonight, take Nothing Much Happens for worry and Sleepy History for curiosity, and you will have chosen well.

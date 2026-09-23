@@ -1,7 +1,7 @@
 ---
 title: Privacy Policy
 description: What Lullable collects, which cookies run only if you allow them, and how to make us delete it all. Written plainly, with the short version first.
-updated: 2026-09-14
+updated: 2026-09-22
 ---
 
 ## The short version
@@ -30,11 +30,11 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 
 ## What we collect
 
-**If you join the waitlist or the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). Every email we send has a one-click unsubscribe link that works without contacting anybody.
+**If you join the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). Every email we send has a one-click unsubscribe link that works without contacting anybody.
 
 **When you visit the site.** Our host, Vercel, keeps standard server logs — IP address, browser and device type, the page requested, the time — for security and to keep the site up. Those logs are necessary to serve you a page at all, so they aren't optional, and we don't read them for marketing.
 
-**Creator links.** If you arrive through a link like getlullable.com/go/name, the name is a code for the creator who sent you. It travels in the address — as `ref=` on our site today, and as an App Store campaign tag once the app is downloadable — so we can pay that creator for the download. It sets no cookie and is stored nowhere, unless you then join the newsletter, in which case it is saved with your email as the signup's *source* (at Sender, with the same retention as the email itself) and never anywhere else.
+**Creator links.** If you arrive through a link like getlullable.com/go/name, the name is a code for the creator who sent you. It travels in the address — as an App Store campaign tag on an iPhone or iPad, and as a ref= parameter in the web address otherwise — so we can pay that creator for the download. It sets no cookie and is stored nowhere, unless you then join the newsletter, in which case it is saved with your email as the signup's *source* (at Sender, with the same retention as the email itself) and never anywhere else.
 
 **Fonts.** The site's typefaces are served from our own domain, not from Google Fonts or any other font service. Loading a page does not tell a third party that you were here.
 
@@ -98,7 +98,7 @@ If you'd rather we did it for you, write to [info@getlullable.com](mailto:info@g
 
 **Necessary purposes** — without these there is no service to speak of:
 
-- To send you the newsletter and the launch announcement you asked for.
+- To send you the newsletter you asked for.
 - To keep the site running, fast, and free of abuse.
 - To answer you when you write to us.
 - To meet legal, tax, and accounting obligations.
