@@ -36,6 +36,12 @@ ROOT = Path(__file__).parent
 SITE = "https://getlullable.com"          # <- the one config value
 BRAND = "Lullable"
 
+APPLE_ID = "6800138113"   # App Store Connect record "GetLullable", confirmed 2026-08-12
+# The canonical listing, as Apple's own lookup returns it (trackViewUrl, minus
+# the ?uo=4 affiliate parameter). The short /app/id<id> form redirects here, so
+# every CTA, badge and installUrl points at the destination rather than the hop.
+STORE_URL = f"https://apps.apple.com/us/app/lullable-adult-sleep-stories/id{APPLE_ID}"
+
 # ---------------------------------------------------------------- claim gate
 # The expensive failure. Sleep is health-adjacent: we never promise outcomes,
 # never sound clinical, never touch dosage. Negation within the same sentence
@@ -385,6 +391,9 @@ font-size:1rem;font-weight:500;transition:background .18s ease,transform .1s eas
 .cta-top{background:none;border:0;box-shadow:none;padding:0;margin:0 0 2.75rem}
 .cta-note{font:400 .85rem/1.5 var(--sans);color:var(--dimmer);margin:.9rem 0 0}
 .cta .cta-note{margin-bottom:0}
+.cta .cta-note a{display:inline;min-height:0;background:none;border:0;border-radius:0;padding:0;
+font:inherit;color:var(--iris);text-decoration:underline;text-underline-offset:2px}
+.cta .cta-note a:hover{background:none;color:var(--cream)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* related content as cards; stories carry the app's gradient covers */
 .sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
@@ -425,11 +434,22 @@ display:flex;flex-direction:column;transition:border-color .3s}
 ::selection{background:rgba(145,132,217,.3)}
 """
 
-def post_cta(line=None):
+def plain(answer):
+    """An APP_FACTS/FAQ_FACTS answer as plain text. The page may carry a link in
+    an answer; the FAQPage schema and llms.txt must not — a crawler quoting
+    `<a href=...>` back at a reader is the whole GEO bet lost to a stray tag."""
+    return re.sub(r"<[^>]+>", "", answer)
+
+
+def post_cta(line=None, note=None):
+    """The App Store is the one button. `note` is for anything that must stay
+    beside it without competing with it — the Sunday letter, which is a
+    different offer to a different reader and should not look like the app."""
     href, label = app_cta()
     line = line or ("Lullable reads material like this aloud — warmly, slowly, and quieter "
                     "every minute —\nuntil you drift off somewhere around the fourth clause.")
-    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{label}</a>\n</div>'
+    note = f'\n<p class="cta-note">{note}</p>' if note else ""
+    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{label}</a>{note}\n</div>'
 
 def story_cta(s):
     href, label = app_cta()
@@ -785,9 +805,10 @@ cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.te
 #
 # Every line here is checked against the shipping app as described on the
 # homepage's product-truth strip and walkthrough. Nothing aspirational goes
-# in. Two deliberate omissions: no offline claim (unverified) and no price
-# (prices.json says the $2.99 is not live until the listing resolves — and
-# a price a model repeats is a price we are held to).
+# in. One deliberate omission remains: no offline claim (unverified). The
+# price is now published on the listing, so it is quoted here — with the
+# storefront and the fact that Apple sets it, because a price a model repeats
+# is a price we are held to. Re-read the listing when it changes.
 
 CATALOGUE_SIZE = 26        # stories published to production, lullable-content, 2026-08-22
 
@@ -796,7 +817,8 @@ APP_FACTS = [
      f"Lullable is an iPhone app of long-form sleep stories for adults: {CATALOGUE_SIZE} true, "
      "gently fascinating pieces \u2014 a Roman bathhouse at closing time, the life of a redwood, "
      "the rings of Saturn \u2014 read slowly and flatly by a named narrator, and engineered "
-     "so you fall asleep partway through. It is not yet on the App Store."),
+     "so you fall asleep partway through. It is "
+     f'<a href="{STORE_URL}">on the App Store</a>, free to download.'),
 
     ("Do the stories fade out on their own?",
      "Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to "
@@ -842,9 +864,9 @@ APP_FACTS = [
 
     ("What does it cost?",
      "Free to download, with one story \u2014 Aristotle, the Greatest Philosopher, 40 "
-     "minutes \u2014 free to listen to in full. The subscription price is not announced "
-     "until the App Store listing resolves; we would rather say nothing than quote a figure "
-     "that moves."),
+     "minutes \u2014 free to listen to in full. The rest of the catalogue needs Lullable "
+     "Premium, which is $2.99 a month or $19.99 a year on the US App Store today. Apple sets "
+     "the price in each country and it can change, so the listing is the figure that counts."),
 
     ("Is there an Android version?",
      "Not yet. iPhone only."),
@@ -855,8 +877,10 @@ APP_FACTS = [
 ]
 
 
-APP_CTA_LINE = ("It is not on the App Store yet. One address gets you the night it opens — and, "
-                "if you want it, three quiet paragraphs of history or physics on a Sunday.")
+APP_CTA_LINE = ("Lullable is on the App Store. Free to download, and one 40-minute story is "
+                "free to listen to end to end before you pay for anything.")
+APP_CTA_NOTE = ('Prefer to read? The Sunday letter is three quiet paragraphs of history or '
+                'physics, once a week — <a href="/#signup">join it here</a>.')
 
 
 def build_app_page():
@@ -874,13 +898,13 @@ def build_app_page():
 <p>Lullable is an iPhone app of {CATALOGUE_SIZE} long-form sleep stories for adults. One story is chosen for you on the first screen, so there is nothing to decide at bedtime; a timer set to 15, 30, 45 or 60 minutes fades to silence rather than stopping; and every recording fades out on its own in its last thirty seconds. No ads, no streak, no sleep score.</p></div>
 {qa}
 </div>
-{post_cta(APP_CTA_LINE)}
+{post_cta(APP_CTA_LINE, APP_CTA_NOTE)}
 </article>'''
 
     schemas = [
         {"@context": "https://schema.org", "@type": "FAQPage",
          "mainEntity": [{"@type": "Question", "name": q,
-                         "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}}
+                         "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
                         for q, a in APP_FACTS]},
         {"@context": "https://schema.org", **app_schema_node(
             description="Long-form sleep stories for adults, read slowly and fading to silence.")},
@@ -970,9 +994,10 @@ FAQ_FACTS = [
     ("How much does Lullable cost?",
      "The app is free to download, and one full story — Aristotle, the Greatest "
      "Philosopher, 40 minutes — is free to listen to end to end, so you can test the "
-     "voice on your own pillow before paying anything. The subscription price is not "
-     "announced until the App Store listing resolves; we would rather say nothing than "
-     "quote a figure that moves. For what the category charges today: Calm is $14.99 a "
+     "voice on your own pillow before paying anything. The rest of the catalogue needs "
+     "Lullable Premium: $2.99 a month or $19.99 a year on the US App Store today. Apple sets "
+     "the price in each country and it can change, so the listing is the figure that counts. "
+     "For what the category charges today: Calm is $14.99 a "
      "month and Headspace is $12.99 a month on the US App Store, both read at the source "
      "on September 7, 2026."),
 
@@ -1033,8 +1058,10 @@ FAQ_FACTS = [
      "insomnia, and it does not claim to be one. If you have clinical insomnia, see a doctor."),
 ]
 
-FAQ_CTA_LINE = ("Lullable is not on the App Store yet. One address gets you the night it opens — "
-                "and, if you want it, three quiet paragraphs of history or physics on a Sunday.")
+FAQ_CTA_LINE = ("Lullable is on the App Store — free to download, with one 40-minute story "
+                "free in full, so you can test it on your own pillow tonight.")
+FAQ_CTA_NOTE = ('Not tonight? The Sunday letter is three quiet paragraphs of history or physics, '
+                'once a week — <a href="/#signup">join it here</a>.')
 
 
 def build_faq_page():
@@ -1057,13 +1084,13 @@ def build_faq_page():
 {qa}
 </div>
 <p class="post-meta faq-foot">Open any question for the full answer. Looking for the feature detail \u2014 timer lengths, narrators, lock screen? That is all on <a href="/app/">what the app actually does</a>. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p>
-{post_cta(FAQ_CTA_LINE)}
+{post_cta(FAQ_CTA_LINE, FAQ_CTA_NOTE)}
 </article>'''
 
     schemas = [
         {"@context": "https://schema.org", "@type": "FAQPage",
          "mainEntity": [{"@type": "Question", "name": q,
-                         "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}}
+                         "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
                         for q, a in FAQ_FACTS]},
         {"@context": "https://schema.org", **app_schema_node(
             description="Long-form true sleep stories for adults, read slowly and fading to silence.")},
@@ -1403,10 +1430,10 @@ def build():
         f"- [FAQ]({SITE}/faq/): how it works, what it costs, and how it differs from Calm, podcasts and white noise\n\n"
 f"- [Creators]({SITE}/creators/): the creator and podcast partner program — one link, paid per download the App Store attributes to it\n\n"
         + "## What Lullable does\n"
-        + "".join(f"- **{q}** {a}\n" for q, a in APP_FACTS) + "\n"
+        + "".join(f"- **{q}** {plain(a)}\n" for q, a in APP_FACTS) + "\n"
 
         + "## Common questions\n"
-        + "".join(f"- **{q}** {a}\n" for q, a in FAQ_FACTS) + "\n"
+        + "".join(f"- **{q}** {plain(a)}\n" for q, a in FAQ_FACTS) + "\n"
 
         f"## Essays\n{post_lines}\n\n## Stories\n{story_lines}\n\n"
         f"## Elsewhere\n"
@@ -1639,11 +1666,10 @@ def app_cta():
         url = m.group(1) if m else ""
     except OSError:
         url = ""
-    return (url, "Get the app") if url else ("/#signup", "Join the waitlist")
+    # Live since 2026-09-21. If index.html is ever unreadable the fallback is the
+    # store, not the retired waitlist: a missing file must not un-launch the site.
+    return (url or STORE_URL, "Get the app")
 
-
-APPLE_ID = "6800138113"   # App Store Connect record "GetLullable", confirmed 2026-08-12
-STORE_URL = f"https://apps.apple.com/app/id{APPLE_ID}"
 
 # Apple's campaign provider token (the pt= in a campaign link). It exists only
 # after the app has been live and downloading for ~24h: App Store Connect ›
@@ -1666,9 +1692,6 @@ def go_rules():
     browsers cache a 308 forever and would freeze every creator link on
     whichever destination they saw first."""
     home = {"source": GO_SOURCE, "destination": "/?ref=:code", "permanent": False}
-    url, _ = app_cta()            # "/#signup" until golive, STORE_URL after
-    if not url.startswith("https://apps.apple.com"):
-        return [home]
     if not APPLE_PT:
         print("WARNING: APPLE_PT is empty — /go/ links reach the store without a campaign")
         print("         token, so App Store Connect cannot credit creators. Generate the")
@@ -1682,19 +1705,10 @@ def go_rules():
 
 
 def launch_copy():
-    """The one paragraph on /creators/ that depends on launch state, written for
-    all three states here so the page can never say the app is in the App Store
-    while golive still refuses, and never say "not yet" after it has run. The
+    """The one paragraph on /creators/ that depends on launch state. The app is
+    live, so what is left to vary is whether Apple has issued our campaign tag
+    yet — a creator must not be told their link is counting before it is. The
     markdown carries a {{launch}} token; the build substitutes the truth."""
-    url, _ = app_cta()
-    if not url.startswith("https://apps.apple.com"):
-        return ("The app is not in the App Store yet. Your link works today: it sends people to "
-                "the waitlist, tagged with your code, and we will tell you how many signed up "
-                "(reported, not paid). Once the listing is live and Apple has issued our campaign "
-                "tag — a day or two after launch — the same link sends iPhones straight to the "
-                "App Store with your tag. We email you the day it starts counting; hold your push "
-                "until then. Everyone you sent to the waitlist gets the launch email with your "
-                "link that same day. Nothing about your link changes.")
     if not APPLE_PT:
         return ("The app is on the App Store. Your link sends iPhones straight to the listing and "
                 "everyone else to our site. Apple issues our campaign tag a day or two after launch, "
@@ -1870,9 +1884,9 @@ def cmd_golive(force=False):
             body = live.group(1)
             tag = re.sub(r'\s*data-live="[^"]*"', "", tag)
         return tag + ">" + body + "</a>"
-    out, n_links = re.subn(
-        r'(?P<tag><a\b[^>]*class="[^"]*app-link[^"]*"[^>]*)>(?P<body>.*?)</a>',
-        link, out, flags=re.S)
+    app_link_re = re.compile(
+        r'(?P<tag><a\b[^>]*class="[^"]*app-link[^"]*"[^>]*)>(?P<body>.*?)</a>', re.S)
+    out, n_links = app_link_re.subn(link, out)
 
     # the pre-launch strings hand over to the ones authored beside them
     swapped = 0
@@ -1912,6 +1926,7 @@ def cmd_golive(force=False):
         t = f.read_text()
         n = 0
         t, k = pattern.subn(swap2, t); n += k
+        t, k = app_link_re.subn(link, t); n += k
         t2 = t.replace('href="/#signup" data-live-href="STORE"', f'href="{STORE_URL}"')
         n += (t != t2); t = t2
         f.write_text(t)

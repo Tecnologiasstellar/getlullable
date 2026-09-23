@@ -1,5 +1,14 @@
-# Internal docs that must not be served from getlullable.com
+# Internal docs that must not be served from getlullable.com.
+# 2026-09-22: ARCHITECTURE/SITE/BUILD-IN-PUBLIC/GEO/NEWSLETTER-01 and docs/ were
+# being served as text/markdown and still described the app as on a waitlist —
+# crawlable pre-launch copy on a site whose whole GEO bet is being quoted right.
+ARCHITECTURE.md
+BUILD-IN-PUBLIC.md
 CREATORS.md
+GEO.md
 MARKETING.md
+NEWSLETTER-01.md
 PRODUCTION.md
 SEQUENCE.md
+SITE.md
+docs/

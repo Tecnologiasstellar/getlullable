@@ -51,7 +51,7 @@
   "name":"Lullable","publisher":{"@id":"https://getlullable.com/#org"},
   "description":"An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.",
   "inLanguage":"en"},
- {"@type":"MobileApplication","@id":"https://getlullable.com/#app","name":"Lullable","applicationCategory":"LifestyleApplication","operatingSystem":"iOS 17.0+","url":"https://apps.apple.com/app/id6800138113","installUrl":"https://apps.apple.com/app/id6800138113","publisher":{"@id":"https://getlullable.com/#org"},"description":"An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.","softwareVersion":"1.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+ {"@type":"MobileApplication","@id":"https://getlullable.com/#app","name":"Lullable","applicationCategory":"LifestyleApplication","operatingSystem":"iOS 17.0+","url":"https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113","installUrl":"https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113","publisher":{"@id":"https://getlullable.com/#org"},"description":"An iPhone sleep-stories app for curious, overactive minds. Fascinating truths and slow stories, read so softly you fall asleep mid-sentence.","softwareVersion":"1.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 ]}
 </script>
 
@@ -453,7 +453,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <a href="#stories">Stories</a>
       <a href="/sleep/">The Sleep Library</a>
       <a href="/chronotype/">Chronotype quiz</a>
-      <a class="btn sm app-link" data-placement="header" href="https://apps.apple.com/app/id6800138113">Get the app</a>
+      <a class="btn sm app-link" data-placement="header" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">Get the app</a>
     </nav>
   </div>
 </header>
@@ -481,7 +481,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
       <p class="lead">Fascinating truths, read so softly you fall asleep mid-sentence. Nothing to follow, nothing to remember.</p>
 
       <div class="hero-ctas">
-        <a class="btn solid btn-badge app-link" data-placement="hero" href="https://apps.apple.com/app/id6800138113">
+        <a class="btn solid btn-badge app-link" data-placement="hero" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">
           <img src="/assets/brand/mark-128.webp" width="26" height="26" alt="" decoding="async">
           <span><span class="b1">On the App&nbsp;Store</span><span class="b2">Get the app</span></span>
         </a>
@@ -604,7 +604,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
   <div class="wrap band-in">
     <p>That's the whole app. Four screens, and then you're asleep.</p>
     <div class="side">
-      <a class="btn solid app-link" data-placement="after-walkthrough" href="https://apps.apple.com/app/id6800138113">Get the app</a>
+      <a class="btn solid app-link" data-placement="after-walkthrough" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">Get the app</a>
       <small>Free to download. Aristotle is free to listen to.</small>
     </div>
   </div>
@@ -965,20 +965,16 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
    - SUBSCRIBE_URL: our own /api/subscribe, which talks to Sender.net
      server-side (the API token can read the whole list, so it never ships
      to the browser). Env: SENDER_API_TOKEN, SENDER_GROUP_ID in Vercel.
-   - APP_STORE_URL: paste the store link on launch day and every CTA
-     on the site flips from waitlist to download. One line, no build.
+   - APP_STORE_URL: the canonical App Store listing. Every .app-link on
+     the page is rewritten to point at it; the served HTML already does.
    --------------------------------------------------------------- */
 var SUBSCRIBE_URL = "/api/subscribe";
 var EVENTS_URL    = "";
-/* Launch day: run `python3 build.py golive` — it verifies the app is actually
-   live on the App Store first, then writes the URL in here, flips every CTA and
-   swaps the pre-launch copy for the strings marked data-live-text in the HTML.
-   The record is App Store Connect app "GetLullable", Apple ID 6800138113
-   (PRODUCTION_PHASE_0_DECISIONS.md, confirmed 2026-08-12), so the URL will be
-   https://apps.apple.com/app/id6800138113 — but do not paste it by hand: as of
-   2026-08-25 that page does not resolve, and a dead store link is worse than an
-   honest waitlist. */
-var APP_STORE_URL = "https://apps.apple.com/app/id6800138113";
+/* Live since 2026-09-21 (App Store Connect app "GetLullable", Apple ID
+   6800138113). This is the canonical listing URL Apple's own lookup returns;
+   build.py holds the same string in STORE_URL for every generated page, so if
+   this one ever changes, change it there too. */
+var APP_STORE_URL = "https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113";
 
 function track(name, meta){
   var e = {name:name, meta:meta||{}, ts:new Date().toISOString(), path:location.pathname};

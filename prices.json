@@ -8,11 +8,12 @@
   "prices": {
     "lullable": {
       "monthly": "$2.99",
+      "yearly": "$19.99",
       "free_tier": true,
-      "source": "internal \u2014 confirmed by AV 2026-09-01",
-      "checked": "2026-09-01",
+      "source": "https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113",
+      "checked": "2026-09-22",
       "storefront": "US",
-      "note": "Not yet on sale. Do not write this as a live price until the App Store listing resolves."
+      "note": "Live since 2026-09-21. Free to download; the listing's In-App Purchases panel shows Lullable Premium Annual $19.99 and Lullable Premium Monthly $2.99. Apple's iTunes lookup API reports price 2.99 for the app itself, which is wrong \u2014 the listing says isFree. Cite the listing, not the API."
     },
     "calm": {
       "monthly": "$14.99",
