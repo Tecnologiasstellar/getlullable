@@ -89,5 +89,5 @@ does not vary by design; nothing in the file is waiting to grab you. That is the
 is](/sleep/what-are-sleep-stories/) once you take the marketing out.
 
 If pitch is the thing you notice most, the catalogue is [read by a man](/stories/male-voice/)
-and [read by a woman](/stories/female-voice/), and it is worth trying both — the range that
+and read by a woman, and it is worth trying both — the range that
 disappears for you is not the range that disappears for someone else.

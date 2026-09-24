@@ -64,8 +64,8 @@ Both are at the top of the `<script>` in [index.html](index.html):
    Free to 2,500 subscribers. Until the env vars are set the function returns
    an error and the form says so, rather than faking success.
 
-2. **`audio/sample-aristotle.mp3`** — the 3:50 sampler, mono 64kbps, cut from the
-   production master with `ffmpeg -t 230 -ac 1 -b:a 64k`. Re-cut it whenever the
+2. **`audio/sample-aristotle.mp3`** — the 3:54 sampler, mono 64kbps, cut from the
+   production delivery with `ffmpeg -t 234 -ac 1 -b:a 64k`. Re-cut it whenever the
    episode is re-voiced, and re-derive the caption cues in index.html with it.
    Until the file exists the player says so and points at the newsletter.
 

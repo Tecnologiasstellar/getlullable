@@ -167,7 +167,7 @@ alternated; it read as a pile of phones.
 
 | | |
 |---|---|
-| Source | `audio/sample-aristotle.mp3` — 3:50, the opening of the app's one production story |
+| Source | `audio/sample-aristotle.mp3` — 3:54, the opening of the app's one production story |
 | Preload | `none`. Nothing downloads until pressed. |
 | Controls | Play/pause, elapsed, remaining, a non-interactive progress line. No scrubbing — scrubbing implies there's a good bit. |
 | Fade | The last 30 s ramp to silence, squared curve, in JS (`FADE_SECONDS`). The widget's thesis, stated in audio. |

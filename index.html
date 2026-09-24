@@ -733,7 +733,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
         <p class="eyebrow dim">Four minutes</p>
         <h2>Listen before you believe us.</h2>
       </div>
-      <p class="lead" style="max-width:22rem;font-size:.95rem">The opening of <em>Aristotle, the Greatest Philosopher</em> — 40 minutes in the app, four of them here. No account, no card.</p>
+      <p class="lead" style="max-width:22rem;font-size:.95rem">The opening of <em>Aristotle, the Greatest Philosopher</em> — 33 minutes in the app, four of them here. No account, no card.</p>
     </div>
 
     <div class="player">
@@ -743,7 +743,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
         </button>
         <div class="p-meta">
           <div class="p-title">Aristotle, the Greatest Philosopher — the opening descent</div>
-          <div class="p-sub" id="p-sub">Read by Emma from Oxford · Ancient Worlds · the last 30 seconds fade to silence</div>
+          <div class="p-sub" id="p-sub">Read by David from Oxford · Ancient Worlds · the last 30 seconds fade to silence</div>
         </div>
       </div>
 
@@ -761,7 +761,7 @@ footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-si
           </svg>
         </div>
       </div>
-      <p class="p-times"><span id="t-now">0:00</span><span id="t-left">3:50</span></p>
+      <p class="p-times"><span id="t-now">0:00</span><span id="t-left">3:54</span></p>
 
       <p class="p-caption" id="caption">Press play, and settle. It fades out on its own, so there is nothing to switch off.</p>
       <audio id="audio" preload="none" src="/audio/sample-aristotle.mp3"></audio>
@@ -1050,15 +1050,21 @@ var FADE_SECONDS = 30;   /* the last 30s ramp to silence — the widget's whole 
    is ever re-cut; the script is in
    lullable_audio/Stories/aristotle-the-greatest-philosopher/narration.md */
 var LINES = [
-  [0,   "“Good evening.”"],
+  [0,   "“Good evening, welcome to Lullable.”"],
   [6,   "“The day is over now, and it does not need you anymore. Whatever you finished, let it stay finished.”"],
-  [38,  "“Let the bed take your weight. That is its whole purpose, and it is glad of the work.”"],
-  [58,  "“Let your jaw loosen. Let your hands open. Let your breathing find its own pace.”"],
-  [81,  "“Tonight we are going to spend the evening with a question. Not a hard question. The gentlest one there is.”"],
-  [104, "“The question is: what is this. A child asks it about everything. A pebble. A beetle. The moon.”"],
-  [118, "“Long ago, on the shore of a warm sea, there lived a man who never stopped asking it.”"],
-  [170, "“There is nothing to memorize here. If your attention drifts away from the words, let it drift.”"],
-  [207, "“So take one slow breath in. Let it go even more slowly.”"]
+  [21,  "“Let the bed take your weight. That is its whole purpose, and it is glad of the work.”"],
+  [29,  "“Let your jaw loosen. Let your hands open. Let your breathing find its own pace.”"],
+  [42,  "“Tonight we are going to spend the evening with a question. Not a hard question. The gentlest one there is.”"],
+  [50,  "“The question is: what is this. A child asks it about everything. A pebble. A beetle. The moon.”"],
+  [59,  "“Long ago, on the shore of a warm sea, there lived a man who never stopped asking it.”"],
+  [80,  "“There is nothing to memorize here. If your attention drifts away from the words, let it drift.”"],
+  [95,  "“So take one slow breath in. Let it go even more slowly.”"],
+  [110, "“The story begins in a small town by the sea, in the north of Greece.”"],
+  [136, "“A boy was born there, and his name was Aristotle.”"],
+  [170, "“He was a boy who looked at things. Tide pools. Bird nests. The way an octopus changes color over different stones.”"],
+  [188, "“When he was about seventeen, he went south, to Athens.”"],
+  [217, "“It was a garden where people walked, and talked, and argued gently about enormous things.”"],
+  [228, "“The questions floated among the olive trees like slow birds.”"]
 ];
 
 function clock(s){

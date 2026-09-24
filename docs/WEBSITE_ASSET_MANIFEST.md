@@ -96,9 +96,15 @@ forbids going below `.28em`; the site follows that rule.
 
 | File | What | Status |
 |---|---|---|
-| `sample-aristotle.mp3` | 3:50 of *Aristotle, the Greatest Philosopher*, **read by Emma from Oxford** — the settling preamble, which ends almost exactly where the story proper begins | `APPROVED` |
+| `sample-aristotle.mp3` | 3:54 of *Aristotle, the Greatest Philosopher*, **read by David from Oxford** — the settling preamble and the story's opening, ending on "the olive trees like slow birds" | `APPROVED` |
 
-**Re-cut on 2026-08-25** from the current production master
+**Re-cut on 2026-09-23** from the ElevenLabs re-voice (David, Multilingual v2;
+`audio-aristotle-en-v3-aac96`, 2001.9 s) with `ffmpeg -t 234 -ac 1 -b:a 64k`, after
+listeners called the Polly Emma render robotic. At David's pace the preamble ends at
+1:51, so the cut now runs on into the story to keep the four-minute sampler; the
+15 caption cues were re-measured off the new file with silencedetect.
+
+**Previously re-cut on 2026-08-25** from the then production master
 (`lullable_audio/Stories/aristotle-the-greatest-philosopher/audio/delivery.m4a`,
 `audio-aristotle-en-v2-aac96`) with `ffmpeg -t 230 -ac 1 -b:a 64k`. The previous
 file was the v1 ElevenLabs render narrated by "Andrew" — a narrator the app no
@@ -132,7 +138,7 @@ four genres and **one story per narrator**, showing the whole voice cast:
 
 | Story | Genre | Narrator | Min | Access |
 |---|---|---|---|---|
-| Aristotle, the Greatest Philosopher | Ancient Worlds | Emma from Oxford | 40 | free |
+| Aristotle, the Greatest Philosopher | Ancient Worlds | David from Oxford | 33 | free |
 | A Roman Bathhouse at Closing Time | Ancient Worlds | Arthur from Ludlow | 39 | premium |
 | Floating Through the Pillars of Creation | Cosmic Journeys | Amy from Greenwich | 41 | premium |
 | The Slow Life of a Redwood | Gentle Nature | Patrick from Block Island | 41 | premium |

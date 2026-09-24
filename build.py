@@ -857,13 +857,13 @@ APP_FACTS = [
      "improve on and nothing to keep up."),
 
     ("Who reads the stories?",
-     "Named narrators, in male and female voices \u2014 Emma from Oxford, Amy from "
+     "Named narrators, in male and female voices \u2014 David from Oxford, Amy from "
      "Greenwich, Arthur from Ludlow, Brian from St Ives, Niamh from Kinsale, Patrick from "
      "Block Island. Every one reads flat and warm, removing emphasis rather than adding it, "
      "and gets quieter across the episode."),
 
     ("What does it cost?",
-     "Free to download, with one story \u2014 Aristotle, the Greatest Philosopher, 40 "
+     "Free to download, with one story \u2014 Aristotle, the Greatest Philosopher, 33 "
      "minutes \u2014 free to listen to in full. The rest of the catalogue needs Lullable "
      "Premium, which is $2.99 a month or $19.99 a year on the US App Store today. Apple sets "
      "the price in each country and it can change, so the listing is the figure that counts."),
@@ -993,7 +993,7 @@ FAQ_FACTS = [
 
     ("How much does Lullable cost?",
      "The app is free to download, and one full story — Aristotle, the Greatest "
-     "Philosopher, 40 minutes — is free to listen to end to end, so you can test the "
+     "Philosopher, 33 minutes — is free to listen to end to end, so you can test the "
      "voice on your own pillow before paying anything. The rest of the catalogue needs "
      "Lullable Premium: $2.99 a month or $19.99 a year on the US App Store today. Apple sets "
      "the price in each country and it can change, so the listing is the figure that counts. "
@@ -1263,36 +1263,35 @@ def build():
          "Reading in bed usually fails because the book is trying to keep you there. These are "
          "trying to lose you.\n\n"
          "If you would rather be read to, the same stories are narrated in the app — "
-         "[in a male voice](/stories/male-voice/) or [a female one](/stories/female-voice/)."),
+         "[in a male voice](/stories/male-voice/) or a female one."),
         ("male-voice", "Male voice",
          "Sleep stories read in a male voice",
          "Sleep stories read in a male voice.",
-         "The Lullable stories narrated by Arthur, Brian and Patrick — low, unhurried, and "
+         "The Lullable stories narrated by David, Arthur, Brian and Patrick — low, unhurried, and "
          "quieter with every minute. Full text on each page.",
          lambda st: st.get("voice") == "male",
          "Which voice puts you under is not a preference anyone can argue you out of, and it is "
          "one of the few things about sleep audio worth choosing deliberately. Some people need "
          "a lower register to stop tracking the words; others find exactly that too close to a "
          "voice reading them the news.\n\n"
-         "These are the stories read by Arthur from Ludlow, Brian from St Ives and Patrick from "
+         "These are the stories read by David from Oxford, Arthur from Ludlow, Brian from St Ives and Patrick from "
          "Block Island. What they have in common is not pitch but pacing: no performance, no "
          "characters, no leaning on a word to tell you it matters. The delivery flattens rather "
          "than dramatises, and the last third of every recording is quieter and slower than the "
          "first, on purpose, whether or not you are still awake to notice.\n\n"
-         "If none of them work, the same catalogue [read in a female voice](/stories/female-voice/) "
-         "is one page over, and every one of them is [written out in full to read](/stories/boring-true-stories-to-read/) "
+         "If none of them work, every one of them is [written out in full to read](/stories/boring-true-stories-to-read/) "
          "if you would rather not listen at all. There are no ads and no music in any of them."),
         ("female-voice", "Female voice",
          "Sleep stories read in a female voice",
          "Sleep stories read in a female voice.",
-         "The Lullable stories narrated by Emma, Amy and Niamh — warm, flat, and quieter with "
+         "The Lullable stories narrated by Amy and Niamh — warm, flat, and quieter with "
          "every minute. Full text on each page.",
          lambda st: st.get("voice") == "female",
          "Which voice puts you under is not a preference anyone can argue you out of, and it is "
          "one of the few things about sleep audio worth choosing deliberately. Some listeners "
          "settle faster to a higher register; others find it carries too much brightness into a "
          "dark room.\n\n"
-         "These are the stories read by Emma from Oxford, Amy from Greenwich and Niamh from "
+         "These are the stories read by Amy from Greenwich and Niamh from "
          "Kinsale. What they have in common is not pitch but pacing: no performance, no "
          "characters, no leaning on a word to tell you it matters. The delivery flattens rather "
          "than dramatises, and the last third of every recording is quieter and slower than the "
