@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lullable — historias para dormir a las mentes que no se apagan</title>
+<meta name="description" content="App para iPhone de historias para dormir, para mentes curiosas que no se apagan. Verdades fascinantes, leídas tan bajito que te duermes a media frase. En inglés.">
+<meta name="color-scheme" content="dark">
+<meta name="apple-itunes-app" content="app-id=6800138113">
+<link rel="canonical" href="https://getlullable.com/es/">
+<link rel="alternate" hreflang="en" href="https://getlullable.com/">
+<link rel="alternate" hreflang="es-MX" href="https://getlullable.com/es/">
+<link rel="alternate" hreflang="x-default" href="https://getlullable.com/">
+<meta name="facebook-domain-verification" content="mbevkdbwvqfrs43v9zsiudcten36a0">
+
+<meta property="og:title" content="Lullable — historias para dormir a las mentes que no se apagan">
+<meta property="og:description" content="App para iPhone de historias para dormir, para mentes curiosas que no se apagan. Verdades fascinantes, contadas tan bajito que te duermes a media frase.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://getlullable.com/es/">
+<meta property="og:site_name" content="Lullable">
+<meta property="og:locale" content="es_MX">
+<!-- the preview image is the product's morning receipt, not a logo. regenerate with make-card.py -->
+<meta property="og:image" content="https://getlullable.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://getlullable.com/og.png">
+
+<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/brand/web/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
+<link rel="manifest" href="/assets/brand/web/site.webmanifest">
+
+<link rel="preload" as="image" href="/assets/app/screen-tonight.webp" fetchpriority="high">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-italic-latin.woff2" crossorigin>
+
+<!-- Vercel Web Analytics. In the head, not in consent.js loadTags(), and that is
+     deliberate: it sets no cookie and stores no identifier, so it needs no consent
+     (see the note in consent.js). Served from /_vercel/insights/ — first-party, so
+     the browser still never talks to a third party, and /privacy/ still gets to
+     say so. Cookie-setting tags go in loadTags() and nowhere else. -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","@id":"https://getlullable.com/#org","name":"Lullable",
+  "legalName":"Tecnolog\u00edas Stellar, S.A. de C.V.","url":"https://getlullable.com/",
+  "logo":"https://getlullable.com/assets/brand/web/icon-512.png",
+  "email":"info@getlullable.com",
+  "sameAs":["https://www.instagram.com/getlullable/","https://www.tiktok.com/@getlullable","https://www.youtube.com/@lullableapp","https://www.facebook.com/profile.php?id=61594011460380"]},
+ {"@type":"WebSite","@id":"https://getlullable.com/#site","url":"https://getlullable.com/",
+  "name":"Lullable","publisher":{"@id":"https://getlullable.com/#org"},
+  "description":"App para iPhone de historias para dormir, para mentes curiosas que no se apagan. Verdades fascinantes, leídas tan bajito que te duermes a media frase. En inglés.",
+  "inLanguage":"es-MX"},
+ {"@type":"MobileApplication","@id":"https://getlullable.com/#app","name":"Lullable","applicationCategory":"LifestyleApplication","operatingSystem":"iOS 17.0+","url":"https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113","installUrl":"https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113","publisher":{"@id":"https://getlullable.com/#org"},"description":"App para iPhone de historias para dormir, para mentes curiosas que no se apagan. Verdades fascinantes, leídas tan bajito que te duermes a media frase. En inglés.","softwareVersion":"1.0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+]}
+</script>
+
+<style>
+/* ── Fonts, self-hosted ──────────────────────────────────────────
+   No Google Fonts request: the browser never tells a third party who is
+   reading a sleep-stories site at 1am, and /privacy/ can say so plainly.
+   These are the same latin-subset woff2 files Google serves, kept locally.
+   Both families are SIL Open Font License 1.1 — see fonts/README.md.
+   Variable weight axes, so one file covers every weight in use.
+   ─────────────────────────────────────────────────────────────── */
+@font-face{font-family:Inter;font-style:normal;font-weight:300 600;font-display:swap;
+  src:url(/fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:italic;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:normal;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ═══════════════════════════════════════════════════════════════
+   LULLABLE — "Nocturne / Echo Contours"
+
+   Palette, type and control idioms are the iOS app's own design
+   system (lullable_ios .../design_handoff_onboarding_flow/README.md
+   "Design tokens"), so the site and the app are one product. The
+   site's earlier "Nightfall" amber is retired: the app has no amber.
+
+   The one visual motif is ECHO CONTOURS, the app's story-artwork
+   grammar — 3–5 strokes that repeat thinner, darker and further
+   along ONE direction: a voice trailing off. It is the hero
+   backdrop, the section rule, the player's progress track and the
+   mechanism diagram. Nothing else decorative is allowed on the page.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  /* grounds */
+  --bg:#161826; --surface:#232532; --raised:#1C1E2B; --deep:#10131F;
+  /* ink */
+  --cream:#ECE4D3; --cream-hi:#F5F0E6;
+  --text:#E9E9ED; --text-2:#B2B6CA; --text-3:#8E92A8;
+  /* accent — a line, a border and a glow. never a flood. */
+  --accent:#9184D9; --accent-lt:#B5ABFC;
+  --ramp-700:#5D5294; --ramp-800:#423A6A; --ramp-900:#2B2741;
+  --glow:#262A60;
+  /* the one warm note, from the app's Mornings horizon */
+  --sand:#C9B491;
+  --line:rgba(233,233,237,.14); --line-soft:rgba(233,233,237,.08);
+
+  --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
+
+  /* type scale */
+  --t-display:clamp(2.35rem,4.7vw,4.5rem);
+  --t-section:clamp(2rem,4vw,3.6rem);
+  --t-lead:clamp(1.06rem,1.25vw,1.28rem);
+  --t-label:.75rem;
+
+  --wrap:78rem; --measure:36rem; --pad:1.4rem;
+  --r-card:18px; --r-ctl:14px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font:400 17px/1.6 var(--sans);letter-spacing:-.003em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:rgba(145,132,217,.32)}
+:focus-visible{outline:2px solid var(--accent-lt);outline-offset:3px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad)}
+.measure{max-width:var(--measure)}
+.eyebrow{
+  font-size:var(--t-label);font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent-lt);margin-bottom:1.1rem;
+}
+.eyebrow.dim{color:var(--text-3)}
+h1,h2,h3{font-weight:600;letter-spacing:-.028em;line-height:1.08}
+h1{font-size:var(--t-display)}
+h2{font-size:var(--t-section)}
+.lead{font-size:var(--t-lead);line-height:1.62;color:var(--text-2)}
+em,cite{font-family:var(--serif);font-style:italic;font-weight:400}
+em.voice{color:var(--cream);letter-spacing:-.01em}
+
+/* ── section rhythm: deliberately unequal ───────────────────── */
+section{position:relative}
+.s-lg{padding-block:clamp(5rem,8vw,8.5rem)}
+.s-md{padding-block:clamp(4rem,6.5vw,6.5rem)}
+.s-sm{padding-block:clamp(3rem,5vw,4.5rem)}
+
+/* ── the echo rule: a section divider that dissolves at both ends ── */
+.echo-rule{width:100%;height:34px;overflow:hidden;opacity:.85}
+.echo-rule svg{width:100%;height:100%}
+
+/* ── controls: the app's one button shape ───────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  min-height:52px;padding:.85rem 1.5rem;border-radius:var(--r-ctl);
+  border:1.5px solid var(--cream);background:transparent;color:var(--cream);
+  font:500 16px/1 var(--sans);letter-spacing:-.01em;text-decoration:none;cursor:pointer;
+  transition:background .18s var(--ease),border-color .18s var(--ease);
+}
+.btn:hover,.btn:focus-visible{background:rgba(236,228,211,.10)}
+.btn:active{background:rgba(236,228,211,.16)}
+.btn.sm{min-height:46px;padding:.7rem 1.2rem;font-size:15px}
+/* The app keeps exactly one filled button, for the one action that matters
+   (Continue with Apple). The site follows the rule and spends it here. */
+.btn.solid{background:var(--cream);color:var(--bg);border-color:var(--cream)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--cream-hi);border-color:var(--cream-hi)}
+.btn.solid .b1{color:rgba(22,24,38,.62)}
+.btn-badge{padding:.7rem 1.4rem;text-align:left;line-height:1.2}
+.btn-badge img{width:26px;height:26px;border-radius:50%;flex:none}
+.btn-badge .b1{display:block;font-size:12px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.btn-badge .b2{display:block;font-size:16px;font-weight:500}
+.ghost{
+  display:inline-flex;align-items:center;gap:.5rem;min-height:46px;
+  color:var(--text-2);font-weight:500;font-size:15px;text-decoration:none;
+  box-shadow:inset 0 -1px 0 rgba(178,182,202,.42);
+  transition:color .18s var(--ease),box-shadow .18s var(--ease);
+}
+.ghost:hover,.ghost:focus-visible{color:var(--cream);box-shadow:inset 0 -1px 0 rgba(236,228,211,.75)}
+
+/* ── header ─────────────────────────────────────────────────── */
+.hdr{position:sticky;top:0;z-index:60;transition:background .3s var(--ease),border-color .3s var(--ease);
+  border-bottom:1px solid transparent}
+.hdr.stuck{background:rgba(22,24,38,.86);backdrop-filter:blur(14px);border-bottom-color:var(--line-soft)}
+.hdr-in{display:flex;align-items:center;gap:1.5rem;min-height:68px}
+.wordmark{display:flex;align-items:center;gap:.7rem;min-height:44px;text-decoration:none;margin-right:auto}
+.wordmark img{width:44px;height:22px}
+/* the official lockup (assets/brand/logo.svg): four echo-contour arcs, serif wordmark, the logo's own cream */
+.wordmark span{font:400 23px/1 var(--serif);letter-spacing:.01em;color:#E9D6B6;text-transform:lowercase}
+.nav{display:flex;align-items:center;gap:1.9rem}
+.nav a{display:inline-flex;align-items:center;min-height:44px;font-size:15px;color:var(--text-2);text-decoration:none;transition:color .18s var(--ease)}
+.nav a:hover{color:var(--cream)}
+.menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;
+  background:none;border:0;color:var(--cream);cursor:pointer}
+.menu-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.6;fill:none}
+@media(max-width:860px){
+  .nav{position:fixed;inset:68px 0 auto;flex-direction:column;align-items:stretch;gap:0;
+    background:var(--surface);border-bottom:1px solid var(--line);padding:.5rem var(--pad) 1.4rem;
+    transform:translateY(-8px);opacity:0;visibility:hidden;transition:.24s var(--ease)}
+  .nav[data-open="true"]{transform:none;opacity:1;visibility:visible}
+  .nav a{padding:.95rem 0;border-bottom:1px solid var(--line-soft);font-size:17px}
+  .nav .btn{margin-top:1.1rem;width:100%}
+  .menu-btn{display:flex}
+}
+
+/* ── hero ───────────────────────────────────────────────────── */
+.hero{padding-block:clamp(2rem,4vw,3.6rem) clamp(3.5rem,6vw,6rem);overflow:hidden}
+.hero-bg{position:absolute;inset:auto 0 -6% 0;height:120%;pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 45%);mask-image:linear-gradient(to bottom,transparent,#000 45%)}
+.hero-bg svg{width:140%;height:100%;margin-left:-20%}
+.hero-glow{position:absolute;inset:-20% -10% auto;height:80vh;pointer-events:none;z-index:0;
+  background:radial-gradient(60% 55% at 62% 30%,rgba(38,42,96,.75),transparent 70%)}
+.hero-in{position:relative;z-index:1;display:grid;gap:clamp(2.5rem,5vw,4rem);align-items:center}
+.hero-in>*,.stmt>*,.step>*,.morning>*{min-width:0}
+@media(min-width:1000px){.hero-in{grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr)}}
+.hero h1{margin:.2rem 0 1.2rem;max-width:15ch}
+.hero .lead{max-width:30rem}
+.hero-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.4rem;margin-top:1.8rem}
+.hero-note{margin-top:1.2rem;font-size:.86rem;color:var(--text-3);max-width:32rem}
+
+/* ── the device ─────────────────────────────────────────────── */
+.device{position:relative;width:100%;max-width:340px;margin-inline:auto;
+  filter:drop-shadow(0 40px 70px rgba(0,0,0,.6)) drop-shadow(0 4px 14px rgba(0,0,0,.5))}
+.device img{width:100%;height:auto;border-radius:12.5%/5.7%}
+.hero .device{max-width:318px}
+.device-cap{margin-top:1.5rem;text-align:center;font-size:.8rem;color:var(--text-3);letter-spacing:.01em}
+
+/* ── proof strip: product truths, not a trust-logo row ──────── */
+.proof{border-block:1px solid var(--line-soft);background:linear-gradient(180deg,rgba(35,37,50,.5),transparent)}
+.proof-in{display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.proof-i{padding:1.6rem 1.5rem 1.7rem;border-left:1px solid var(--line-soft)}
+.proof-i:first-child{border-left:0;padding-left:0}
+.proof-i b{display:block;font-size:.95rem;font-weight:500;color:var(--cream);margin-bottom:.35rem}
+.proof-i span{font-size:.84rem;line-height:1.5;color:var(--text-3);display:block}
+@media(max-width:760px){
+  .proof-in{grid-template-columns:1fr 1fr}
+  .proof-i{padding:1.15rem 1rem;border-top:1px solid var(--line-soft)}
+  .proof-i:nth-child(-n+2){border-top:0}
+  .proof-i:nth-child(odd){border-left:0;padding-left:0}
+}
+
+/* ── the statement (asymmetric, left, huge) ─────────────────── */
+.stmt{display:grid;gap:2.5rem}
+@media(min-width:900px){.stmt{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:4.5rem;align-items:end}}
+.stmt h2{font-size:clamp(2.1rem,5vw,4.4rem);max-width:13ch}
+.stmt-descent{width:100%;height:150px}
+.stmt-descent svg{width:100%;height:100%;overflow:visible}
+
+/* ── walkthrough ────────────────────────────────────────────── */
+.walk-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem;
+  padding-bottom:2.5rem;border-bottom:1px solid var(--line-soft);margin-bottom:1rem}
+.step{display:grid;gap:2rem;padding-block:clamp(2.5rem,6vw,4rem);align-items:center}
+@media(min-width:940px){
+  .step{grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:clamp(3rem,6vw,6rem);
+        min-height:76vh;padding-block:1.5rem}
+  .step figure{position:sticky;top:max(6rem,calc(50vh - 330px))}
+}
+.step figure{margin:0}
+.step .device{max-width:338px}
+.step-n{display:flex;align-items:center;gap:.85rem;margin-bottom:1.4rem}
+.step-n i{font-style:normal;font-size:.75rem;font-weight:600;letter-spacing:.14em;color:var(--accent-lt);
+  border:1px solid var(--ramp-800);border-radius:999px;padding:.32rem .7rem}
+.step-n u{text-decoration:none;flex:1;height:1px;background:var(--line-soft)}
+.step h3{font-size:clamp(1.6rem,2.7vw,2.4rem);margin-bottom:1rem;max-width:16ch}
+.step p{color:var(--text-2);max-width:34rem;font-size:1.02rem;line-height:1.65}
+.step .transcript{margin-top:1.6rem;padding-left:1.1rem;border-left:2px solid var(--ramp-800);
+  font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.08rem;line-height:1.62;color:var(--text-2)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* ── story artwork gallery ──────────────────────────────────── */
+.gal{display:grid;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--r-card);overflow:hidden}
+@media(min-width:660px){.gal{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.gal{grid-template-columns:repeat(4,1fr)}}
+.art{background:var(--bg);padding:2rem 1.6rem 1.7rem;display:flex;flex-direction:column;gap:1.3rem;
+  background-image:radial-gradient(130% 60% at 50% 108%,var(--ramp-900) 0%,var(--bg) 62%)}
+.art .plate{aspect-ratio:320/248;display:flex;align-items:center;justify-content:center}
+.art .plate svg{width:100%;height:auto}
+.art h3{font-family:var(--serif);font-weight:400;font-style:italic;letter-spacing:-.01em;
+  font-size:1.22rem;line-height:1.25;color:var(--cream)}
+.art h3 a{text-decoration:none;box-shadow:inset 0 -1px 0 rgba(236,228,211,.32)}
+.art h3 a:hover{box-shadow:inset 0 -1px 0 var(--cream)}
+.art .meta{font-size:.82rem;color:var(--text-3);display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.chip{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-lt);border:1px solid var(--ramp-800);border-radius:999px;padding:.24rem .6rem}
+.genres{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.6rem}
+.genres span{font-size:.82rem;color:var(--text-2);border:1px solid var(--line);border-radius:999px;padding:.4rem .85rem}
+
+/* ── sample player ──────────────────────────────────────────── */
+.player{border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);
+  padding:clamp(1.5rem,3vw,2.4rem);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.p-top{display:flex;align-items:center;gap:1.15rem}
+@media(max-width:560px){.p-top{flex-direction:column;align-items:flex-start;gap:.9rem}}
+.p-btn{flex:none;width:60px;height:60px;border-radius:50%;border:1.5px solid var(--accent);
+  background:transparent;color:var(--accent-lt);display:grid;place-items:center;cursor:pointer;
+  transition:background .18s var(--ease),box-shadow .3s var(--ease)}
+.p-btn:hover,.p-btn:focus-visible{background:rgba(145,132,217,.14);box-shadow:0 0 0 8px rgba(145,132,217,.07)}
+.p-btn svg{width:22px;height:22px;fill:currentColor}
+.p-meta{min-width:0}
+.p-title{font-size:1rem;font-weight:500;line-height:1.35;color:var(--cream)}
+.p-sub{font-size:.85rem;color:var(--text-3);margin-top:.2rem}
+.p-track{position:relative;height:26px;margin:1.5rem 0 .4rem}
+.p-track svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.p-fill{position:absolute;inset:0;width:0;overflow:hidden;transition:width .25s linear}
+.p-fill svg{width:100vw;max-width:none}
+@media(min-width:820px){.p-fill svg{width:calc(78rem - 2.8rem)}}
+.p-times{display:flex;justify-content:space-between;font-size:.76rem;color:var(--text-3);
+  font-variant-numeric:tabular-nums}
+.p-caption{margin-top:1.5rem;padding-top:1.3rem;border-top:1px solid var(--line-soft);
+  font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(1.02rem,1.6vw,1.28rem);
+  line-height:1.55;color:var(--text-2);min-height:3.2em;transition:opacity .5s var(--ease)}
+.p-caption.err{font-family:var(--sans);font-style:normal;color:#D9A0A0}
+
+/* ── mechanism ──────────────────────────────────────────────── */
+.mech{display:grid;gap:2.6rem}
+.mech>*{min-width:0}
+@media(min-width:940px){
+  .mech{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:4.5rem;align-items:start}
+  .mech-lede{grid-column:1;grid-row:1}
+  .mech-notes{grid-column:1;grid-row:2}
+  .diagram{grid-column:2;grid-row:1/span 2;position:sticky;top:7rem}
+}
+.diagram{border:1px solid var(--line-soft);border-radius:var(--r-card);padding:1.6rem 1.4rem 1.2rem;
+  background:radial-gradient(120% 80% at 50% 110%,var(--ramp-900) 0%,var(--bg) 65%)}
+.diagram .plot{overflow-x:auto;overscroll-behavior-x:contain;min-width:0}
+.diagram svg{width:100%;height:auto;min-width:480px}
+.diagram figcaption{margin-top:1rem;font-size:.78rem;line-height:1.55;color:var(--text-3)}
+.notes{list-style:none;padding:0;margin:0;counter-reset:n}
+.notes li{counter-increment:n;position:relative;padding:1rem 0 1rem 2.2rem;border-top:1px solid var(--line-soft);
+  font-size:.88rem;line-height:1.55;color:var(--text-2)}
+.notes li::before{content:counter(n);position:absolute;left:0;top:1.05rem;font-size:.7rem;font-weight:600;
+  color:var(--accent-lt);border:1px solid var(--ramp-800);border-radius:50%;width:20px;height:20px;
+  display:grid;place-items:center}
+.notes a{color:var(--text-3);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:var(--ramp-700)}
+.notes a:hover{color:var(--cream)}
+.disclaim{margin-top:2rem;font-size:.84rem;line-height:1.6;color:var(--text-3);
+  border-left:2px solid var(--ramp-800);padding-left:1.1rem}
+
+/* ── comparison spectrum ────────────────────────────────────── */
+.spec{margin-top:3rem;border:1px solid var(--line-soft);border-radius:var(--r-card);overflow:hidden}
+.spec-axis{display:grid;grid-template-columns:repeat(4,1fr)}
+.spec-i{padding:1.8rem 1.3rem;border-left:1px solid var(--line-soft);position:relative}
+.spec-i:first-child{border-left:0}
+.spec-i .pos{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);
+  margin-bottom:.9rem}
+.spec-i .name{font-size:1.12rem;font-weight:500;color:var(--text);margin-bottom:.45rem}
+.spec-i .line{font-size:.88rem;line-height:1.55;color:var(--text-3)}
+.spec-i.us{background:linear-gradient(180deg,rgba(145,132,217,.11),transparent 70%)}
+.spec-i.us .pos{color:var(--accent-lt)}
+.spec-i.us .name{color:var(--cream)}
+.spec-i.us .line{color:var(--text-2)}
+.spec-i.us::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:var(--accent)}
+.spec-scale{display:flex;justify-content:space-between;padding:.9rem 1.3rem;
+  border-top:1px solid var(--line-soft);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+@media(max-width:820px){
+  .spec-axis{grid-template-columns:1fr}
+  .spec-i{border-left:0;border-top:1px solid var(--line-soft);padding:1.35rem 1.2rem}
+  .spec-i:first-child{border-top:0}
+  .spec-i.us::before{width:2px;height:auto;inset:0 auto 0 0}
+  .spec-scale{display:none}
+}
+
+/* ── morning ────────────────────────────────────────────────── */
+.morning{display:grid;gap:3rem;align-items:center}
+@media(min-width:940px){.morning{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(3rem,6vw,6rem)}}
+.receipt{border:1px solid var(--line);border-radius:var(--r-card);padding:1.7rem;
+  background:linear-gradient(150deg,var(--surface),var(--ramp-900));box-shadow:0 20px 48px rgba(0,0,0,.5)}
+.receipt .lbl{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-lt)}
+.receipt .st{margin-top:1rem;font-size:1.05rem;line-height:1.5;color:var(--text)}
+.receipt .qt{margin-top:.9rem;font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:1rem;line-height:1.55;color:var(--text-2)}
+.receipt .ft{margin-top:1.6rem;padding-top:1.1rem;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;font-size:.78rem;color:var(--text-3)}
+@media(max-width:520px){.receipt .ft{flex-direction:column;align-items:flex-start;gap:.7rem}}
+.receipt .ft b{font-weight:300;letter-spacing:.26em;color:var(--sand);text-transform:lowercase;font-size:.78rem}
+
+/* ── final CTA + form ───────────────────────────────────────── */
+/* one conversion moment in the middle of the page, and one at the end */
+.band{border-block:1px solid var(--line-soft);
+  background:radial-gradient(70% 140% at 50% 100%,rgba(38,42,96,.5),transparent 70%)}
+.band-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem 2rem;
+  padding-block:clamp(2.2rem,4vw,3.2rem)}
+.band p{font-size:clamp(1.25rem,2.2vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;max-width:20ch}
+.band .side{display:flex;flex-direction:column;gap:.7rem;align-items:flex-start}
+.band small{font-size:.82rem;color:var(--text-3)}
+@media(max-width:640px){.band .btn{width:100%}.band .side{width:100%}}
+
+.final{background:radial-gradient(90% 90% at 50% 115%,var(--glow) 0%,var(--bg) 62%);
+  border-top:1px solid var(--line-soft)}
+.final h2{max-width:16ch}
+form{display:flex;gap:.7rem;margin-top:2rem;max-width:32rem}
+input[type=email]{
+  flex:1;min-width:0;min-height:52px;padding:.85rem 1.1rem;border-radius:var(--r-ctl);
+  background:var(--raised);border:1px solid var(--line);color:var(--text);
+  font:400 16px var(--sans);
+}
+input[type=email]::placeholder{color:var(--text-3)}
+input[type=email]:focus-visible{border-color:var(--accent);outline-offset:1px}
+form .btn{flex:none}
+@media(max-width:560px){form{flex-direction:column}form .btn{width:100%}}
+.msg{margin-top:.9rem;font-size:.88rem;min-height:1.4em;color:var(--text-2)}
+.msg.err{color:#D9A0A0}
+.msg.ok{color:var(--accent-lt)}
+.promises{list-style:none;padding:0;margin:2.2rem 0 0;display:grid;gap:.55rem;max-width:34rem}
+.promises li{position:relative;padding-left:1.3rem;font-size:.86rem;color:var(--text-3)}
+.promises li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;
+  background:var(--ramp-700)}
+
+/* ── footer ─────────────────────────────────────────────────── */
+footer{border-top:1px solid var(--line-soft);padding-block:3.5rem 2.5rem;font-size:.85rem;color:var(--text-3)}
+.f-grid{display:grid;gap:2.5rem}
+@media(min-width:760px){.f-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.f-grid h4{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);
+  margin-bottom:1rem}
+.f-grid ul{list-style:none;padding:0;display:grid;gap:.15rem}
+.f-grid li a{display:inline-flex;align-items:center;min-height:36px}
+.f-grid a{text-decoration:none;transition:color .18s var(--ease)}
+.f-grid li a:hover{text-decoration:underline;text-underline-offset:3px}
+.f-grid a:hover{color:var(--cream)}
+.f-btm{margin-top:3rem;padding-top:1.6rem;border-top:1px solid var(--line-soft);
+  display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;font-size:.78rem;line-height:1.6}
+.f-btm p{max-width:44rem}
+.f-btm a{text-decoration:none}
+.f-btm a:hover{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
+.f-social{margin-top:1.1rem;display:flex;gap:1.4rem}
+.f-social a{text-decoration:none;display:inline-flex;align-items:center;min-height:36px}
+.f-social a:hover{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:1rem;top:1rem;z-index:99;background:var(--surface);color:var(--cream);
+  padding:.7rem 1.1rem;border-radius:8px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="wordmark" href="/es/">
+      <img src="/assets/brand/mark.svg" width="44" height="22" alt="" loading="eager" decoding="async">
+      <span>lullable</span>
+    </a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="#night">Cómo funciona</a>
+      <a href="#stories">Historias</a>
+      <a href="/es/sleep/">Biblioteca del sueño</a>
+      <a href="/es/chronotype/">Test de cronotipo</a>
+      <a class="btn sm app-link" data-placement="header" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">Descarga la app</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <!-- Echo Contours, horizon form: the app icon's arcs, thinner and darker outward -->
+    <svg viewBox="0 0 1200 420" fill="none" preserveAspectRatio="xMidYMax meet">
+      <path d="M-60 420 Q600 60 1260 420" stroke="#9184D9" stroke-width="3.5" stroke-linecap="round" opacity=".5"/>
+      <path d="M-60 420 Q600 118 1260 420" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round" opacity=".55"/>
+      <path d="M-60 420 Q600 176 1260 420" stroke="#423A6A" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+      <path d="M-60 420 Q600 234 1260 420" stroke="#423A6A" stroke-width="1.6" stroke-linecap="round" opacity=".4"/>
+      <path d="M-60 420 Q600 292 1260 420" stroke="#2B2741" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="wrap hero-in">
+    <div>
+      <p class="eyebrow">El motor de conocimiento de baja activación</p>
+      <h1>Historias para dormir a las mentes que <em class="voice">no se apagan</em>.</h1>
+      <p class="lead">Verdades fascinantes, leídas tan bajito que te duermes a media frase. Nada que seguir, nada que recordar.</p>
+
+      <div class="hero-ctas">
+        <a class="btn solid btn-badge app-link" data-placement="hero" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">
+          <img src="/assets/brand/mark-128.webp" width="26" height="26" alt="" decoding="async">
+          <span><span class="b1">En el App&nbsp;Store</span><span class="b2">Descarga la app</span></span>
+        </a>
+        <a class="ghost" id="hero-play" href="#listen">Escucha la muestra de cuatro minutos ↓</a>
+      </div>
+
+      <p class="hero-note">Gratis para descargar. iPhone, oscura por diseño. Las historias están en inglés.</p>
+    </div>
+
+    <div>
+      <div class="device">
+        <img src="/assets/app/screen-tonight.webp" width="780" height="1721"
+             alt="La pantalla Tonight de la app Lullable: una historia elegida para la noche, “Why the deep sea glows in the dark”, de 38 minutos, en Gentle Nature, con un botón de Play y la nota “It fades out on its own.”"
+             fetchpriority="high" decoding="async">
+      </div>
+      <p class="device-cap">Tonight: la pantalla que abres primero.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRODUCT-TRUTH STRIP ══════════ -->
+<section class="proof">
+  <div class="wrap proof-in">
+    <div class="proof-i"><b>Se apaga hasta el silencio</b><span>Un temporizador de 15, 30, 45 o 60 minutos. Los últimos diez segundos bajan poco a poco.</span></div>
+    <div class="proof-i"><b>Sigue sonando, con bloqueo</b><span>Reproducción en segundo plano y con la pantalla bloqueada. Pon el teléfono bocabajo.</span></div>
+    <div class="proof-i"><b>Retoma donde te fuiste</b><span>Mañana empieza un minuto antes de donde perdiste el hilo.</span></div>
+    <div class="proof-i"><b>Un recibo en la mañana</b><span>La última línea que escuchaste, y cuánto tiempo alcanzaste a escuchar.</span></div>
+  </div>
+</section>
+
+<!-- ══════════ THE STATEMENT ══════════ -->
+<section class="s-lg">
+  <div class="wrap stmt">
+    <div>
+      <p class="eyebrow">Para mentes que no se apagan</p>
+      <h2>Tu cerebro no está descompuesto: solo es <em class="voice">curioso</em>.</h2>
+    </div>
+    <div>
+      <p class="lead">No necesita vaciarse. Una mente desocupada sale a buscar trabajo, y a medianoche el único trabajo disponible es mañana. Así que le damos algo tranquilo en qué pensar, con el final revelado en la primera línea, para que nunca haya motivo para quedarse en vela esperándolo.</p>
+      <p style="margin-top:1.6rem"><a class="ghost" href="/es/manifesto/">Lee el manifiesto →</a></p>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:clamp(3rem,6vw,5rem)">
+    <div class="stmt-descent" aria-hidden="true">
+      <svg viewBox="0 0 1200 150" fill="none" preserveAspectRatio="none">
+        <path d="M0 18 C320 18 520 96 1200 132" stroke="#9184D9" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M0 40 C320 40 520 114 1200 146" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M0 60 C320 60 520 128 1200 156" stroke="#423A6A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M0 78 C320 78 520 140 1200 164" stroke="#423A6A" stroke-width="1.6" stroke-linecap="round" opacity=".65"/>
+        <path d="M0 94 C320 94 520 150 1200 170" stroke="#2B2741" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ A NIGHT WITH LULLABLE ══════════ -->
+<section class="s-md" id="night">
+  <div class="wrap">
+    <div class="walk-head">
+      <div>
+        <p class="eyebrow">Una noche con Lullable</p>
+        <h2>Cuatro pantallas, y ya te fuiste.</h2>
+      </div>
+      <p class="lead" style="max-width:22rem;font-size:.95rem">Cada pantalla de abajo es la app tal cual, en inglés. Nada aquí es una maqueta de algo que pensamos construir.</p>
+    </div>
+
+    <div class="walk">
+      <div class="step">
+        <div class="step-txt reveal">
+          <p class="step-n"><i>01</i><u></u></p>
+          <h3>Algo discretamente fascinante, ya elegido.</h3>
+          <p>Una historia, elegida para ti, en la primera pantalla que ves. Sin feed, sin decisiones que tomar con el teléfono a quince centímetros de la cara. Dale play y déjalo.</p>
+          <p class="transcript">“38 min · Gentle Nature. It fades out on its own.”</p>
+        </div>
+        <figure>
+          <div class="device"><img src="/assets/app/screen-tonight.webp" width="780" height="1721" loading="lazy" decoding="async" alt="Pantalla Tonight: una sola historia, “Why the deep sea glows in the dark”, de 38 minutos, en Gentle Nature, con un solo botón de Play."></div>
+        </figure>
+      </div>
+
+      <div class="step">
+        <div class="step-txt reveal">
+          <p class="step-n"><i>02</i><u></u></p>
+          <h3>O ve a buscar la tuya.</h3>
+          <p>Ancient Worlds, Cosmic Journeys, Gentle Nature, Cozy Tales. Cada una, algo verdadero explicado con calma y sin prisa: unas termas romanas a la hora del cierre, una bahía que brilla, la construcción de una catedral.</p>
+          <p class="transcript">“Fascinating truths, told softly.”</p>
+        </div>
+        <figure>
+          <div class="device"><img src="/assets/app/screen-library.webp" width="780" height="1720" loading="lazy" decoding="async" alt="La pantalla Sleep Library: una lista de historias con títulos, duraciones y categorías, como A Roman Bathhouse at Closing Time, Floating through the Pillars of Creation, The bay that glows at night y The building of a cathedral."></div>
+        </figure>
+      </div>
+
+      <div class="step">
+        <div class="step-txt reveal">
+          <p class="step-n"><i>03</i><u></u></p>
+          <h3>Luego la app se quita de en medio.</h3>
+          <p>Una ilustración, una línea de controles, un temporizador contando hacia el silencio. Cuando termina, los últimos diez segundos se desvanecen en lugar de cortarse. Cada grabación termina como esperamos que termines tú.</p>
+          <p class="transcript">“Fades to silence in 22 min.”</p>
+        </div>
+        <figure>
+          <div class="device"><img src="/assets/app/screen-player.webp" width="780" height="1720" loading="lazy" decoding="async" alt="La pantalla del reproductor a media historia: “Floating through the Pillars of Creation”, leída por Amy from Greenwich, con 14:22 transcurridos y la nota “Fades to silence in 22 min.”"></div>
+        </figure>
+      </div>
+
+      <div class="step">
+        <div class="step-txt reveal">
+          <p class="step-n"><i>04</i><u></u></p>
+          <h3>En la mañana, un recibo.</h3>
+          <p>Dónde te quedaste y lo último que escuchaste. No es un puntaje de sueño: solo sabe el minuto en que el audio dejó de importarte. Más gracioso, y más útil, que una gráfica.</p>
+          <p class="transcript">“Not one red dwarf has ever run down. The universe is far too young.”</p>
+        </div>
+        <figure>
+          <div class="device"><img src="/assets/app/screen-mornings.webp" width="780" height="1721" loading="lazy" decoding="async" alt="La pantalla Mornings: “You stopped listening at 11:41”, con la última línea escuchada debajo, como cita."></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap band-in">
+    <p>Esa es toda la app. Cuatro pantallas, y te ganó el sueño.</p>
+    <div class="side">
+      <a class="btn solid app-link" data-placement="after-walkthrough" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">Descarga la app</a>
+      <small>Gratis para descargar. Aristotle se escucha gratis. En inglés.</small>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="echo-rule" aria-hidden="true">
+  <svg viewBox="0 0 1200 34" fill="none" preserveAspectRatio="none">
+    <defs><linearGradient id="dis" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".23" stop-color="#fff" stop-opacity="1"/><stop offset=".77" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <mask id="dism"><rect width="1200" height="34" fill="url(#dis)"/></mask></defs>
+    <g mask="url(#dism)">
+      <path d="M0 6h1200" stroke="#5D5294" stroke-width="2"/>
+      <path d="M0 16h1200" stroke="#423A6A" stroke-width="1.6"/>
+      <path d="M0 25h1200" stroke="#2B2741" stroke-width="1.3"/>
+    </g>
+  </svg>
+</div></div>
+
+<!-- ══════════ STORY WORLD ══════════ -->
+<section class="s-md" id="stories">
+  <div class="wrap">
+    <div class="walk-head">
+      <div>
+        <p class="eyebrow">Echo Contours</p>
+        <h2>Cada historia tiene un dibujo de su propia voz, <em class="voice">apagándose</em>.</h2>
+      </div>
+      <p class="lead" style="max-width:24rem;font-size:.95rem">De tres a cinco trazos, cada uno más delgado y más oscuro que el anterior, repitiéndose en una sola dirección. Es la única ilustración que recibe una historia: nada de fotos, nada de bancos de imágenes, nada generado.</p>
+    </div>
+
+    <div class="gal">
+      <article class="art">
+        <div class="plate">
+          <svg viewBox="0 0 320 248" fill="none" role="img" aria-label="Ilustración Echo Contours: una columnata de cinco columnas que se aleja hacia la derecha, cada una más delgada y tenue que la anterior.">
+            <defs><linearGradient id="ar-ground" x1="0" x2="1">
+              <stop offset="0" stop-color="#2B2741" stop-opacity="0"/><stop offset=".23" stop-color="#2B2741"/>
+              <stop offset=".77" stop-color="#2B2741"/><stop offset="1" stop-color="#2B2741" stop-opacity="0"/>
+            </linearGradient></defs>
+            <path d="M17.3 107.4 A32.0 16.0 0 0 1 70.7 107.4" stroke="#9184D9" stroke-width="2" opacity=".35" stroke-linecap="round"/>
+            <g stroke="#9184D9" stroke-width="3.5" stroke-linecap="round">
+              <path d="M24.4 118.1 L63.6 118.1"/><path d="M31.5 118.1 L28.0 200.0"/>
+              <path d="M56.5 118.1 L60.0 200.0"/><path d="M19.1 200.0 L68.9 200.0"/></g>
+            <g stroke="#5D5294" stroke-width="2.6" stroke-linecap="round">
+              <path d="M93.2 129.6 L126.8 129.6"/><path d="M99.3 129.6 L96.2 200.0"/>
+              <path d="M120.7 129.6 L123.8 200.0"/><path d="M88.6 200.0 L131.4 200.0"/></g>
+            <g stroke="#423A6A" stroke-width="2" stroke-linecap="round">
+              <path d="M153.6 139.7 L182.4 139.7"/><path d="M158.8 139.7 L156.2 200.0"/>
+              <path d="M177.2 139.7 L179.8 200.0"/><path d="M149.7 200.0 L186.3 200.0"/></g>
+            <g stroke="#423A6A" stroke-width="1.6" stroke-linecap="round" opacity=".65">
+              <path d="M205.6 148.0 L230.4 148.0"/><path d="M210.1 148.0 L207.8 200.0"/>
+              <path d="M225.9 148.0 L228.2 200.0"/><path d="M202.2 200.0 L233.8 200.0"/></g>
+            <g stroke="#2B2741" stroke-width="1.3" stroke-linecap="round">
+              <path d="M249.3 155.4 L270.7 155.4"/><path d="M253.2 155.4 L251.3 200.0"/>
+              <path d="M266.8 155.4 L268.7 200.0"/><path d="M246.4 200.0 L273.6 200.0"/></g>
+            <path d="M14 200h292" stroke="url(#ar-ground)" stroke-width="1.3"/>
+            <text x="304" y="228" font-size="10" text-anchor="end" opacity=".6" fill="#9397AB" font-family="Inter, sans-serif">384 a. C.</text>
+          </svg>
+        </div>
+        <h3><a href="/es/stories/aristotle-the-greatest-philosopher/">Aristotle, the Greatest Philosopher</a></h3>
+        <p class="meta"><span>33 min</span><span>·</span><span>Ancient Worlds</span><span class="chip">Gratis</span></p>
+      </article>
+
+      <article class="art">
+        <div class="plate">
+          <svg viewBox="0 0 320 248" fill="none" role="img" aria-label="Ilustración Echo Contours: Saturno y cuatro arcos de anillos, cada uno más tenue que el anterior.">
+            <g transform="rotate(-18 160 120)">
+              <circle cx="160" cy="120" r="26" stroke="#9184D9" stroke-width="3.5"/>
+              <path d="M96 120 A64 19 0 0 0 224 120" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M72 120 A88 27 0 0 0 248 120" stroke="#423A6A" stroke-width="2" stroke-linecap="round"/>
+              <path d="M42 120 A118 36 0 0 0 278 120" stroke="#423A6A" stroke-width="1.6" opacity=".65" stroke-linecap="round"/>
+              <path d="M18 120 A142 44 0 0 0 302 120" stroke="#2B2741" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="76" cy="138" r="2" fill="#5D5294"/>
+            </g>
+            <text x="160" y="236" font-size="10" text-anchor="middle" opacity=".6" fill="#9397AB" font-family="Inter, sans-serif">200,000 km</text>
+          </svg>
+        </div>
+        <h3>The Rings of Saturn</h3>
+        <p class="meta"><span>38 min</span><span>·</span><span>Cosmic Journeys</span></p>
+      </article>
+
+      <article class="art">
+        <div class="plate">
+          <svg viewBox="0 0 320 248" fill="none" role="img" aria-label="Ilustración Echo Contours: una hogaza sobre una mesa, con tres medias lunas de calor que suben sobre ella.">
+            <defs><linearGradient id="bench" x1="0" x2="1">
+              <stop offset="0" stop-color="#2B2741" stop-opacity="0"/><stop offset=".23" stop-color="#2B2741"/>
+              <stop offset=".77" stop-color="#2B2741"/><stop offset="1" stop-color="#2B2741" stop-opacity="0"/>
+            </linearGradient></defs>
+            <path d="M100 188 A60 46 0 0 1 220 188" stroke="#9184D9" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M118 126 Q160 94 202 126" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M128 92 Q160 66 192 92" stroke="#423A6A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M136 58 Q160 40 184 58" stroke="#423A6A" stroke-width="1.6" opacity=".65" stroke-linecap="round"/>
+            <path d="M56 188h208" stroke="url(#bench)" stroke-width="1.3"/>
+            <text x="264" y="210" font-size="10" text-anchor="end" opacity=".6" fill="#9397AB" font-family="Inter, sans-serif">2:00 a. m.</text>
+          </svg>
+        </div>
+        <h3>The Bakery Before Dawn</h3>
+        <p class="meta"><span>40 min</span><span>·</span><span>Cozy Tales</span></p>
+      </article>
+
+      <article class="art">
+        <div class="plate">
+          <svg viewBox="0 0 320 248" fill="none" role="img" aria-label="Ilustración Echo Contours: cinco contornos de fosa anidados que convergen en un solo punto profundo.">
+            <path d="M24 30 Q160 196 296 30" stroke="#9184D9" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M52 70 Q160 216 268 70" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M80 108 Q160 234 240 108" stroke="#423A6A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M106 144 Q160 248 214 144" stroke="#423A6A" stroke-width="1.6" opacity=".65" stroke-linecap="round"/>
+            <path d="M130 178 Q160 258 190 178" stroke="#2B2741" stroke-width="1.3" stroke-linecap="round"/>
+            <text x="160" y="240" font-size="10" text-anchor="middle" opacity=".6" fill="#9397AB" font-family="Inter, sans-serif">10,935 m</text>
+          </svg>
+        </div>
+        <h3>The Deep Ocean Trenches</h3>
+        <p class="meta"><span>40 min</span><span>·</span><span>Gentle Nature</span></p>
+      </article>
+    </div>
+
+    <div class="genres" aria-label="Categorías de historias en la app">
+      <span>Ancient Worlds</span><span>Cosmic Journeys</span><span>Gentle Nature</span><span>Cozy Tales</span>
+    </div>
+    <p style="margin-top:1.6rem"><a class="ghost" href="/es/stories/">Las seis páginas de historias →</a></p>
+  </div>
+</section>
+
+<!-- ══════════ SAMPLE ══════════ -->
+<section class="s-md" id="listen">
+  <div class="wrap">
+    <div class="walk-head">
+      <div>
+        <p class="eyebrow dim">Cuatro minutos</p>
+        <h2>Escucha antes de creernos.</h2>
+      </div>
+      <p class="lead" style="max-width:22rem;font-size:.95rem">El comienzo de <em>Aristotle, the Greatest Philosopher</em>: 33 minutos en la app, cuatro aquí. En inglés, como todas las historias. Sin cuenta, sin tarjeta.</p>
+    </div>
+
+    <div class="player">
+      <div class="p-top">
+        <button class="p-btn" id="play" aria-label="Reproducir la muestra" aria-pressed="false">
+          <svg id="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="p-meta">
+          <div class="p-title">Aristotle, the Greatest Philosopher: el descenso inicial</div>
+          <div class="p-sub" id="p-sub">Leída por David from Oxford · Ancient Worlds · los últimos 30 segundos se desvanecen hasta el silencio</div>
+        </div>
+      </div>
+
+      <div class="p-track" aria-hidden="true">
+        <svg viewBox="0 0 1200 26" fill="none" preserveAspectRatio="none">
+          <path d="M0 7h1200" stroke="#423A6A" stroke-width="2"/>
+          <path d="M0 14h1200" stroke="#2B2741" stroke-width="1.6"/>
+          <path d="M0 20h1200" stroke="#2B2741" stroke-width="1.3" opacity=".6"/>
+        </svg>
+        <div class="p-fill" id="fill">
+          <svg viewBox="0 0 1200 26" fill="none" preserveAspectRatio="none">
+            <path d="M0 7h1200" stroke="#9184D9" stroke-width="2.6"/>
+            <path d="M0 14h1200" stroke="#5D5294" stroke-width="2"/>
+            <path d="M0 20h1200" stroke="#423A6A" stroke-width="1.6"/>
+          </svg>
+        </div>
+      </div>
+      <p class="p-times"><span id="t-now">0:00</span><span id="t-left">3:54</span></p>
+
+      <p class="p-caption" id="caption">Dale play y acomódate. Se apaga sola, así que no hay nada que apagar.</p>
+      <audio id="audio" preload="none" src="/audio/sample-aristotle.mp3"></audio>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MECHANISM ══════════ -->
+<section class="s-lg" id="research">
+  <div class="wrap mech">
+    <div class="mech-lede">
+      <p class="eyebrow">La investigación</p>
+      <h2 style="font-size:clamp(1.9rem,3.4vw,3rem)">Ocupar una mente no es lo mismo que vaciarla.</h2>
+      <p class="lead" style="margin-top:1.5rem">A la hora de dormir, la mente de quien duerme mal se pone a planear y a resolver problemas; la de quien duerme bien divaga entre imágenes sueltas y neutras. Esa diferencia es todo el planteamiento del diseño. Una historia lo bastante interesante para sostener la atención y lo bastante plana para soltarla te lleva del primer estado al segundo, y luego sigue sin ti.</p>
+    </div>
+
+    <div class="mech-notes">
+      <ol class="notes">
+        <li>Los pensamientos acelerados retrasan el inicio del sueño; el <em>tipo</em> de pensamiento lo predice mejor que la cantidad. <a href="https://pubmed.ncbi.nlm.nih.gov/31918338/" rel="noopener">Lemyre et al., <cite>Sleep Medicine Reviews</cite>, 2020</a></li>
+        <li>Imaginar en serie cosas sin relación entre sí y emocionalmente planas redujo la activación previa al sueño y el esfuerzo por dormir en estudios aleatorizados sobre el “cognitive shuffle” (barajado cognitivo). <a href="https://summit.sfu.ca/item/17237" rel="noopener">Beaudoin, Simon Fraser University</a></li>
+        <li>Tardar de diez a veinte minutos en dormirse es el rango saludable. Dormirse al instante suele indicar falta de sueño acumulada, no éxito. <a href="https://www.sleephealthjournal.org/article/S2352-7218(16)30130-9/abstract" rel="noopener">Ohayon et al., <cite>Sleep Health</cite>, 2017</a></li>
+      </ol>
+
+      <p class="disclaim">Esta es la investigación sobre el mecanismo, no sobre Lullable. Ninguna app para dormir puede afirmar con honestidad que tiene prueba clínica de sí misma, y la nuestra no lo hace. Juzga la evidencia por tu cuenta; luego juzga la grabación con tus propios oídos.</p>
+    </div>
+
+    <figure class="diagram">
+      <div class="plot">
+      <svg viewBox="0 0 620 330" fill="none" role="img" aria-label="Un diagrama del descenso: de los pensamientos acelerados, pasando por la atención suave y el menor esfuerzo, hasta el sueño; cinco líneas que caen de izquierda a derecha, cada una más delgada y oscura que la de arriba.">
+        <!-- baseline grid -->
+        <path d="M56 300h520" stroke="#2B2741" stroke-width="1"/>
+        <path d="M56 30v270" stroke="#2B2741" stroke-width="1"/>
+        <!-- the descent: echo contours, one direction — down -->
+        <path d="M56 44 C210 44 300 150 576 214" stroke="#9184D9" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M56 70 C210 70 300 174 576 236" stroke="#5D5294" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M56 94 C210 94 300 196 576 256" stroke="#423A6A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M56 116 C210 116 300 216 576 274" stroke="#423A6A" stroke-width="1.6" opacity=".65" stroke-linecap="round"/>
+        <path d="M56 136 C210 136 300 234 576 290" stroke="#2B2741" stroke-width="1.3" stroke-linecap="round"/>
+        <!-- markers -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#83879C">
+          <circle cx="56" cy="44" r="3" fill="#B5ABFC"/>
+          <text x="66" y="26">Pensamientos acelerados</text>
+          <circle cx="232" cy="60" r="3" fill="#9184D9"/>
+          <text x="242" y="52">Atención suave</text>
+          <circle cx="404" cy="140" r="3" fill="#5D5294"/>
+          <text x="414" y="132">Menos esfuerzo</text>
+          <circle cx="576" cy="214" r="3" fill="#423A6A"/>
+          <text x="576" y="200" text-anchor="end">Sueño</text>
+        </g>
+        <g font-family="Inter, sans-serif" font-size="10" fill="#83879C" opacity=".8">
+          <text x="20" y="48" text-anchor="start" transform="rotate(-90 20 48)">activación</text>
+          <text x="316" y="322" text-anchor="middle">tiempo después de darle play</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption>Un modelo explicativo del descenso que Lullable busca producir, no una medición. La app no registra el sueño, y nada de esto es un resultado clínico.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ SPECTRUM ══════════ -->
+<section class="s-md" id="where">
+  <div class="wrap">
+    <p class="eyebrow dim">Dónde queda</p>
+    <h2 style="max-width:20ch">Demasiado vacío, demasiado interesante, y la <em class="voice">franja angosta</em> entre los dos.</h2>
+
+    <div class="spec">
+      <div class="spec-axis">
+        <div class="spec-i">
+          <p class="pos">Demasiado vacío</p>
+          <p class="name">Ruido blanco</p>
+          <p class="line">Nada de qué agarrarse. Tu mente regresa al trabajo en menos de un minuto.</p>
+        </div>
+        <div class="spec-i">
+          <p class="pos">Demasiado exigente</p>
+          <p class="name">Meditación</p>
+          <p class="line">“Vacía tu mente” es tarea, y a medianoche las tareas ya no se te dan.</p>
+        </div>
+        <div class="spec-i us">
+          <p class="pos">Lo justo</p>
+          <p class="name">Lullable</p>
+          <p class="line">Ocupa tu mente hasta que la suelta. El final se revela en la primera línea.</p>
+        </div>
+        <div class="spec-i">
+          <p class="pos">Demasiado interesante</p>
+          <p class="name">Podcasts</p>
+          <p class="line">Hechos para que sigas escuchando. Te quedas en vela por el final, y funciona.</p>
+        </div>
+      </div>
+      <p class="spec-scale"><span>Nada en qué pensar</span><span>Algo en qué pensar</span><span>Demasiado en qué pensar</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MORNING ══════════ -->
+<section class="s-lg">
+  <div class="wrap morning">
+    <div>
+      <p class="eyebrow">Las mañanas</p>
+      <h2 style="font-size:clamp(1.9rem,3.6vw,3.2rem)">Un recibo tranquilo por el tiempo que te diste para escuchar.</h2>
+      <p class="lead" style="margin-top:1.4rem">Dónde te quedaste y lo último que escuchaste. Es todo lo que sabe y todo lo que afirma: ni puntaje de sueño, ni gráfica de fases, ni un número que subir.</p>
+
+      <div class="receipt" style="margin-top:2.2rem">
+        <p class="lbl">Last listen</p>
+        <p class="st">You left off while listening to <em class="voice">Aristotle, the Greatest Philosopher</em>.</p>
+        <p class="qt">“A gentle walk through ideas about a good life, without needing to hold onto every detail.”</p>
+        <p class="ft"><span>Last listened at 11:41&nbsp;pm · 23 min of ancient worlds</span><b>lullable</b></p>
+      </div>
+      <p style="margin-top:1.2rem;font-size:.8rem;color:var(--text-3)">El único botón de compartir del mundo que significa <em>dormí bien</em>. El recibo sale en inglés, como la app.</p>
+    </div>
+
+    <figure style="margin:0">
+      <div class="device"><img src="/assets/app/screen-mornings.webp" width="780" height="1721" loading="lazy" decoding="async" alt="La pestaña Mornings de la app, con “You stopped listening at 11:41” sobre la última línea escuchada."></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ══════════ JOIN ══════════ -->
+<section class="s-lg final" id="signup">
+  <div class="wrap">
+    <p class="eyebrow">Descarga la app</p>
+    <h2>Ya está en el App&nbsp;Store.</h2>
+    <p class="lead" style="margin-top:1.3rem;max-width:32rem">Gratis para descargar, con una historia que se escucha gratis. Todo está en inglés: la app, las historias y también la carta, “Boringly Brilliant”, tres párrafos tranquilos de historia o física el domingo en la noche. Si la quieres, deja tu correo abajo.</p>
+
+    <form id="signup-form" novalidate>
+      <input type="email" id="email" name="email" placeholder="tu@correo.com" autocomplete="email" required aria-label="Tu correo electrónico">
+      <button type="submit" class="btn" id="submit">Mándame los domingos</button>
+    </form>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+    <ul class="promises">
+      <li>Una carta por semana. Nunca dos.</li>
+      <li>Nunca una notificación después de las 9&nbsp;p.&nbsp;m. Nunca.</li>
+      <li>Te das de baja con un clic, y no te preguntamos por qué.</li>
+      <li>Nunca vamos a vender, rentar ni “compartir con aliados” tu correo.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a href="/es/" style="display:block;margin:0 0 1.25rem;max-width:190px">
+          <img src="/assets/brand/logo.svg" width="190" height="140" alt="lullable" loading="lazy" decoding="async">
+        </a>
+        <p style="max-width:22rem;line-height:1.65">El motor de conocimiento de baja activación. Verdades fascinantes, contadas tan bajito que te duermes a media frase, y de eso se trata.</p>
+        <p class="f-social"><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a><a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a><a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a><a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a></p>
+      </div>
+      <div>
+        <h4>Producto</h4>
+        <ul>
+          <li><a href="#night">Cómo funciona</a></li>
+          <li><a href="#stories">Historias</a></li>
+          <li><a href="#listen">La muestra</a></li>
+          <li><a href="#research">La investigación</a></li>
+          <li><a href="/es/app/">Qué hace la app</a></li>
+          <li><a href="/es/faq/">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Leer</h4>
+        <ul>
+          <li><a href="/es/sleep/">Biblioteca del sueño</a></li>
+          <li><a href="/es/chronotype/">Test de cronotipo</a></li>
+          <li><a href="/es/manifesto/">Manifiesto</a></li>
+          <li><a href="/es/stories/">Páginas de historias</a></li>
+          <li><a href="#signup">Boringly Brilliant</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="/es/press/">Prensa</a></li>
+          <li><a href="/es/creators/">Creadores</a></li>
+          <li><a href="/es/support/">Soporte</a></li>
+          <li><a href="/es/privacy/">Privacidad</a></li>
+          <li><a href="/es/terms/">Términos</a></li>
+          <li><a href="#" data-consent>Configuración de cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-btm">
+      <p>No es un dispositivo médico ni un tratamiento. Si tienes insomnio clínico, consulta a un médico.</p>
+      <p>© 2026 Tecnologías Stellar, S.A. de C.V. · desarrollado por <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/" hreflang="en" lang="en">English</a></p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------
+   Launch config.
+   - SUBSCRIBE_URL: our own /api/subscribe, which talks to Sender.net
+     server-side (the API token can read the whole list, so it never ships
+     to the browser). Env: SENDER_API_TOKEN, SENDER_GROUP_ID in Vercel.
+   - APP_STORE_URL: the canonical App Store listing. Every .app-link on
+     the page is rewritten to point at it; the served HTML already does.
+   --------------------------------------------------------------- */
+var SUBSCRIBE_URL = "/api/subscribe";
+var EVENTS_URL    = "";
+/* Live since 2026-09-21 (App Store Connect app "GetLullable", Apple ID
+   6800138113). This is the canonical listing URL Apple's own lookup returns;
+   build.py holds the same string in STORE_URL for every generated page, so if
+   this one ever changes, change it there too. */
+var APP_STORE_URL = "https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113";
+
+function track(name, meta){
+  var e = {name:name, meta:meta||{}, ts:new Date().toISOString(), path:location.pathname};
+  if(!EVENTS_URL){ console.log("event", e); return; }
+  navigator.sendBeacon(EVENTS_URL, new Blob([JSON.stringify(e)], {type:"application/json"}));
+}
+
+/* ---------- header ---------- */
+var hdr = document.getElementById("hdr"), nav = document.getElementById("nav"),
+    menuBtn = document.getElementById("menu-btn");
+
+addEventListener("scroll", function(){
+  hdr.classList.toggle("stuck", scrollY > 24);
+}, {passive:true});
+
+menuBtn.addEventListener("click", function(){
+  var open = nav.getAttribute("data-open") === "true";
+  nav.setAttribute("data-open", String(!open));
+  menuBtn.setAttribute("aria-expanded", String(!open));
+});
+nav.addEventListener("click", function(e){
+  if(e.target.closest("a")){ nav.setAttribute("data-open","false"); menuBtn.setAttribute("aria-expanded","false"); }
+});
+addEventListener("keydown", function(e){
+  if(e.key === "Escape" && nav.getAttribute("data-open") === "true"){
+    nav.setAttribute("data-open","false"); menuBtn.setAttribute("aria-expanded","false"); menuBtn.focus();
+  }
+});
+
+/* ---------- app CTAs ---------- */
+document.querySelectorAll(".app-link").forEach(function(a){
+  if(APP_STORE_URL){
+    a.href = APP_STORE_URL;
+    /* "Download on the App Store" is wording that belongs inside Apple's own
+       badge, so we do not set it here. Plain language, our own button. */
+    var b1 = a.querySelector(".b1"), b2 = a.querySelector(".b2");
+    if(b1 && b2){ b1.textContent = "En el App Store"; b2.textContent = "Descarga la app"; }
+    else if(a.dataset.live){ a.textContent = a.dataset.live; }
+  }
+  a.addEventListener("click", function(){
+    track("app_cta", {placement: a.dataset.placement || "?", live: !!APP_STORE_URL});
+  });
+});
+
+/* ---------- reveals (never on body copy the reader is already reading) ---------- */
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {rootMargin:"-12% 0px -12% 0px"});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+}else{
+  document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
+}
+
+/* ---------- sampler ---------- */
+var audio = document.getElementById("audio"),
+    play  = document.getElementById("play"),
+    icon  = document.getElementById("icon"),
+    fill  = document.getElementById("fill"),
+    cap   = document.getElementById("caption"),
+    psub  = document.getElementById("p-sub"),
+    tNow  = document.getElementById("t-now"),
+    tLeft = document.getElementById("t-left");
+
+var PLAY  = "M8 5v14l11-7z",
+    PAUSE = "M6 5h4v14H6zm8 0h4v14h-4z";
+
+var FADE_SECONDS = 30;   /* the last 30s ramp to silence — the widget's whole thesis */
+
+/* Captions, matched to the recording. Cue times were measured off the file
+   itself — ffmpeg silencedetect gives the speech segments, and the narration
+   text is distributed across them — not guessed. Re-derive them if the sample
+   is ever re-cut; the script is in
+   lullable_audio/Stories/aristotle-the-greatest-philosopher/narration.md */
+var LINES = [
+  [0,   "“Good evening, welcome to Lullable.”"],
+  [6,   "“The day is over now, and it does not need you anymore. Whatever you finished, let it stay finished.”"],
+  [21,  "“Let the bed take your weight. That is its whole purpose, and it is glad of the work.”"],
+  [29,  "“Let your jaw loosen. Let your hands open. Let your breathing find its own pace.”"],
+  [42,  "“Tonight we are going to spend the evening with a question. Not a hard question. The gentlest one there is.”"],
+  [50,  "“The question is: what is this. A child asks it about everything. A pebble. A beetle. The moon.”"],
+  [59,  "“Long ago, on the shore of a warm sea, there lived a man who never stopped asking it.”"],
+  [80,  "“There is nothing to memorize here. If your attention drifts away from the words, let it drift.”"],
+  [95,  "“So take one slow breath in. Let it go even more slowly.”"],
+  [110, "“The story begins in a small town by the sea, in the north of Greece.”"],
+  [136, "“A boy was born there, and his name was Aristotle.”"],
+  [170, "“He was a boy who looked at things. Tide pools. Bird nests. The way an octopus changes color over different stones.”"],
+  [188, "“When he was about seventeen, he went south, to Athens.”"],
+  [217, "“It was a garden where people walked, and talked, and argued gently about enormous things.”"],
+  [228, "“The questions floated among the olive trees like slow birds.”"]
+];
+
+function clock(s){
+  s = Math.max(0, Math.floor(s || 0));
+  return Math.floor(s/60) + ":" + String(s%60).padStart(2,"0");
+}
+
+var heroPlay = document.getElementById("hero-play");
+heroPlay.addEventListener("click", function(ev){
+  ev.preventDefault();
+  document.getElementById("listen").scrollIntoView({block:"center",
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"});
+  if(audio.paused && !broken){ audio.volume = 1; audio.play().catch(missing); }
+  track("app_cta", {placement:"hero-sample", live:false});
+});
+
+play.addEventListener("click", function(){
+  if(audio.paused){ audio.volume = 1; audio.play().catch(missing); } else { audio.pause(); }
+});
+audio.addEventListener("play",  function(){
+  icon.firstElementChild.setAttribute("d", PAUSE);
+  play.setAttribute("aria-label","Pausar la muestra"); play.setAttribute("aria-pressed","true");
+  track("sample_play");
+});
+audio.addEventListener("pause", function(){
+  icon.firstElementChild.setAttribute("d", PLAY);
+  play.setAttribute("aria-label","Reproducir la muestra"); play.setAttribute("aria-pressed","false");
+});
+audio.addEventListener("ended", function(){
+  icon.firstElementChild.setAttribute("d", PLAY);
+  play.setAttribute("aria-label","Reproducir la muestra"); play.setAttribute("aria-pressed","false");
+  fill.style.width = "0"; track("sample_finished");
+});
+audio.addEventListener("error", missing);
+audio.addEventListener("timeupdate", function(){
+  if(broken) return;
+  var t = audio.currentTime, d = audio.duration || 240;
+  fill.style.width = (t/d*100) + "%";
+  tNow.textContent = clock(t); tLeft.textContent = clock(d - t);
+  var left = d - t;
+  audio.volume = left < FADE_SECONDS ? Math.max(0, left/FADE_SECONDS) * Math.max(0, left/FADE_SECONDS) : 1;
+  for(var i = LINES.length - 1; i >= 0; i--){
+    if(t >= LINES[i][0]){ if(cap.textContent !== LINES[i][1]) cap.textContent = LINES[i][1]; break; }
+  }
+});
+
+/* if the audio can't load, say so. never fake it. */
+var broken = false;
+function missing(){
+  if(broken) return;
+  broken = true;
+  psub.textContent = "La muestra no está disponible en este momento.";
+  cap.className = "p-caption err";
+  cap.textContent  = "La grabación no está cargando. Deja tu correo abajo y te la mandamos, en una carta que tampoco trae nada urgente.";
+  track("sample_missing");
+}
+
+/* ---------- signup ---------- */
+var form = document.getElementById("signup-form"),
+    mail = document.getElementById("email"),
+    btn  = document.getElementById("submit"),
+    msg  = document.getElementById("msg");
+
+form.addEventListener("submit", function(ev){
+  ev.preventDefault();
+  var value = mail.value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)){
+    msg.className = "msg err"; msg.textContent = "A ese correo le falta algo."; return;
+  }
+  if(!SUBSCRIBE_URL){
+    msg.className = "msg err";
+    msg.textContent = "El registro todavía no está conectado.";
+    track("signup_unwired", {email_domain: value.split("@")[1]});
+    return;
+  }
+  btn.disabled = true; msg.className = "msg"; msg.textContent = "Un momento.";
+  /* where they came from, for the source field in Sender: ?ref=ph, ?ref=ig … */
+  var source = (new URLSearchParams(location.search).get("ref") || "web-es").slice(0, 30);  /* 30 = Apple campaign-token limit */
+  /* One id, two paths: the browser pixel below and the server's Conversions API
+     call both send it, and Meta counts the lead once. */
+  var eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+              : String(Date.now()) + "-" + Math.random().toString(36).slice(2);
+  fetch(SUBSCRIBE_URL, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      email: value, source: source, event_id: eventId,
+      /* the server mirrors to Meta only if the visitor already said yes */
+      consent: !!(window.lullConsented && window.lullConsented())
+    })
+  })
+    .then(function(r){
+      if(!r.ok) throw new Error(String(r.status));
+      form.style.display = "none";
+      msg.className = "msg ok";
+      /* Single opt-in on this path: Sender's double opt-in only fires for
+         Sender's own forms, and ours posts through the API, so the welcome
+         email IS the confirmation. Say what actually happens. */
+      msg.textContent = APP_STORE_URL
+        ? "Listo. Va en camino un correo de bienvenida, en inglés. Revisa Promociones: ahí empiezan los remitentes nuevos."
+        : "Listo. Ya estás en la lista. Va en camino un correo de bienvenida, en inglés. Revisa Promociones: ahí empiezan los remitentes nuevos.";
+      track("signup", {email_domain: value.split("@")[1], source: source});
+      /* Google Ads "Sign-up" conversion — AW-18423437610, defined in consent.js */
+      if(window.lullConversion) window.lullConversion("AuWdCJnj0vEcEKqy_dBE");
+      /* Meta "Lead" — the only conversion Meta can optimise a campaign towards.
+         Same eventId the server sends, so the pair is deduplicated. */
+      if(window.lullMeta) window.lullMeta("Lead", {content_name: "Sunday letter", source: source}, eventId);
+      if(window.lullGa) window.lullGa("sign_up", {method: "newsletter", source: source});
+    })
+    .catch(function(){
+      btn.disabled = false;
+      msg.className = "msg err";
+      msg.textContent = "No se pudo. Intenta otra vez, o escríbenos a info@getlullable.com y te agregamos a mano.";
+      track("signup_failed");
+    });
+});
+
+track("page_view");
+</script>
+<script src="/consent.js" defer></script>
+</body>
+</html>

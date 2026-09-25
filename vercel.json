@@ -71,6 +71,16 @@
       "permanent": true
     },
     {
+      "source": "/sleep/por-que-el-colchon-decide-la-noche",
+      "destination": "/es/sleep/por-que-el-colchon-decide-la-noche/",
+      "permanent": true
+    },
+    {
+      "source": "/sleep/por-que-el-colchon-decide-la-noche/",
+      "destination": "/es/sleep/por-que-el-colchon-decide-la-noche/",
+      "permanent": true
+    },
+    {
       "source": "/go/:code([a-z0-9-]{2,30})",
       "has": [
         {

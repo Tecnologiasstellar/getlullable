@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad — Lullable</title>
+<meta name="description" content="Qué recopila Lullable, qué cookies se activan solo si las permites y cómo hacer que lo borremos todo. Sin rodeos y con la versión corta primero.">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://getlullable.com/es/privacy/">
+<link rel="alternate" hreflang="en" href="https://getlullable.com/privacy/">
+<link rel="alternate" hreflang="es-MX" href="https://getlullable.com/es/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://getlullable.com/privacy/">
+<meta property="og:title" content="Política de privacidad — Lullable">
+<meta property="og:url" content="https://getlullable.com/es/privacy/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lullable">
+<meta property="og:locale" content="es_MX">
+<meta property="og:description" content="Qué recopila Lullable, qué cookies se activan solo si las permites y cómo hacer que lo borremos todo. Sin rodeos y con la versión corta primero.">
+<meta property="og:image" content="https://getlullable.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/brand/web/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/newsreader-latin.woff2" crossorigin>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+/* ── Fonts, self-hosted ──────────────────────────────────────────
+   No Google Fonts request: the browser never tells a third party who is
+   reading a sleep-stories site at 1am, and /privacy/ can say so plainly.
+   These are the same latin-subset woff2 files Google serves, kept locally.
+   Both families are SIL Open Font License 1.1 — see fonts/README.md.
+   Variable weight axes, so one file covers every weight in use.
+   ─────────────────────────────────────────────────────────────── */
+@font-face{font-family:Inter;font-style:normal;font-weight:300 600;font-display:swap;
+  src:url(/fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:italic;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-italic-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Newsreader;font-style:normal;font-weight:300 500;font-display:swap;
+  src:url(/fonts/newsreader-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* "Nocturne" — the iOS app's palette, shared with index.html so the site and the
+   app are one product. The old amber is retired: the app has no amber. The
+   variable names are kept so the rules below did not all have to be rewritten;
+   --amber now names the one accent, which is a line, a border and a glow, never
+   a flood. */
+:root{--ink:#161826;--ink-2:#232532;--ink-3:#1C1E2B;--haze:rgba(233,233,237,.14);--text:#E9E9ED;--dim:#B2B6CA;
+--dimmer:#8E92A8;--cream:#ECE4D3;--amber:#9184D9;--amber-soft:rgba(145,132,217,.4);--iris:#B5ABFC;--iris-dim:#9184D9;
+--serif:Newsreader,Iowan Old Style,Palatino,Georgia,serif;
+--sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--ink);color:var(--text);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:50vh;pointer-events:none;
+background:radial-gradient(110% 70% at 50% 0%,rgba(145,132,217,.07),transparent 62%)}
+/* wide frame, centered reading measure — the measure protects the paragraphs,
+   the frame gives everything else room to breathe */
+.wrap{position:relative;max-width:56rem;margin:0 auto;padding:0 1.5rem}
+.measure{max-width:36rem;margin-inline:auto}
+header{padding:1.75rem 0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+/* the official lockup: four echo-contour arcs beside a serif wordmark (assets/brand/logo.svg) */
+.mark{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;font:400 21px/1 var(--serif);
+letter-spacing:.01em;text-transform:lowercase;text-decoration:none;color:#E9D6B6}
+.mark img{width:38px;height:19px}
+.bar nav{display:flex;align-items:center;gap:1.4rem;font-size:.875rem;color:var(--dim)}
+.bar nav a{text-decoration:none}
+.bar nav a:hover{color:var(--text)}
+.navbtn{border:1.5px solid var(--cream);color:var(--cream);border-radius:11px;padding:.55rem 1rem;
+transition:background .18s ease}
+.navbtn:hover{background:rgba(236,228,211,.10);color:var(--cream)}
+@media(max-width:560px){.bar nav a:nth-child(-n+2){display:none}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.5vw,2.7rem);line-height:1.18;letter-spacing:-.015em;margin:0 0 1rem}
+h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:2.5rem 0 1rem}
+h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin:2rem 0 .75rem}
+.post-head{text-align:center;padding:2.5rem 0 2rem;max-width:42rem;margin-inline:auto}
+.eyebrow{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:1.25rem}
+.post-meta{font-size:.82rem;color:var(--dimmer)}
+.post-meta b{color:var(--dim);font-weight:400}
+/* a pitch page's sub-headline: readable, not a document's date line */
+.post-meta.tagline{font-family:var(--serif);font-size:1.08rem;line-height:1.55;color:var(--dim);max-width:32rem;margin-inline:auto}
+.meta{font:500 .75rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-dim);margin-bottom:2.5rem}
+article p{font-family:var(--serif);font-size:1.08rem;line-height:1.75;color:var(--dim);margin-bottom:1.3rem}
+article strong{color:var(--text);font-weight:400;font-style:italic}
+article a{color:var(--text)}
+article ul,article ol{margin:0 0 1.3rem 1.2rem;color:var(--dim);font-family:var(--serif);font-size:1.08rem;line-height:1.75}
+article ol li{padding-left:.25rem;margin-bottom:.4rem}
+article ol li::marker{color:var(--iris-dim);font-family:var(--sans);font-size:.9rem}
+article blockquote{border-left:2px solid var(--amber-soft);padding-left:1.25rem;margin:2rem 0;
+font-family:var(--serif);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--dim)}
+/* the short answer — the block AI assistants and skimmers both take */
+.answer{background:linear-gradient(160deg,#232532,#161826);border:1px solid var(--haze);border-radius:16px;
+padding:1.6rem 1.75rem;margin:0 0 2.5rem;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.answer .lbl{font:500 .75rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:.8rem}
+.answer p{margin:0;color:var(--text);font-size:1.12rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;justify-content:center}
+.chip{font:500 .75rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--iris-dim);
+background:rgba(145,132,217,.12);border:1px solid rgba(145,132,217,.22);border-radius:20px;padding:.45rem .8rem}
+.chip.amber{color:var(--cream);background:rgba(236,228,211,.10);border-color:rgba(236,228,211,.28)}
+.cta{background:linear-gradient(160deg,#232532,#161826);border:1px solid var(--haze);border-radius:16px;
+padding:1.75rem;margin:3.5rem 0;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.cta p{font-family:var(--serif);color:var(--dim);margin-bottom:1.25rem}
+/* The one filled button, spent on the one action a story page wants. */
+.cta a{display:inline-flex;align-items:center;min-height:52px;background:var(--cream);color:var(--ink);
+border:1.5px solid var(--cream);border-radius:14px;padding:.85rem 1.5rem;text-decoration:none;
+font-size:1rem;font-weight:500;transition:background .18s ease,transform .1s ease-out}
+.cta a:hover{background:#F5F0E6}
+/* Feedback lives on the press, and it is instant — not on release. */
+.cta a:active{transform:scale(.97)}
+/* The page-top CTA: just the button under the headline, no card. The card is
+   for the end of the page, where a box earns its keep by stopping the scroll. */
+.cta-top{background:none;border:0;box-shadow:none;padding:0;margin:0 0 2.75rem}
+.cta-note{font:400 .85rem/1.5 var(--sans);color:var(--dimmer);margin:.9rem 0 0}
+.cta .cta-note{margin-bottom:0}
+.cta .cta-note a{display:inline;min-height:0;background:none;border:0;border-radius:0;padding:0;
+font:inherit;color:var(--iris);text-decoration:underline;text-underline-offset:2px}
+.cta .cta-note a:hover{background:none;color:var(--cream)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* related content as cards; stories carry the app's gradient covers */
+.sources{border-top:1px solid var(--haze);margin-top:2.5rem;padding-top:1.25rem}
+.sources .lbl{font:500 .7rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
+.sources ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem .9rem}
+.sources li{font:400 .82rem/1.4 var(--sans)}
+.sources a{color:var(--dim);text-decoration:underline;text-underline-offset:3px}
+.sources a:hover{color:var(--text)}
+.related{border-top:1px solid var(--haze);margin-top:3.5rem;padding-top:2.5rem}
+.related h2{margin-top:0;font-size:1.25rem;text-align:center;margin-bottom:1.75rem}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem}
+.rel{display:block;text-decoration:none;background:var(--ink-2);border:1px solid var(--haze);border-radius:14px;
+padding:1.1rem;transition:border-color .3s}
+.rel:hover{border-color:rgba(145,132,217,.35)}
+.cover{display:block;border-radius:10px;margin-bottom:.9rem;overflow:hidden}
+.hero-cover{max-width:240px;margin:0 auto 1.6rem}
+.hero-cover .cover{border-radius:18px;border:1px solid var(--haze)}
+.g0{background:linear-gradient(150deg,#423A6A,#161826)}.g1{background:linear-gradient(150deg,#2B2741,#161826)}
+.g2{background:linear-gradient(150deg,#5D5294,#1C1E2B)}.g3{background:linear-gradient(150deg,#262A60,#161826)}
+.rel .kind{font:500 .75rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dimmer);display:block;margin-bottom:.4rem}
+.rel .t{font-family:var(--serif);font-size:1rem;line-height:1.35;color:var(--text)}
+@media(max-width:700px){.rel-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.rel-grid{grid-template-columns:1fr}}
+footer{padding:3rem 0 3.5rem;font-size:.8rem;color:var(--dimmer);text-align:center}
+footer a{color:var(--dimmer)}
+/* index: card grid */
+.idx-head{text-align:center;padding:2.5rem 0 .5rem}
+.idx-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem;list-style:none}
+.idx-card{background:var(--ink-2);border:1px solid var(--haze);border-radius:16px;padding:1.5rem;
+display:flex;flex-direction:column;transition:border-color .3s}
+.idx-card:hover{border-color:rgba(145,132,217,.35)}
+.idx-card .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
+.idx-card time,.idx-card .sub{font-size:.75rem;color:var(--dimmer)}
+.idx-card a{font-family:var(--serif);font-size:1.3rem;line-height:1.3;color:var(--text);text-decoration:none}
+.idx-card a:hover{color:var(--iris)}
+.idx-card p{color:var(--dim);font-size:.92rem;margin-top:.6rem;line-height:1.6}
+@media(max-width:700px){.idx-grid{grid-template-columns:1fr}}
+::selection{background:rgba(145,132,217,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+<a class="mark" href="/es/"><img src="/assets/brand/mark.svg" width="38" height="19" alt="" decoding="async">lullable</a>
+<nav><a href="/es/stories/">Historias</a><a href="/es/sleep/">Biblioteca del sueño</a><a href="/es/chronotype/">Test de cronotipo</a><a class="navbtn" href="https://apps.apple.com/us/app/lullable-adult-sleep-stories/id6800138113">Descarga la app</a></nav>
+</header>
+<article>
+<div class="post-head"><p class="eyebrow">Lullable</p><h1>Política de privacidad</h1><p class="post-meta">Actualizado el <time datetime="2026-09-22">22 de septiembre de 2026</time></p></div>
+<div class="measure">
+<h2>La versión corta</h2>
+<p>Recopilamos una sola cosa de forma directa: tu correo electrónico, y solo si tú nos lo das.</p>
+<p>También contamos cuántas personas leen cada página, con una herramienta que no coloca ninguna cookie ni guarda nada en tu dispositivo. No puede distinguir a una persona de otra, así que no hay nada en ella que tengamos que preguntarte.</p>
+<p>Aparte de eso, el sitio usa cookies de analítica y de publicidad: la maquinaria de siempre, la que nos dice qué página te trajo aquí y si valió la pena pagar por un anuncio. <strong>Nada de eso se activa hasta que digas que sí.</strong> Si las rechazas, igual tienes el sitio completo: cada ensayo, cada historia, la muestra de audio, el boletín. No te negamos nada ni te damos una versión peor. Creemos que esa es la única versión del consentimiento que significa algo.</p>
+<p>No vendemos tus datos por dinero. Aun así, para la ley de California las cookies de publicidad cuentan como "compartir", y puedes desactivarlo con un solo clic.</p>
+<p>Si quieres salirte por completo, escribe a <a href="mailto:info@getlullable.com">info@getlullable.com</a> y borraremos lo que tengamos. No necesitas darnos una razón y no te la vamos a pedir.</p>
+<p>Todo lo que sigue es la misma promesa, dicha con cuidado, porque una parte tiene que decirse así.</p>
+<h2>Quiénes somos</h2>
+<p><strong>Tecnologías Stellar, S.A. de C.V.</strong> ("Lullable" o "nosotros") es el responsable del tratamiento de los datos personales que se describen aquí.</p>
+<ul><li>Domicilio: Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México</li><li>Correo electrónico: <a href="mailto:info@getlullable.com">info@getlullable.com</a></li><li>Sitio web: <a href="https://getlullable.com">getlullable.com</a></li></ul>
+<p>Esta política cubre el sitio web getlullable.com, el boletín de Lullable y la app de Lullable. Está escrita para cumplir con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) de México, con el RGPD (Reglamento General de Protección de Datos) de la Unión Europea y el RGPD del Reino Unido, y con la Ley de Privacidad del Consumidor de California (California Consumer Privacy Act) y sus reformas. El aviso de privacidad formal, el de la LFPDPPP, está al final de esta página.</p>
+<h2>Qué recopilamos</h2>
+<p><strong>Si te suscribes al boletín.</strong> Tu correo electrónico y la fecha en que nos lo diste. Ese es el registro completo. Se guarda en Sender, el proveedor de nuestro boletín (Sender.net, Lituania, Unión Europea). Cada correo que enviamos trae un enlace para darte de baja con un clic, que funciona sin tener que contactar a nadie.</p>
+<p><strong>Cuando visitas el sitio.</strong> Nuestro proveedor de hosting, Vercel, guarda los registros estándar del servidor —dirección IP, tipo de navegador y de dispositivo, la página solicitada, la hora— por seguridad y para mantener el sitio en línea. Esos registros son necesarios para poder mostrarte siquiera una página, así que no son opcionales, y no los leemos con fines de marketing.</p>
+<p><strong>Enlaces de creadores.</strong> Si llegas por un enlace como getlullable.com/go/nombre, ese nombre es el código del creador que te mandó. Viaja en la dirección —como etiqueta de campaña del App Store en un iPhone o iPad y, en cualquier otro caso, como parámetro ref= en la dirección web— para que podamos pagarle a ese creador por la descarga. No coloca ninguna cookie y no se guarda en ningún lado, a menos que después te suscribas al boletín; en ese caso, se guarda junto con tu correo como el <em>origen</em> de la suscripción (en Sender, con el mismo plazo de conservación que el propio correo) y en ningún otro lugar.</p>
+<p><strong>Fuentes.</strong> Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts ni desde ningún otro servicio de fuentes. Cargar una página no le dice a ningún tercero que estuviste aquí.</p>
+<p><strong>Si aceptas las cookies.</strong> Entonces, las herramientas de analítica y de publicidad recopilan datos de uso y del dispositivo: páginas vistas, tiempo en la página, ubicación aproximada a partir de tu IP, sitio de procedencia, tipo de dispositivo y de navegador, e identificadores publicitarios asignados por las plataformas de anuncios. La siguiente sección las nombra una por una.</p>
+<p><strong>Lo que nunca recopilamos.</strong> Ningún dato de salud: no te preguntamos cómo dormiste, y Lullable no es un monitor de sueño. Ninguna ubicación precisa. Ni contactos, ni fotos, ni acceso al micrófono. Ningún dato sensible de ningún tipo, tal como los definen la ley mexicana y la europea.</p>
+<p><strong>En la app.</strong> Más abajo, una sección aparte describe la app con todo detalle, porque recopila cosas distintas de las que recopila el sitio web.</p>
+<h2>Cookies y cómo rechazarlas</h2>
+<p>En tu primera visita, un aviso de cookies te pregunta. Hasta que lo respondas, no se carga nada de las categorías opcionales: no se descarga ningún script, no se coloca ningún identificador, no se envía nada a ningún lado. La única excepción es el registro de tu propia respuesta, que guardamos en tu dispositivo para no tener que volver a preguntarte; ese es inevitable y no lleva ningún identificador.</p>
+<p><strong>Estrictamente necesarias: siempre activas.</strong> Tu elección sobre las cookies, y la seguridad y el balanceo de carga que nuestro proveedor de hosting aplica a cada solicitud. Sin esto no se puede entregar el sitio, así que no hay nada que consentir.</p>
+<p><strong>Conteo de visitas sin cookies: siempre activo.</strong> Vercel Web Analytics nos dice cuántas personas leen una página y qué sitio las mandó. No coloca ninguna cookie, no guarda nada en tu dispositivo y no crea ningún perfil: no hay ningún identificador que te siga de un sitio a otro, ni de un día para otro. No hay en ello nada personal que consentir, así que funciona sin preguntarte, y es la única medición que lo hace.</p>
+<p><strong>Analítica: solo con tu consentimiento.</strong> Google Analytics 4, que, a diferencia de lo anterior, sí coloca cookies y sí registra tu visita como una visita <em>tuya</em>. Nos diría qué ensayos lee la gente y de dónde llega.</p>
+<p><strong>Publicidad: solo con tu consentimiento.</strong> Etiquetas de medición de Meta (Facebook e Instagram), TikTok y Google Ads. Le avisan a una plataforma de anuncios que una visita o una suscripción llegó después de uno de sus anuncios, y le permiten volver a mostrarte Lullable en otros lugares.</p>
+<p><strong>Cómo cambiar de opinión, en cualquier momento:</strong></p>
+<ul><li>Vuelve a abrir el aviso de cookies desde el enlace en el pie de página del sitio y elige otra vez: el rechazo surte efecto de inmediato y elimina lo que se haya colocado.</li><li>Activa <strong>Global Privacy Control</strong> en tu navegador o con una extensión. Tomamos una señal GPC como un rechazo válido de las cookies de analítica y de publicidad y, para efectos de la ley de California, como una solicitud para que no se compartan tus datos, de forma automática y sin que tengas que hacer nada más.</li><li>Borra las cookies desde la configuración de tu navegador, o bloquéalas ahí por completo.</li><li>O escribe a <a href="mailto:info@getlullable.com">info@getlullable.com</a> y nosotros nos encargamos.</li></ul>
+<p><strong>A la fecha que aparece al inicio de esta página, ninguna de las etiquetas opcionales de arriba está realmente activada.</strong> El aviso de cookies, las categorías y la maquinaria ya están en su lugar, esperando; las herramientas de analítica y de publicidad que describen todavía no se han agregado. Cuando se agregue alguna, lo diremos aquí y te volveremos a preguntar, como promete la última sección.</p>
+<p>Rechazarlas no te cuesta nada. No hay muro de pago, ni insistencias, ni una versión recortada del sitio.</p>
+<h2>La app de Lullable</h2>
+<p><strong>Inicio de sesión.</strong> La app usa Iniciar sesión con Apple (Sign in with Apple). Apple nos da un identificador de tu cuenta y un correo electrónico, que es la dirección privada de retransmisión de Apple si elegiste ocultar el tuyo, y nos da gusto cuando lo haces. Nunca vemos tu contraseña de Apple, y no existe una contraseña de Lullable aparte que alguien pueda perder.</p>
+<p><strong>Lo que guardamos en nuestros servidores.</strong> Tu avance de escucha: en qué historia ibas y hasta dónde llegaste. Eso es lo que retoma la reproducción donde te ganó el sueño y lo que hace posible "el último dato que escuchaste". Es toda la razón de que exista la app en lugar de un feed de podcast.</p>
+<p><strong>Lo que se queda en tu dispositivo.</strong> El audio descargado y tus preferencias de reproducción: volumen, duración del desvanecimiento, temporizadores. Eso nunca nos llega.</p>
+<p><strong>Lo que la app no contiene.</strong> Ningún SDK de terceros, de ningún tipo: ni SDK de analítica, ni SDK de reporte de fallas, ni SDK de publicidad o de atribución. Nada en la app te sigue por otras apps o sitios web, y por eso nunca vas a ver de nuestra parte una solicitud de App Tracking Transparency (transparencia en el rastreo de apps): no hay nada para lo que tengamos que pedirte permiso. Las cookies de analítica y de publicidad descritas arriba están solo en el sitio web, y nunca en la app.</p>
+<p><strong>Pagos.</strong> Apple vende y procesa las suscripciones. Nunca vemos el número de tu tarjeta y nunca recibimos tu dirección de facturación. Apple nos dice si una cuenta tiene derecho al contenido premium, y nada más.</p>
+<p><strong>Datos de salud.</strong> Ninguno. La app no lee HealthKit, no monitorea tu sueño y nunca te pregunta cómo dormiste.</p>
+<h3>Eliminar tu cuenta</h3>
+<p>Puedes eliminar tu cuenta desde la propia app, en sus ajustes. Sin correos, sin formularios, sin conversaciones con soporte y sin esperar a que lo aprobemos.</p>
+<p>Al eliminarla, se borran de inmediato de nuestros servidores el registro de tu cuenta, el correo o la dirección de retransmisión asociada a ella y todo tu historial de escucha. Las copias que queden en respaldos cifrados se sobrescriben en un plazo de 30 días. No se puede deshacer.</p>
+<p>Dos cosas que conviene saber antes de tocar ese botón:</p>
+<ul><li><strong>Eliminar tu cuenta no cancela tu suscripción.</strong> Eso solo lo puede hacer Apple, en tu dispositivo: Configuración, tu nombre, Suscripciones. Cancela ahí primero, o te van a seguir cobrando por una cuenta que ya no existe.</li><li>Los registros que la ley nos obliga a conservar, como una factura emitida por Apple, sobreviven a la eliminación durante el tiempo que exija la ley fiscal mexicana y no se usan para nada más.</li></ul>
+<p>Si prefieres que lo hagamos por ti, escribe a <a href="mailto:info@getlullable.com">info@getlullable.com</a>.</p>
+<h2>Para qué usamos tus datos y qué es opcional</h2>
+<p><strong>Finalidades necesarias</strong>, sin las cuales no hay servicio como tal:</p>
+<ul><li>Enviarte el boletín que pediste.</li><li>Mantener el sitio funcionando, rápido y libre de abusos.</li><li>Responderte cuando nos escribes.</li><li>Cumplir con obligaciones legales, fiscales y contables.</li></ul>
+<p><strong>Finalidades opcionales</strong>, que puedes rechazar sin perder nada:</p>
+<ul><li>Medir qué páginas y episodios termina realmente la gente.</li><li>Medir si nuestra publicidad funciona, y volver a mostrar Lullable a quienes ya visitaron el sitio.</li><li>Pedirte tu opinión, o invitarte a probar algo por adelantado.</li></ul>
+<p>Rechaza las opcionales desde el aviso de cookies, dándote de baja o escribiendo a <a href="mailto:info@getlullable.com">info@getlullable.com</a>. Negarte no afecta nada de la primera lista.</p>
+<p><strong>Bases legales (RGPD).</strong> Consentimiento para el boletín, para las cookies de analítica y de publicidad y para las finalidades opcionales, que puedes retirar en cualquier momento sin que eso afecte lo que fue lícito antes de que lo retiraras. Interés legítimo para la seguridad del sitio y su funcionamiento básico. Obligación legal para los registros que la ley nos exige conservar.</p>
+<h2>Quién más maneja tus datos</h2>
+<p>Usamos pocos proveedores, cada uno con una sola tarea y cada uno obligado a tratar los datos solo conforme a lo acordado:</p>
+<ul><li><strong>Vercel</strong>: hosting del sitio web, registros del servidor y el conteo de visitas sin cookies descrito arriba (Estados Unidos).</li><li><strong>Sender</strong>: envío del boletín y lista de correo (Lituania, Unión Europea).</li><li><strong>Google</strong>: Analytics 4 y medición de Google Ads, solo con tu consentimiento (Estados Unidos y otros lugares). No es nuestro proveedor de fuentes: las tipografías son nuestras.</li><li><strong>Meta y TikTok</strong>: medición publicitaria y retargeting, solo con tu consentimiento (Estados Unidos y otros lugares).</li><li><strong>Apple</strong>: distribución de la app, Iniciar sesión con Apple y pagos de suscripciones.</li></ul>
+<p>Esa es la lista completa. No vendemos datos personales por dinero, y no nos interesa hacerlo. Solo revelamos datos a las autoridades cuando lo exige una orden legal válida.</p>
+<p><strong>Unas palabras sobre las plataformas de publicidad.</strong> Cuando aceptas las cookies de publicidad, Meta, TikTok y Google reciben datos de tu visita y también los usan para sus propios fines, según sus propias políticas, que no controlamos. Ese es el trato honesto que implica anunciarse, y es exactamente lo que te pregunta el aviso de cookies.</p>
+<p><strong>Transferencias internacionales.</strong> Somos una empresa mexicana y nuestros proveedores están, en su mayoría, en Estados Unidos, así que tus datos se almacenan y se procesan fuera de México y fuera del Espacio Económico Europeo. Las transferencias se basan en tu consentimiento y en las protecciones contractuales estándar que ofrecen nuestros proveedores. Si prefieres que tus datos no se transfieran así, rechaza las cookies en el aviso y no te suscribas; y si ya hay algo, escríbenos y lo eliminaremos.</p>
+<h2>Cuánto tiempo conservamos tus datos</h2>
+<p>Tu correo se queda en la lista hasta que te des de baja o nos pidas borrarlo, y se elimina en un plazo de 30 días a partir de cualquiera de las dos cosas. Tu cuenta de la app y tu historial de escucha se conservan mientras la cuenta exista y se borran en el momento en que la eliminas; las copias de respaldo se sobrescriben en un plazo de 30 días. Los registros del servidor se eliminan solos en un plazo de 30 días, según la configuración predeterminada de nuestro proveedor de hosting. Los datos de analítica se conservan 14 meses como máximo. Los datos que tienen las plataformas de publicidad siguen sus propios plazos de conservación, que se describen en sus políticas y que normalmente son más cortos. Los registros que la ley nos obliga a conservar —facturas, documentos fiscales— se guardan durante el plazo que exige la ley mexicana, y no más.</p>
+<h2>Tus derechos</h2>
+<p>Vivas donde vivas, puedes pedirnos que te mostremos lo que tenemos, que lo corrijamos, que lo borremos o que dejemos de usarlo. Un solo correo sirve para todo: <a href="mailto:info@getlullable.com">info@getlullable.com</a>. Respondemos en un plazo de 20 días hábiles, que es el plazo legal en México y el más estricto de los que nos aplican. No tiene costo, y nunca te obligamos a crear una cuenta para ejercer un derecho.</p>
+<p><strong>En México (LFPDPPP).</strong> Tienes los derechos ARCO —Acceso, Rectificación, Cancelación, Oposición—, además del derecho a revocar tu consentimiento y a limitar el uso o la divulgación de tus datos; el aviso de cookies es uno de los medios que te ofrecemos para eso. Para ejercerlos, escríbenos con tu nombre, un medio de contacto, un documento que acredite tu identidad y una descripción clara de lo que quieres. Si no estás conforme con nuestra respuesta, puedes acudir a la autoridad mexicana competente en protección de datos.</p>
+<p><strong>En la Unión Europea o el Reino Unido (RGPD).</strong> Acceso, rectificación, supresión, limitación del tratamiento, portabilidad, oposición y retiro del consentimiento en cualquier momento. También puedes presentar una reclamación ante la autoridad de control de tu país.</p>
+<p><strong>En California (CCPA/CPRA).</strong> Tienes derecho a saber, a eliminar y a corregir, y derecho a optar por que no se venda ni se comparta tu información personal. Para precisar una palabra que se usa mal: <strong>no vendemos información personal por dinero</strong>, pero usar las etiquetas de publicidad de Meta, TikTok y Google cuenta como "compartir para publicidad conductual entre contextos" según la ley de California. Puedes decir que no a eso rechazando o retirando tu consentimiento en el aviso de cookies, o enviando una señal de Global Privacy Control, que respetamos de forma automática. No compartimos a sabiendas la información personal de nadie menor de 16 años. Nunca te vamos a discriminar por ejercer un derecho, y extendemos estos controles a todas las personas que visitan el sitio, independientemente de que nos apliquen o no los umbrales de California.</p>
+<h2>Menores de edad</h2>
+<p>Lullable está hecho para personas adultas y no está dirigido a menores de 13 años —o de 16 en el Espacio Económico Europeo y el Reino Unido—. No recopilamos sus datos a sabiendas y no les dirigimos publicidad. Si nos llegaran datos de algún menor, escribe a <a href="mailto:info@getlullable.com">info@getlullable.com</a> y los borraremos sin demora. Por supuesto, madres y padres pueden ponerle una historia de Lullable a una niña o a un niño; eso no requiere cuenta y no nos da nada.</p>
+<h2>Seguridad</h2>
+<p>Todo viaja por HTTPS. El acceso a la lista de correo está limitado a las personas que lo necesitan y protegido con autenticación robusta. Nosotros guardamos muy poco, y esa es la medida de seguridad más confiable que tenemos a nuestro alcance. Ningún sistema es perfecto, y si alguna vez una vulneración de seguridad afectara tus datos, te lo diríamos a ti y a la autoridad correspondiente sin demora.</p>
+<h2>Una nota sobre la salud</h2>
+<p>Lullable es audio, no medicina. No es un dispositivo médico y no está pensado para diagnosticar, tratar, curar ni prevenir ninguna enfermedad. No recopilamos datos de salud de ningún tipo, y nunca creamos audiencias publicitarias en torno a nada relacionado con la salud. Si te está costando trabajo dormir, por favor habla con un médico; en los <a href="/es/terms/">Términos</a> está la versión más completa de esto.</p>
+<h2>Cambios a esta política</h2>
+<p>Si cambiamos algo que importe —una herramienta nueva, una finalidad nueva—, actualizaremos la fecha al inicio de esta página, volveremos a pedir tu consentimiento cuando sea el consentimiento lo que lo haga lícito, y lo diremos en el boletín antes de que entre en vigor. La versión vigente siempre está en <a href="https://getlullable.com/es/privacy/">getlullable.com/es/privacy/</a>.</p>
+<h2>Aviso de Privacidad (México)</h2>
+<p><strong>Tecnologías Stellar, S.A. de C.V.</strong>, con domicilio en Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
+<p><strong>Datos que tratamos.</strong> Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta. Si llega a través del enlace de un creador (getlullable.com/go/nombre), ese nombre viaja en la dirección para que podamos pagarle al creador por la descarga; no coloca ninguna cookie y solo se conserva, junto con su correo, si usted se suscribe al boletín.</p>
+<p><strong>Eliminación de su cuenta.</strong> Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato su cuenta, su correo electrónico y todo su historial de escucha. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.</p>
+<p><strong>Finalidades necesarias.</strong> Enviarle el boletín y el aviso de lanzamiento que solicitó; operar y proteger el sitio; atender sus mensajes; cumplir obligaciones legales y fiscales.</p>
+<p><strong>Finalidades no necesarias.</strong> Medir el uso del sitio, medir la efectividad de nuestra publicidad y mostrarle nuestros anuncios nuevamente, y solicitarle retroalimentación o invitarle a probar el producto de forma anticipada. Usted puede negarse a estas finalidades sin que ello afecte el servicio ni el acceso a ningún contenido.</p>
+<p><strong>Medios para limitar el uso o divulgación.</strong> Rechace las cookies opcionales en el aviso que aparece en su primera visita, o cámbielo después desde el enlace en el pie de página; active la señal Global Privacy Control en su navegador; o escríbanos a <a href="mailto:info@getlullable.com">info@getlullable.com</a>.</p>
+<p><strong>Transferencias.</strong> Sus datos se almacenan y procesan en Estados Unidos por nuestros proveedores de hosting, correo, analítica y publicidad (Vercel, Google, Meta, TikTok) y en la Unión Europea por nuestro proveedor de correo (Sender). Al proporcionarnos su correo electrónico y al aceptar las cookies opcionales usted acepta estas transferencias; si no las acepta, por favor rechace las cookies, no se suscriba, y escríbanos para eliminar cualquier dato existente.</p>
+<p><strong>Derechos ARCO y revocación del consentimiento.</strong> Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos, así como revocar su consentimiento, enviando su solicitud a <a href="mailto:info@getlullable.com">info@getlullable.com</a> con su nombre, medio de contacto, acreditación de identidad y la descripción clara de lo que solicita. Responderemos en un plazo máximo de 20 días hábiles, sin costo alguno.</p>
+<p><strong>Cambios al aviso.</strong> Cualquier modificación se publicará en <a href="https://getlullable.com/privacy/">getlullable.com/privacy/</a>, con la fecha de actualización al inicio de esta página.</p>
+</div>
+</article>
+<footer>Lullable — el motor de conocimiento de baja activación. La app y sus historias están en inglés. No es un dispositivo médico.
+<br>Los ensayos de la Biblioteca del sueño se redactan con Claude siguiendo un contrato de voz fijo, se contrastan con las fuentes que cita cada página y se publican sin edición. La traducción al español de este sitio también se hizo con Claude. ¿Viste un error? <a href="mailto:info@getlullable.com">Avísanos</a> y lo corregimos.
+· <a href="/es/">Inicio</a> · <a href="/es/app/">La app</a> · <a href="/es/faq/">Preguntas</a> · <a href="/es/manifesto/">Manifiesto</a> · <a href="/es/sleep/">Biblioteca del sueño</a> · <a href="/es/stories/">Historias</a> · <a href="/es/#signup">Carta de los domingos</a>
+<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
+<br>© 2026 Tecnologías Stellar, S.A. de C.V. · desarrollado por <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/es/creators/">Creadores</a> · <a href="/es/support/">Soporte</a> · <a href="/es/privacy/">Privacidad</a> · <a href="/es/terms/">Términos</a> · <a href="#" data-consent>Configuración de cookies</a> · <a href="/privacy/" hreflang="en" lang="en">English</a></footer>
+</div>
+<script src="/consent.js" defer></script>
+</body>
+</html>
