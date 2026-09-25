@@ -110,8 +110,15 @@
     var d = document.createElement("div");
     d.id = "lull-consent";
     d.setAttribute("role", "dialog");
-    d.setAttribute("aria-label", "Cookie choices");
-    d.innerHTML =
+    /* The Spanish pages (/es/, <html lang="es-MX">) ask the same question in Spanish. */
+    var es = /^es/.test(document.documentElement.lang);
+    d.setAttribute("aria-label", es ? "Opciones de cookies" : "Cookie choices");
+    d.innerHTML = es ?
+      "Las cookies de analítica y publicidad nos ayudan a saber qué página te trajo aquí. " +
+      "Si las rechazas, igual tienes todo el sitio: cada ensayo, cada historia, la muestra. " +
+      '<a href="/es/privacy/">Qué recopilamos</a>.' +
+      '<div class="row"><button class="yes">Aceptar</button><button class="no">Rechazar</button></div>'
+      :
       "Analytics and advertising cookies help us learn which page brought you here. " +
       "Decline and you still get the whole site — every essay, every story, the sample. " +
       '<a href="/privacy/">What we collect</a>.' +

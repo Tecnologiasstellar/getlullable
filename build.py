@@ -28,9 +28,11 @@ so they survive refactors:
   - Rendering is pure: improving a template here re-renders every page on the
     next build for free.
 """
-import html, json, re, sys
+import html, json, re, sys, unicodedata
 from datetime import date, datetime, timezone
 from pathlib import Path
+
+import spanish   # every Spanish word this script prints; the site is also published under /es/
 
 ROOT = Path(__file__).parent
 SITE = "https://getlullable.com"          # <- the one config value
@@ -67,7 +69,32 @@ PROHIBITED = [
     "proven to", "will help you sleep", "helps you fall asleep",
     "help you sleep better", "get you to sleep",
 ]
-NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ")
+# Spanish topics entered the queue 2026-09-17 and the loop is unattended, so the
+# list below stopped being allowed to be English-only. Phrases are written WITHOUT
+# accents because prohibited_claims_in() strips them before matching — otherwise
+# "clínicamente" and "clinicamente" would need two entries each, and the drafter
+# only has to drop an accent to walk through the gate.
+PROHIBITED += [
+    "cura el insomnio", "curar el insomnio", "cura para el insomnio", "cura tu insomnio",
+    "trata el insomnio", "tratar el insomnio", "tratamiento para el insomnio",
+    "tratamiento del insomnio",
+    "clinicamente probado", "cientificamente probado", "medicamente probado",
+    "clinicamente comprobado", "cientificamente comprobado",
+    "recomendado por medicos", "los medicos recomiendan", "recomendado por doctores",
+    "diagnosticar", "dosis de melatonina", "dosificacion",
+    # The outcome promises. Same reasoning as the English block above: describe
+    # mechanism, never a result. "Te ayudara a dormir mejor" is the single most
+    # natural sentence in Spanish sleep marketing, which is exactly why it is here.
+    "te ayuda a dormir", "te ayudara a dormir", "ayuda a dormir mejor",
+    "ayudarte a dormir", "te ayudara a conciliar",
+    "dormiras mas rapido", "te duermes mas rapido", "duermete mas rapido",
+    "dormirte mas rapido", "conciliar el sueno mas rapido",
+    "mejora la calidad del sueno", "mejora tu sueno", "mejorar tu sueno",
+    "mejora el sueno", "garantizado que", "te garantiza", "probado para",
+]
+
+NEGATORS = ("not ", "n't ", "never ", "no ", "isn't ", "aren't ", "won't ", "without ",
+            "nunca ", "sin ", "ni ", "jamas ", "tampoco ")
 
 def prohibited_claims_in(text):
     # Collapse whitespace before matching. Found 2026-09-01: markdown prose wraps
@@ -77,6 +104,11 @@ def prohibited_claims_in(text):
     # the copy it exists to stop. Positions stay consistent for the negation
     # lookback below because it reads the same collapsed string.
     low = re.sub(r"\s+", " ", text.lower())
+    # Strip diacritics so one unaccented entry covers both spellings. English
+    # phrases are unaffected; Spanish ones would otherwise be bypassed by the
+    # commonest typo in the language.
+    low = "".join(c for c in unicodedata.normalize("NFKD", low)
+                  if not unicodedata.combining(c))
     hits = []
     for phrase in PROHIBITED:
         for m in re.finditer(re.escape(phrase), low):
@@ -169,6 +201,8 @@ def validate_post(p, warnings):
         # the first paragraph IS the FAQ answer AI assistants quote; it must stand alone
         if not 30 <= fw <= 120:
             warnings.append(f"{p['path']}: answer paragraph {fw} words (target 30–120, self-contained)")
+    if p.get("lang") and p["lang"] not in LOCALES:
+        errs.append(f"lang must be one of {'|'.join(LOCALES)}, got {p['lang']!r}")
     if not p.get("type"):
         warnings.append(f"{p['path']}: no type: (question|definition|fact-world) — rotation can't see it")
     # Sources, required wherever the post makes a CHECKABLE claim. Added
@@ -441,30 +475,79 @@ def plain(answer):
     return re.sub(r"<[^>]+>", "", answer)
 
 
-def post_cta(line=None, note=None):
+def post_cta(line=None, note=None, lang="en"):
     """The App Store is the one button. `note` is for anything that must stay
     beside it without competing with it — the Sunday letter, which is a
     different offer to a different reader and should not look like the app."""
     href, label = app_cta()
-    line = line or ("Lullable reads material like this aloud — warmly, slowly, and quieter "
-                    "every minute —\nuntil you drift off somewhere around the fourth clause.")
+    line = line or tr("Lullable reads material like this aloud — warmly, slowly, and quieter "
+                      "every minute —\nuntil you drift off somewhere around the fourth clause.", lang)
     note = f'\n<p class="cta-note">{note}</p>' if note else ""
-    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{label}</a>{note}\n</div>'
+    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{tr(label, lang)}</a>{note}\n</div>'
 
-def story_cta(s):
+def story_cta(s, lang="en"):
     href, label = app_cta()
-    return (f'<div class="cta">\n<p>{html.escape(s["title"])} is {s["mins"]} minutes long, '
-            f'read by {html.escape(s["narrator"])}, and ends quieter than it begins. '
-            f'It lives in the Lullable app.</p>\n'
-            f'<a href="{href}">{label}</a>\n</div>')
+    line = tr("{title} is {mins} minutes long, read by {narrator}, and ends quieter than it "
+              "begins. It lives in the Lullable app.", lang).format(
+        title=html.escape(s["title"]), mins=s["mins"], narrator=html.escape(s["narrator"]))
+    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{tr(label, lang)}</a>\n</div>'
 
-def page(title, desc, canonical, body, extra_head="", og_image=None):
+# `lang` is the language of the whole page, chrome included: English at the root,
+# Mexican Spanish under /es/ with the same slugs. A post declares `lang: es` in its
+# frontmatter and is published under /es/sleep/. The two languages were one page
+# template until the Spanish site (2026-09-24); they still are, and the Spanish
+# words live in spanish.py so the English here stays readable.
+LOCALES = {"en": "en_US", "es": "es_MX"}
+# The tag each language is published under: <html lang> and hreflang. English
+# keeps the plain "en" it has always declared; the Spanish is written for Mexico.
+HREFLANG = {"en": "en", "es": "es-MX"}
+LANGUAGE_NAMES = {"en": "English", "es": "Español"}
+
+def site_path(lang, path):
+    """"/app/" -> "/es/app/" in Spanish. Same slugs in both languages, on purpose."""
+    return f"/es{path}" if lang == "es" else path
+
+def tr(s, lang):
+    """A template string in the page's language. The Spanish lives in spanish.UI,
+    keyed by the English it replaces, so the English stays readable where it is
+    used — and an English line edited without its twin shows up as a warning at
+    build time instead of an English sentence on a Spanish page, unnoticed."""
+    if lang == "en":
+        return s
+    if s not in spanish.UI:
+        print(f"  warn: no Spanish for {s[:70]!r} — the Spanish page shows it in English")
+    return spanish.UI.get(s, s)
+
+def page(title, desc, canonical, body, extra_head="", og_image=None, lang="en", alt=None):
+    """`alt` is the same page in the other language, when there is one: it adds
+    the hreflang trio to the head and a one-word switcher to the footer. A page
+    with no twin gets neither — hreflang only ever points at a real translation,
+    and the switcher never drops a reader on some other page's homepage."""
     nav_href, nav_label = app_cta()
     # One og:image only. Crawlers (WhatsApp, Facebook) take the FIRST tag, so a
     # per-page card appended after the default was silently never shown.
     og_image = og_image or f"{SITE}/og.png"
+    pre = site_path(lang, "")
+    hreflang = switch = ""
+    if alt:
+        en, es = (canonical, alt) if lang == "en" else (alt, canonical)
+        hreflang = (f'<link rel="alternate" hreflang="en" href="{en}">\n'
+                    f'<link rel="alternate" hreflang="es-MX" href="{es}">\n'
+                    f'<link rel="alternate" hreflang="x-default" href="{en}">\n')
+        other = "es" if lang == "en" else "en"
+        switch = (f' · <a href="{alt[len(SITE):]}" hreflang="{HREFLANG[other]}" '
+                  f'lang="{HREFLANG[other]}">{LANGUAGE_NAMES[other]}</a>')
+    # The feed is the English Sleep Library; a Spanish page does not advertise it.
+    rss = ("" if lang == "es" else f'<link rel="alternate" type="application/rss+xml" '
+           f'title="{BRAND} — The Sleep Library" href="{SITE}/rss.xml">\n')
+    footer = (spanish.FOOTER.format(year=date.today().year) if lang == "es" else
+              f"""{BRAND} — the low-arousal knowledge engine. Not a medical device.
+<br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
+· <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/faq/">FAQ</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
+<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
+<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/creators/">Creators</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a>""")
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{HREFLANG[lang]}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -472,18 +555,17 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 <meta name="description" content="{html.escape(desc)}">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="{canonical}">
-<meta property="og:title" content="{html.escape(title)}">
+{hreflang}<meta property="og:title" content="{html.escape(title)}">
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="{BRAND}">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{LOCALES.get(lang, 'en_US')}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:image" content="{og_image}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="alternate" type="application/rss+xml" title="{BRAND} — The Sleep Library" href="{SITE}/rss.xml">
-<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
+{rss}<link rel="icon" href="/assets/brand/web/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/brand/web/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/brand/web/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin.woff2" crossorigin>
@@ -495,21 +577,17 @@ def page(title, desc, canonical, body, extra_head="", og_image=None):
 <body>
 <div class="wrap">
 <header class="bar">
-<a class="mark" href="/"><img src="/assets/brand/mark.svg" width="38" height="19" alt="" decoding="async">{BRAND.lower()}</a>
-<nav><a href="/stories/">Stories</a><a href="/sleep/">The Sleep Library</a><a href="/chronotype/">Chronotype quiz</a><a class="navbtn" href="{nav_href}">{nav_label}</a></nav>
+<a class="mark" href="{pre}/"><img src="/assets/brand/mark.svg" width="38" height="19" alt="" decoding="async">{BRAND.lower()}</a>
+<nav><a href="{pre}/stories/">{tr("Stories", lang)}</a><a href="{pre}/sleep/">{tr("The Sleep Library", lang)}</a><a href="{pre}/chronotype/">{tr("Chronotype quiz", lang)}</a><a class="navbtn" href="{nav_href}">{tr(nav_label, lang)}</a></nav>
 </header>
 {body}
-<footer>{BRAND} — the low-arousal knowledge engine. Not a medical device.
-<br>Sleep Library essays are drafted with Claude against a fixed voice contract, checked against the sources listed on each page, and published unedited. Spot an error? <a href="mailto:info@getlullable.com">Tell us</a> and we will correct it.
-· <a href="/">Home</a> · <a href="/app/">The app</a> · <a href="/faq/">FAQ</a> · <a href="/manifesto/">Manifesto</a> · <a href="/sleep/">The Sleep Library</a> · <a href="/stories/">Stories</a> · <a href="/#signup">Newsletter</a>
-<br><a href="https://www.instagram.com/getlullable/" rel="me noopener" target="_blank">Instagram</a> · <a href="https://www.tiktok.com/@getlullable" rel="me noopener" target="_blank">TikTok</a> · <a href="https://www.youtube.com/@lullableapp" rel="me noopener" target="_blank">YouTube</a> · <a href="https://www.facebook.com/profile.php?id=61594011460380" rel="me noopener" target="_blank">Facebook</a>
-<br>© {date.today().year} Tecnologías Stellar, S.A. de C.V. · developed by <a href="https://stellartech.xyz" rel="noopener" target="_blank">stellartech.xyz</a> · <a href="/creators/">Creators</a> · <a href="/support/">Support</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="#" data-consent>Cookie settings</a></footer>
+<footer>{footer}{switch}</footer>
 </div>
 <script src="/consent.js" defer></script>
 </body>
 </html>"""
 
-def sources_html(p):
+def sources_html(p, lang="en"):
     """Where the facts came from, printed on the page.
 
     Not decoration: the daily post is drafted unattended, so the reader (and we)
@@ -522,7 +600,7 @@ def sources_html(p):
         f'<li><a href="{html.escape(u, quote=True)}" rel="noopener nofollow" '
         f'target="_blank">{html.escape(re.sub(r"^https?://(www\.)?", "", u).split("/")[0])}</a></li>'
         for u in srcs)
-    return f'<div class="sources"><div class="lbl">Sources</div><ul>{items}</ul></div>\n'
+    return f'<div class="sources"><div class="lbl">{tr("Sources", lang)}</div><ul>{items}</ul></div>\n'
 
 
 def jsonld(schemas):
@@ -531,10 +609,13 @@ def jsonld(schemas):
                    + json.dumps(s).replace("<", "\\u003c")
                    + "</script>\n" for s in schemas)
 
-def pretty(d):
-    return datetime.strptime(d, "%Y-%m-%d").strftime("%B %-d, %Y")
+def pretty(d, lang="en"):
+    t = datetime.strptime(d, "%Y-%m-%d")
+    if lang == "es":   # month names by hand: the system locale is not ours to rely on
+        return f"{t.day} de {spanish.MONTHS[t.month - 1]} de {t.year}"
+    return t.strftime("%B %-d, %Y")
 
-def related_html(items):
+def related_html(items, lang="en"):
     # items: list of (url, title, kind, cover) — cover is ready-made markup for
     # stories, "" for essays. Only ever built from files on disk.
     if not items:
@@ -543,7 +624,7 @@ def related_html(items):
         f'<a class="rel" href="{u}">' + (cov or "")
         + f'<span class="kind">{k}</span><span class="t">{html.escape(t)}</span></a>'
         for u, t, k, cov in items)
-    return f'<div class="related">\n<h2>Keep drifting</h2>\n<div class="rel-grid">{cards}</div>\n</div>'
+    return f'<div class="related">\n<h2>{tr("Keep drifting", lang)}</h2>\n<div class="rel-grid">{cards}</div>\n</div>'
 
 def cover_class(slug):
     """Essays have no artwork of their own; they borrow one of four grounds."""
@@ -605,10 +686,12 @@ def share_card(path, when, quote, footer, headline=None):
         print(f"  note: no share card for {path} ({r.stderr.strip()[:80] or 'no Pillow found'})")
         return False
 
-def story_card(s, outdir):
+def story_card(s, outdir, lang="en"):
     return share_card(outdir / "og.png", s["title"], f"“{s['sample'].strip()}”",
-                      f"{s['mins']} minutes · read by {s['narrator']}",
-                      headline=f"Last night, you drifted off during {s['title']}.")
+                      tr("{mins} minutes · read by {narrator}", lang).format(
+                          mins=s["mins"], narrator=s["narrator"]),
+                      headline=tr("Last night, you drifted off during {title}.", lang).format(
+                          title=s["title"]))
 
 # ---------------------------------------------------------------- chronotype quiz
 # /chronotype/ — the reduced Morningness–Eveningness Questionnaire (Adan &
@@ -688,46 +771,59 @@ padding:1rem 1.2rem;color:var(--dim);font-size:.95rem;line-height:1.5;transition
 </style>
 """
 
-def chrono_share_text(c):
-    slug, name, art, _, _, _, line = c
-    return f"I'm {art} {name}: {line} Find your sleep chronotype in two minutes:"
+def chrono_set(lang):
+    """(questions, animals) in one language. The Spanish twins sit in spanish.py
+    with the same slugs, scores and thresholds, so a result URL is the same page
+    in both languages."""
+    return (spanish.CHRONO_Q, spanish.CHRONO) if lang == "es" else (CHRONO_Q, CHRONO)
 
-def chrono_animals(skip=None):
+def chrono_share_text(c, lang="en"):
+    slug, name, art, _, _, _, line = c
+    return tr("I'm {art} {name}: {line} Find your sleep chronotype in two minutes:", lang).format(
+        art=art, name=name, line=line)
+
+def chrono_animals(skip=None, lang="en"):
+    base = site_path(lang, "/chronotype/")
     items = "".join(
-        f'<li><a href="/chronotype/{c[0]}/"><b>{c[1]}</b>{c[4]}. {html.escape(c[5].split(". ")[0])}.</a></li>'
-        for c in CHRONO if c[0] != skip)
+        f'<li><a href="{base}{c[0]}/"><b>{c[1]}</b>{c[4]}. {html.escape(c[5].split(". ")[0])}.</a></li>'
+        for c in chrono_set(lang)[1] if c[0] != skip)
     return f'<ul class="animals">{items}</ul>'
 
-def chrono_cta():
+def chrono_cta(lang="en"):
     href, label = app_cta()
-    return ('<div class="cta">\n<p>Whatever hour you finally lie down, the moment is the same: a mind '
-            'still running. Lullable reads you true, quietly fascinating things in a voice that gets '
-            'softer every minute, so the thinking has somewhere to go.</p>\n'
-            f'<a href="{href}">{label}</a>\n</div>')
+    line = tr("Whatever hour you finally lie down, the moment is the same: a mind still running. "
+              "Lullable reads you true, quietly fascinating things in a voice that gets softer "
+              "every minute, so the thinking has somewhere to go.", lang)
+    return f'<div class="cta">\n<p>{line}</p>\n<a href="{href}">{tr(label, lang)}</a>\n</div>'
 
-def build_chronotype():
+def build_chronotype(lang="en"):
     """Writes /chronotype/ (the quiz) and /chronotype/<animal>/ (five result
-    pages, each with its own share card). Returns their URLs for the sitemap."""
+    pages, each with its own share card) in one language. Returns their URLs
+    for the sitemap."""
     from urllib.parse import quote
-    out = ROOT / "chronotype"; out.mkdir(exist_ok=True)
+    other = "es" if lang == "en" else "en"
+    base = site_path(lang, "/chronotype/")
+    questions, animals = chrono_set(lang)
+    out = ROOT / base.strip("/"); out.mkdir(parents=True, exist_ok=True)
     qs = ""
-    for i, (q, opts) in enumerate(CHRONO_Q):
+    for i, (q, opts) in enumerate(questions):
         rows = "".join(f'<label><input type="radio" name="q{i}" value="{v}" required>{html.escape(t)}</label>'
                        for t, v in opts)
         qs += f'<fieldset class="q"><legend>{i + 1}. {html.escape(q)}</legend>{rows}</fieldset>\n'
-    buckets = "".join(f's>={c[3]}?"{c[0]}":' for c in CHRONO[:-1]) + f'"{CHRONO[-1][0]}"'
-    body = f"""<div class="post-head"><p class="eyebrow">Five questions, two minutes</p>
-<h1>What's your sleep chronotype?</h1>
-<p class="post-meta">Lullable has a rule against quizzes. This is the one exception: there are no wrong answers and nothing to remember.</p></div>
+    buckets = "".join(f's>={c[3]}?"{c[0]}":' for c in animals[:-1]) + f'"{animals[-1][0]}"'
+    t = lambda s: tr(s, lang)
+    body = f"""<div class="post-head"><p class="eyebrow">{t("Five questions, two minutes")}</p>
+<h1>{t("What's your sleep chronotype?")}</h1>
+<p class="post-meta">{t("Lullable has a rule against quizzes. This is the one exception: there are no wrong answers and nothing to remember.")}</p></div>
 <article class="measure">
-<p>Most of when you want to sleep was decided for you. A roughly 24-hour clock in your body cues when you feel sharp, when you feel hungry and when you finally feel tired, and your <strong>chronotype</strong> is where that clock sits against everyone else's. Early types peak before lunch. Late types come alive after dark. Most people sit somewhere in the middle, and the setting drifts with age: children run early, teenagers run late.</p>
-<p>The five questions below are adapted from the reduced Morningness–Eveningness Questionnaire, the short form of the instrument sleep researchers have used since 1976. Answer for the life you would choose, not the one your alarm imposes.</p>
+<p>{t("Most of when you want to sleep was decided for you. A roughly 24-hour clock in your body cues when you feel sharp, when you feel hungry and when you finally feel tired, and your <strong>chronotype</strong> is where that clock sits against everyone else's. Early types peak before lunch. Late types come alive after dark. Most people sit somewhere in the middle, and the setting drifts with age: children run early, teenagers run late.")}</p>
+<p>{t("The five questions below are adapted from the reduced Morningness–Eveningness Questionnaire, the short form of the instrument sleep researchers have used since 1976. Answer for the life you would choose, not the one your alarm imposes.")}</p>
 <form id="quiz">
-{qs}<button class="go" type="submit">Reveal my chronotype</button>
+{qs}<button class="go" type="submit">{t("Reveal my chronotype")}</button>
 </form>
-<h2>The five animals</h2>
-{chrono_animals()}
-<p class="post-meta" style="margin-top:2rem">Adapted from Adan &amp; Almirall (1991), the reduced form of Horne &amp; Östberg's questionnaire. A tendency, not a diagnosis. Chronotypes drift with age and nothing here is medical advice.</p>
+<h2>{t("The five animals")}</h2>
+{chrono_animals(lang=lang)}
+<p class="post-meta" style="margin-top:2rem">{t("Adapted from Adan &amp; Almirall (1991), the reduced form of Horne &amp; Östberg's questionnaire. A tendency, not a diagnosis. Chronotypes drift with age and nothing here is medical advice.")}</p>
 </article>
 <script>
 document.getElementById("quiz").addEventListener("submit",function(e){{
@@ -735,57 +831,61 @@ document.getElementById("quiz").addEventListener("submit",function(e){{
   var s=0;new FormData(e.target).forEach(function(v){{s+=+v}});
   var t={buckets};
   try{{sessionStorage.setItem("lull_chrono",t)}}catch(_){{}}
-  location.href="/chronotype/"+t+"/";
+  location.href="{base}"+t+"/";
 }});
 </script>"""
     (out / "index.html").write_text(page(
-        "What's your sleep chronotype? A two-minute quiz — Lullable",
-        "Five questions from the sleep researchers' own questionnaire, and one of five animals at the end. Blackbird, tortoise, sheep, moth or octopus?",
-        f"{SITE}/chronotype/", body, CHRONO_CSS))
-    urls = [f"{SITE}/chronotype/"]
+        t("What's your sleep chronotype? A two-minute quiz — Lullable"),
+        t("Five questions from the sleep researchers' own questionnaire, and one of five animals at the end. Blackbird, tortoise, sheep, moth or octopus?"),
+        f"{SITE}{base}", body, CHRONO_CSS, lang=lang, alt=f"{SITE}{site_path(other, '/chronotype/')}"))
+    urls = [f"{SITE}{base}"]
 
-    for c in CHRONO:
+    for c in animals:
         slug, name, art, lo, kind, desc, line = c
-        url = f"{SITE}/chronotype/{slug}/"
+        url = f"{SITE}{base}{slug}/"
         d = out / slug; d.mkdir(exist_ok=True)
         has_card = share_card(d / "og.png", name, line[0].upper() + line[1:],
-                              "Find your sleep chronotype in two minutes · five animals, no wrong answers",
-                              headline=f"I'm {art} {name}.")
+                              t("Find your sleep chronotype in two minutes · five animals, no wrong answers"),
+                              headline=t("I'm {art} {name}.").format(art=art, name=name))
         og = f"{url}og.png" if has_card else f"{SITE}/og.png"
-        text = chrono_share_text(c)
-        body = f"""<div class="post-head"><p class="eyebrow" id="eb">A sleep chronotype</p>
-<h1 id="h">The {name}</h1>
-<p class="post-meta">{kind} · one of five</p></div>
+        text = chrono_share_text(c, lang)
+        # Spanish needs the article the English folds into "The": el mirlo, la tortuga.
+        heading = t("The {name}").format(name=name, the=spanish.ARTICLES.get(art, ""))
+        body = f"""<div class="post-head"><p class="eyebrow" id="eb">{t("A sleep chronotype")}</p>
+<h1 id="h">{heading}</h1>
+<p class="post-meta">{t("{kind} · one of five").format(kind=kind)}</p></div>
 <article class="measure">
 <p>{html.escape(desc)}</p>
 <div class="share">
-<button id="sh" hidden>Share my result</button>
+<button id="sh" hidden>{t("Share my result")}</button>
 <a href="https://wa.me/?text={quote(text + ' ' + url)}" target="_blank" rel="noopener">WhatsApp</a>
 <a href="https://x.com/intent/post?text={quote(text)}&amp;url={quote(url)}" target="_blank" rel="noopener">X</a>
-<button id="cp">Copy link</button>
+<button id="cp">{t("Copy link")}</button>
 </div>
-<p class="post-meta">Not you? <a href="/chronotype/">Take the two-minute quiz</a>.</p>
-{chrono_cta()}
-<h2>The other four</h2>
-{chrono_animals(skip=slug)}
+<p class="post-meta">{t('Not you? <a href="{quiz}">Take the two-minute quiz</a>.').format(quiz=base)}</p>
+{chrono_cta(lang)}
+<h2>{t("The other four")}</h2>
+{chrono_animals(skip=slug, lang=lang)}
 </article>
 <script>
 (function(){{
 var slug="{slug}",url="{url}",text={json.dumps(text)},mine=false;
 try{{mine=sessionStorage.getItem("lull_chrono")===slug}}catch(_){{}}
-if(mine){{document.getElementById("eb").textContent="Your chronotype";
-  document.getElementById("h").textContent="You’re {art} {name}.";}}
+if(mine){{document.getElementById("eb").textContent="{t("Your chronotype")}";
+  document.getElementById("h").textContent="{t("You’re {art} {name}.").format(art=art, name=name)}";}}
 var sh=document.getElementById("sh"),cp=document.getElementById("cp");
 if(navigator.share){{sh.hidden=false;sh.onclick=function(){{navigator.share({{text:text,url:url}}).catch(function(){{}})}}}}
-cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.textContent="Copied"}})}};
+cp.onclick=function(){{navigator.clipboard.writeText(url).then(function(){{cp.textContent="{t("Copied")}"}})}};
 }})();
 </script>"""
         (d / "index.html").write_text(page(
-            f"I'm {art} {name}. What's your sleep chronotype?",
-            f"{kind}: {line[0].upper() + line[1:]} Five questions, two minutes, no wrong answers.",
-            url, body, CHRONO_CSS, og_image=og))
+            t("I'm {art} {name}. What's your sleep chronotype?").format(art=art, name=name),
+            t("{kind}: {line} Five questions, two minutes, no wrong answers.").format(
+                kind=kind, line=line[0].upper() + line[1:]),
+            url, body, CHRONO_CSS, og_image=og, lang=lang,
+            alt=f"{SITE}{site_path(other, f'/chronotype/{slug}/')}"))
         urls.append(url)
-    print(f"built chronotype quiz + {len(CHRONO)} result pages -> chronotype/")
+    print(f"built chronotype quiz + {len(animals)} result pages -> {base.strip('/')}/")
     return urls
 
 
@@ -883,38 +983,48 @@ APP_CTA_NOTE = ('Prefer to read? The Sunday letter is three quiet paragraphs of 
                 'physics, once a week — <a href="/#signup">join it here</a>.')
 
 
-def build_app_page():
-    """Writes /app/ \u2014 every feature question, answered in one liftable sentence."""
-    out = ROOT / "app"; out.mkdir(exist_ok=True)
-    url = f"{SITE}/app/"
+def spanish_facts(facts):
+    """spanish.py's fact lists say {catalogue} and {store}; the figures themselves
+    stay here, in one place, so a catalogue change reaches both languages."""
+    return [(q, a.format(catalogue=CATALOGUE_SIZE, store=STORE_URL)) for q, a in facts]
 
-    qa = "\n".join(f"<h3>{html.escape(q)}</h3>\n<p>{a}</p>" for q, a in APP_FACTS)
+
+def build_app_page(lang="en"):
+    """Writes /app/ \u2014 every feature question, answered in one liftable sentence."""
+    t = lambda s: tr(s, lang)
+    other = "es" if lang == "en" else "en"
+    path = site_path(lang, "/app/")
+    out = ROOT / path.strip("/"); out.mkdir(parents=True, exist_ok=True)
+    url = f"{SITE}{path}"
+    facts = spanish_facts(spanish.APP_FACTS) if lang == "es" else APP_FACTS
+
+    qa = "\n".join(f"<h3>{html.escape(q)}</h3>\n<p>{a}</p>" for q, a in facts)
     body = f'''<article>
-<div class="post-head"><p class="eyebrow">The app</p>
-<h1>What Lullable actually does</h1>
-<p class="post-meta">Every question about the app, answered in one sentence. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p></div>
+<div class="post-head"><p class="eyebrow">{t("The app")}</p>
+<h1>{t("What Lullable actually does")}</h1>
+<p class="post-meta">{t("Every question about the app, answered in one sentence. Last updated")} <time datetime="{date.today()}">{pretty(str(date.today()), lang)}</time>.</p></div>
 <div class="measure">
-<div class="answer"><div class="lbl">The short answer</div>
-<p>Lullable is an iPhone app of {CATALOGUE_SIZE} long-form sleep stories for adults. One story is chosen for you on the first screen, so there is nothing to decide at bedtime; a timer set to 15, 30, 45 or 60 minutes fades to silence rather than stopping; and every recording fades out on its own in its last thirty seconds. No ads, no streak, no sleep score.</p></div>
+<div class="answer"><div class="lbl">{t("The short answer")}</div>
+<p>{t("Lullable is an iPhone app of {catalogue} long-form sleep stories for adults. One story is chosen for you on the first screen, so there is nothing to decide at bedtime; a timer set to 15, 30, 45 or 60 minutes fades to silence rather than stopping; and every recording fades out on its own in its last thirty seconds. No ads, no streak, no sleep score.").format(catalogue=CATALOGUE_SIZE)}</p></div>
 {qa}
 </div>
-{post_cta(APP_CTA_LINE, APP_CTA_NOTE)}
+{post_cta(t(APP_CTA_LINE), t(APP_CTA_NOTE), lang)}
 </article>'''
 
     schemas = [
         {"@context": "https://schema.org", "@type": "FAQPage",
          "mainEntity": [{"@type": "Question", "name": q,
                          "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
-                        for q, a in APP_FACTS]},
+                        for q, a in facts]},
         {"@context": "https://schema.org", **app_schema_node(
-            description="Long-form sleep stories for adults, read slowly and fading to silence.")},
+            description=t("Long-form sleep stories for adults, read slowly and fading to silence."))},
     ]
     (out / "index.html").write_text(page(
-        "What Lullable actually does \u2014 the app, feature by feature",
-        "Does it fade out? Do I have to choose a story? How long are they? Every question "
-        "about the Lullable sleep-story app, answered in one sentence.",
-        url, body, jsonld(schemas)))
-    print("built /app/ (13 answered questions + FAQPage schema)")
+        t("What Lullable actually does \u2014 the app, feature by feature"),
+        t("Does it fade out? Do I have to choose a story? How long are they? Every question "
+          "about the Lullable sleep-story app, answered in one sentence."),
+        url, body, jsonld(schemas), lang=lang, alt=f"{SITE}{site_path(other, '/app/')}"))
+    print(f"built {path} ({len(facts)} answered questions + FAQPage schema)")
     return url
 
 
@@ -1064,43 +1174,47 @@ FAQ_CTA_NOTE = ('Not tonight? The Sunday letter is three quiet paragraphs of his
                 'once a week — <a href="/#signup">join it here</a>.')
 
 
-def build_faq_page():
+def build_faq_page(lang="en"):
     """Writes /faq/ — the ten questions a stranger asks, each answered standalone."""
-    out = ROOT / "faq"; out.mkdir(exist_ok=True)
-    url = f"{SITE}/faq/"
+    t = lambda s: tr(s, lang)
+    other = "es" if lang == "en" else "en"
+    path = site_path(lang, "/faq/")
+    out = ROOT / path.strip("/"); out.mkdir(parents=True, exist_ok=True)
+    url = f"{SITE}{path}"
+    facts = spanish_facts(spanish.FAQ_FACTS) if lang == "es" else FAQ_FACTS
 
     def col(items):
         return ('<div class="faq-col">'
                 + "".join(f"<details><summary>{html.escape(q)}</summary>"
                           f'<p class="a">{a}</p></details>' for q, a in items)
                 + "</div>")
-    half = (len(FAQ_FACTS) + 1) // 2
-    qa = col(FAQ_FACTS[:half]) + col(FAQ_FACTS[half:])
+    half = (len(facts) + 1) // 2
+    qa = col(facts[:half]) + col(facts[half:])
     body = f'''<article>
-<div class="post-head faq-head"><p class="eyebrow">Questions</p>
-<h1>Lullable, answered</h1>
-<p class="faq-lead">An iPhone app of {CATALOGUE_SIZE} long-form true stories for adults, read slowly and engineered to be slept through rather than finished. Free to download, one 40-minute story free in full, not a medical device.</p></div>
+<div class="post-head faq-head"><p class="eyebrow">{t("Questions")}</p>
+<h1>{t("Lullable, answered")}</h1>
+<p class="faq-lead">{t("An iPhone app of {catalogue} long-form true stories for adults, read slowly and engineered to be slept through rather than finished. Free to download, one 40-minute story free in full, not a medical device.").format(catalogue=CATALOGUE_SIZE)}</p></div>
 <div class="faq-list">
 {qa}
 </div>
-<p class="post-meta faq-foot">Open any question for the full answer. Looking for the feature detail \u2014 timer lengths, narrators, lock screen? That is all on <a href="/app/">what the app actually does</a>. Last updated <time datetime="{date.today()}">{pretty(str(date.today()))}</time>.</p>
-{post_cta(FAQ_CTA_LINE, FAQ_CTA_NOTE)}
+<p class="post-meta faq-foot">{t('Open any question for the full answer. Looking for the feature detail — timer lengths, narrators, lock screen? That is all on <a href="{app}">what the app actually does</a>. Last updated').format(app=site_path(lang, "/app/"))} <time datetime="{date.today()}">{pretty(str(date.today()), lang)}</time>.</p>
+{post_cta(t(FAQ_CTA_LINE), t(FAQ_CTA_NOTE), lang)}
 </article>'''
 
     schemas = [
         {"@context": "https://schema.org", "@type": "FAQPage",
          "mainEntity": [{"@type": "Question", "name": q,
                          "acceptedAnswer": {"@type": "Answer", "text": plain(a)}}
-                        for q, a in FAQ_FACTS]},
+                        for q, a in facts]},
         {"@context": "https://schema.org", **app_schema_node(
-            description="Long-form true sleep stories for adults, read slowly and fading to silence.")},
+            description=t("Long-form true sleep stories for adults, read slowly and fading to silence."))},
     ]
     (out / "index.html").write_text(page(
-        "Lullable FAQ — how the sleep-story app works, and what it costs",
-        "How does Lullable work? Why does a story quiet a racing mind? What does it cost, and "
-        "how is it different from Calm, a podcast or rain sounds? Ten questions, answered.",
-        url, body, jsonld(schemas) + FAQ_CSS))
-    print(f"built /faq/ ({len(FAQ_FACTS)} answered questions + FAQPage schema)")
+        t("Lullable FAQ — how the sleep-story app works, and what it costs"),
+        t("How does Lullable work? Why does a story quiet a racing mind? What does it cost, and "
+          "how is it different from Calm, a podcast or rain sounds? Ten questions, answered."),
+        url, body, jsonld(schemas) + FAQ_CSS, lang=lang, alt=f"{SITE}{site_path(other, '/faq/')}"))
+    print(f"built {path} ({len(facts)} answered questions + FAQPage schema)")
     return url
 
 
@@ -1112,13 +1226,24 @@ def build():
                    key=lambda p: p["date"], reverse=True)
     stories = sorted((parse_story(p) for p in sorted((ROOT / "catalog").glob("*.md"))),
                      key=lambda s: s.get("date", ""), reverse=True)
+    # The Spanish story pages. catalog/es/<slug>.md holds only what changes in
+    # Spanish — the blurb and the body. Every fact (title, narrator, minutes,
+    # colours, the sample, which is a line of the English recording) comes from
+    # the English file, so the two pages can never disagree about the story. A
+    # story with no Spanish file has no Spanish page, and its English page no
+    # hreflang.
+    es_files = {p.stem: parse_story(p) for p in sorted((ROOT / "catalog" / "es").glob("*.md"))}
+    stories_es = [{**s, **{k: v for k, v in es_files[s["slug"]].items() if k != "path"},
+                   "path": f"es/{s['path']}"} for s in stories if s["slug"] in es_files]
+    for slug in sorted(es_files.keys() - {s["slug"] for s in stories}):
+        warnings.append(f"catalog/es/{slug}.md: no English catalog/{slug}.md, so no page")
 
     # gate first, write nothing on failure
     failures = []
     for p in posts:
         for e in validate_post(p, warnings):
             failures.append(f"{p['path']}: {e}")
-    for s in stories:
+    for s in stories + stories_es:
         for e in validate_story(s, warnings):
             failures.append(f"{s['path']}: {e}")
     failures += duplicate_titles(posts)
@@ -1133,13 +1258,26 @@ def build():
     (ROOT / "sleep").mkdir(exist_ok=True)
     (ROOT / "stories").mkdir(exist_ok=True)   # generated pages; sources live in catalog/
 
-    # ---- posts
+    # Every section below is written once per language. A page links only to
+    # pages in its own language, so a Spanish reader is never sent into English
+    # mid-browse without being told.
+    LANGS = ("en", "es")
+    lang_of = lambda p: p.get("lang", "en")
+    posts_in = {lang: [p for p in posts if lang_of(p) == lang] for lang in LANGS}
+    stories_in = {"en": stories, "es": stories_es}
+    post_url = lambda p: SITE + site_path(lang_of(p), f"/sleep/{p['slug']}/")
+
+    # ---- posts. A `lang: es` post is published under /es/sleep/. Posts are
+    # written in one language each, not translated, so a post has no twin.
     for p in posts:
-        url = f"{SITE}/sleep/{p['slug']}/"
+        lang = lang_of(p)
+        t = lambda s: tr(s, lang)
+        url = post_url(p)
         schemas = [{
             "@context": "https://schema.org", "@type": "Article",
             "headline": p["title"], "description": p["description"],
             "datePublished": p["date"], "mainEntityOfPage": url,
+            "inLanguage": HREFLANG[lang],
             "author": {"@type": "Organization", "name": BRAND, "url": SITE},
         }]
         if p.get("question"):
@@ -1147,83 +1285,103 @@ def build():
                 "@context": "https://schema.org", "@type": "FAQPage",
                 "mainEntity": [{"@type": "Question", "name": p["question"],
                     "acceptedAnswer": {"@type": "Answer", "text": first_paragraph(p["body"])}}]})
-        rel = [(f"/sleep/{o['slug']}/", o["title"], "essay", "") for o in posts if o["slug"] != p["slug"]][:2]
-        rel += [(f"/stories/{s['slug']}/", s["title"], f"story · {s['mins']} min", story_cover(s))
-                for s in stories[:2]]
+        rel = [(site_path(lang, f"/sleep/{o['slug']}/"), o["title"], t("essay"), "")
+               for o in posts_in[lang] if o["slug"] != p["slug"]][:2]
+        rel += [(site_path(lang, f"/stories/{s['slug']}/"), s["title"],
+                 t("story · {mins} min").format(mins=s["mins"]), story_cover(s))
+                for s in stories_in[lang][:2]]
         rendered = md(p["body"])
         # question posts: the first paragraph becomes "the short answer" card —
         # the block skimmers read and AI assistants quote
         if p.get("question"):
             rendered = re.sub(
                 r"^<p>(.*?)</p>", lambda m:
-                f'<div class="answer"><div class="lbl">The short answer</div><p>{m.group(1)}</p></div>',
+                f'<div class="answer"><div class="lbl">{t("The short answer")}</div><p>{m.group(1)}</p></div>',
                 rendered, count=1, flags=re.S)
-        kind = {"question": "A question, answered", "definition": "A definition",
-                "fact-world": "A quiet fact-world"}.get(p.get("type", ""), "Essay")
-        head_band = (f'<div class="post-head"><p class="eyebrow">The Sleep Library · {kind}</p>'
+        kind = t({"question": "A question, answered", "definition": "A definition",
+                  "fact-world": "A quiet fact-world"}.get(p.get("type", ""), "Essay"))
+        head_band = (f'<div class="post-head"><p class="eyebrow">{t("The Sleep Library")} · {kind}</p>'
                      f"<h1>{html.escape(p['title'])}</h1>"
-                     f'<p class="post-meta"><time datetime="{p["date"]}">{pretty(p["date"])}</time>'
-                     f" · <b>{read_minutes(p['body'])} min read</b></p></div>")
+                     f'<p class="post-meta"><time datetime="{p["date"]}">{pretty(p["date"], lang)}</time>'
+                     f" · <b>{read_minutes(p['body'])} {t('min read')}</b></p></div>")
+        cta = post_cta(note=spanish.AUDIO_NOTE if lang == "es" else None, lang=lang)
         body = (f"<article>\n{head_band}\n<div class=\"measure\">\n{rendered}\n"
-                f"{sources_html(p)}{post_cta()}\n</div>"
-                f"\n{related_html(rel)}\n</article>")
-        out = ROOT / "sleep" / p["slug"]
-        out.mkdir(exist_ok=True)
-        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body, jsonld(schemas)))
+                f"{sources_html(p, lang)}{cta}\n</div>"
+                f"\n{related_html(rel, lang)}\n</article>")
+        out = ROOT / url[len(SITE):].strip("/")
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "index.html").write_text(page(f"{p['title']} — {BRAND}", p["description"], url, body,
+                                             jsonld(schemas), lang=lang))
 
-    # ---- blog index: card grid
+    # ---- blog index: card grid, one per language
     kinds = {"question": "Question", "definition": "Definition", "fact-world": "Fact-world"}
-    items = "".join(
-        f'<li class="idx-card"><div class="row">'
-        f'<span class="chip">{kinds.get(p.get("type",""), "Essay")}</span>'
-        f'<time datetime="{p["date"]}">{pretty(p["date"])} · {read_minutes(p["body"])} min</time></div>'
-        f'<a href="/sleep/{p["slug"]}/">{html.escape(p["title"])}</a>'
-        f'<p>{html.escape(p["description"])}</p></li>' for p in posts)
-    body = (f'<div class="idx-head"><p class="eyebrow">The Sleep Library</p>'
-            f"<h1>Quiet, true things to read at night.</h1>"
-            f'<p class="post-meta">A new one most days. Nothing urgent, ever.</p></div>'
-            f'<ul class="idx-grid">{items}</ul>')
-    (ROOT / "sleep" / "index.html").write_text(
-        page(f"The Sleep Library — {BRAND}", "Quiet, true essays on sleep, racing minds, and pleasantly "
-             "uneventful knowledge. From Lullable, the low-arousal knowledge engine.", f"{SITE}/sleep/", body))
+    for lang in LANGS:
+        t = lambda s: tr(s, lang)
+        other = "es" if lang == "en" else "en"
+        items = "".join(
+            f'<li class="idx-card"><div class="row">'
+            f'<span class="chip">{t(kinds.get(p.get("type",""), "Essay"))}</span>'
+            f'<time datetime="{p["date"]}">{pretty(p["date"], lang)} · {read_minutes(p["body"])} min</time></div>'
+            f'<a href="{post_url(p)[len(SITE):]}">{html.escape(p["title"])}</a>'
+            f'<p>{html.escape(p["description"])}</p></li>' for p in posts_in[lang])
+        body = (f'<div class="idx-head"><p class="eyebrow">{t("The Sleep Library")}</p>'
+                f"<h1>{t('Quiet, true things to read at night.')}</h1>"
+                f'<p class="post-meta">{t("A new one most days. Nothing urgent, ever.")}</p></div>'
+                f'<ul class="idx-grid">{items}</ul>')
+        path = site_path(lang, "/sleep/")
+        (ROOT / path.strip("/")).mkdir(parents=True, exist_ok=True)
+        (ROOT / path.strip("/") / "index.html").write_text(
+            page(f"{t('The Sleep Library')} — {BRAND}", t("Quiet, true essays on sleep, racing minds, and pleasantly "
+                 "uneventful knowledge. From Lullable, the low-arousal knowledge engine."), f"{SITE}{path}", body,
+                 lang=lang, alt=f"{SITE}{site_path(other, '/sleep/')}"))
 
     # ---- story pages (the per-upload landing pages)
-    for s in stories:
-        url = f"{SITE}/stories/{s['slug']}/"
-        out = ROOT / "stories" / s["slug"]
-        out.mkdir(exist_ok=True)
-        has_card = story_card(s, out)
-        og = f"{SITE}/stories/{s['slug']}/og.png" if has_card else f"{SITE}/og.png"
-        schemas = [{
-            "@context": "https://schema.org", "@type": "AudioObject",
-            "name": s["title"], "description": s["blurb"],
-            "duration": f"PT{s['mins']}M", "inLanguage": "en",
-            "isAccessibleForFree": s.get("premium", "true") == "false",
-            "author": {"@type": "Organization", "name": BRAND, "url": SITE},
-        }, {
-            "@context": "https://schema.org", "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Stories", "item": f"{SITE}/stories/"},
-                {"@type": "ListItem", "position": 2, "name": s["title"], "item": url}]}]
-        head = jsonld(schemas)
-        chips = (f'<div class="chips"><span class="chip amber">▶ {s["mins"]} min</span>'
-                 f'<span class="chip">{html.escape(s["genre"])}</span>'
-                 f'<span class="chip">{html.escape(s["mood"])}</span>'
-                 f'<span class="chip">read by {html.escape(s["narrator"])}</span>'
-                 + ('' if s.get("premium") == "false" else '<span class="chip">Premium</span>')
-                 + '</div>')
-        siblings = [(f"/stories/{o['slug']}/", o["title"], f"{o['mins']} min · {o['genre']}", story_cover(o))
-                    for o in stories if o["slug"] != s["slug"]][:3]
-        essays = [(f"/sleep/{p['slug']}/", p["title"], "essay", "") for p in posts[:2]]
-        sample = (f'<blockquote>“{html.escape(s["sample"].strip())}”</blockquote>'
-                  f'<p class="meta" style="margin-top:-.5rem">The kind of sentence people fall asleep during</p>')
-        head_band = (f'<div class="post-head"><div class="hero-cover">{story_cover(s, "200px")}</div>'
-                     f'<p class="eyebrow">A Lullable sleep story</p>'
-                     f"<h1>{html.escape(s['title'])}</h1>{chips}</div>")
-        body = (f"<article>\n{head_band}\n<div class=\"measure\">\n"
-                f"{md(s['body'])}\n{sample}\n{story_cta(s)}\n</div>\n{related_html(siblings + essays)}\n</article>")
-        title = f"{s['title']} — a {s['mins']}-minute sleep story"
-        (out / "index.html").write_text(page(f"{title} — {BRAND}", s["blurb"], url, body, head, og_image=og))
+    for lang in LANGS:
+        t = lambda s: tr(s, lang)
+        other = "es" if lang == "en" else "en"
+        twins = {s["slug"] for s in stories_in[other]}
+        for s in stories_in[lang]:
+            url = f"{SITE}{site_path(lang, f'/stories/{s['slug']}/')}"
+            out = ROOT / url[len(SITE):].strip("/")
+            out.mkdir(parents=True, exist_ok=True)
+            has_card = story_card(s, out, lang)
+            og = f"{url}og.png" if has_card else f"{SITE}/og.png"
+            schemas = [{
+                "@context": "https://schema.org", "@type": "AudioObject",
+                "name": s["title"], "description": s["blurb"],
+                # the recording is English on both pages; only the page is translated
+                "duration": f"PT{s['mins']}M", "inLanguage": "en",
+                "isAccessibleForFree": s.get("premium", "true") == "false",
+                "author": {"@type": "Organization", "name": BRAND, "url": SITE},
+            }, {
+                "@context": "https://schema.org", "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": t("Stories"),
+                     "item": f"{SITE}{site_path(lang, '/stories/')}"},
+                    {"@type": "ListItem", "position": 2, "name": s["title"], "item": url}]}]
+            head = jsonld(schemas)
+            chips = (f'<div class="chips"><span class="chip amber">▶ {s["mins"]} min</span>'
+                     f'<span class="chip">{html.escape(s["genre"])}</span>'
+                     f'<span class="chip">{html.escape(s["mood"])}</span>'
+                     f'<span class="chip">{t("read by {narrator}").format(narrator=html.escape(s["narrator"]))}</span>'
+                     + ('' if s.get("premium") == "false" else '<span class="chip">Premium</span>')
+                     + (f'<span class="chip">{spanish.AUDIO_CHIP}</span>' if lang == "es" else "")
+                     + '</div>')
+            siblings = [(site_path(lang, f"/stories/{o['slug']}/"), o["title"], f"{o['mins']} min · {o['genre']}",
+                         story_cover(o)) for o in stories_in[lang] if o["slug"] != s["slug"]][:3]
+            essays = [(post_url(p)[len(SITE):], p["title"], t("essay"), "") for p in posts_in[lang][:2]]
+            sample = (f'<blockquote>“{html.escape(s["sample"].strip())}”</blockquote>'
+                      f'<p class="meta" style="margin-top:-.5rem">{t("The kind of sentence people fall asleep during")}</p>')
+            head_band = (f'<div class="post-head"><div class="hero-cover">{story_cover(s, "200px")}</div>'
+                         f'<p class="eyebrow">{t("A Lullable sleep story")}</p>'
+                         f"<h1>{html.escape(s['title'])}</h1>{chips}</div>")
+            body = (f"<article>\n{head_band}\n<div class=\"measure\">\n"
+                    f"{md(s['body'])}\n{sample}\n{story_cta(s, lang)}\n</div>\n"
+                    f"{related_html(siblings + essays, lang)}\n</article>")
+            title = t("{title} — a {mins}-minute sleep story").format(title=s["title"], mins=s["mins"])
+            alt = f"{SITE}{site_path(other, f'/stories/{s['slug']}/')}" if s["slug"] in twins else None
+            (out / "index.html").write_text(page(f"{title} — {BRAND}", s["blurb"], url, body, head,
+                                                 og_image=og, lang=lang, alt=alt))
 
     # ---- hub pages (the facets)
     # Templated, and deliberately almost none. The risk here is not Google's
@@ -1300,111 +1458,155 @@ def build():
          "is one page over, and every one of them is [written out in full to read](/stories/boring-true-stories-to-read/) "
          "if you would rather not listen at all. There are no ads and no music in any of them."),
     ]
-    hub_urls, hub_nav_items = [], []
-    for slug, nav, title, h1, desc, keep, intro in hubs:
-        picked = [st for st in stories if keep(st)]
-        if len(picked) < MIN_FACET_ITEMS:
-            print(f"  skip /stories/{slug}/ — {len(picked)} stories, needs {MIN_FACET_ITEMS}")
-            continue
-        url = f"{SITE}/stories/{slug}/"
-        cards = "".join(
-            f'<li class="idx-card">{story_cover(st, "104px")}'
-            f'<div class="row"><span class="chip amber">▶ {st["mins"]} min</span>'
-            f'<span class="sub">{html.escape(st["genre"])} · {html.escape(st["narrator"])}</span></div>'
-            f'<a href="/stories/{st["slug"]}/">{html.escape(st["title"])}</a>'
-            f'<p>{html.escape(st["blurb"])}</p></li>' for st in picked)
-        essays = [(f"/sleep/{q['slug']}/", q["title"], "essay", "") for q in posts[:2]]
-        body = (f'<div class="idx-head"><p class="eyebrow">Stories</p><h1>{html.escape(h1)}</h1>'
-                f'<p class="post-meta">{len(picked)} stories · endings given away</p></div>'
-                f'<article><div class="measure">{md(intro)}</div></article>'
-                f'<ul class="idx-grid">{cards}</ul>'
-                f'{related_html(essays)}')
-        schemas = [{
-            "@context": "https://schema.org", "@type": "CollectionPage",
-            "name": title, "description": desc, "url": url,
-        }, {
-            "@context": "https://schema.org", "@type": "BreadcrumbList",
-            "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Stories", "item": f"{SITE}/stories/"},
-                {"@type": "ListItem", "position": 2, "name": h1.rstrip("."), "item": url}]}]
-        out = ROOT / "stories" / slug
-        out.mkdir(exist_ok=True)
-        (out / "index.html").write_text(page(f"{title} — {BRAND}", desc, url, body, jsonld(schemas)))
-        hub_urls.append(url)
-        hub_nav_items.append((url, nav))
+    hub_urls, hub_nav_items = [], {lang: [] for lang in LANGS}
+    for lang in LANGS:
+        t = lambda s: tr(s, lang)
+        other = "es" if lang == "en" else "en"
+        for slug, nav, title, h1, desc, keep, intro in hubs:
+            picked = [st for st in stories_in[lang] if keep(st)]
+            if len(picked) < MIN_FACET_ITEMS:
+                print(f"  skip {site_path(lang, f'/stories/{slug}/')} — {len(picked)} stories, needs {MIN_FACET_ITEMS}")
+                continue
+            if lang == "es":   # same facet, same stories; only the words change
+                nav, title, h1, desc, intro = spanish.HUBS[slug]
+            url = f"{SITE}{site_path(lang, f'/stories/{slug}/')}"
+            cards = "".join(
+                f'<li class="idx-card">{story_cover(st, "104px")}'
+                f'<div class="row"><span class="chip amber">▶ {st["mins"]} min</span>'
+                f'<span class="sub">{html.escape(st["genre"])} · {html.escape(st["narrator"])}</span></div>'
+                f'<a href="{site_path(lang, "/stories/" + st["slug"] + "/")}">{html.escape(st["title"])}</a>'
+                f'<p>{html.escape(st["blurb"])}</p></li>' for st in picked)
+            essays = [(post_url(q)[len(SITE):], q["title"], t("essay"), "") for q in posts_in[lang][:2]]
+            body = (f'<div class="idx-head"><p class="eyebrow">{t("Stories")}</p><h1>{html.escape(h1)}</h1>'
+                    f'<p class="post-meta">{t("{n} stories · endings given away").format(n=len(picked))}</p></div>'
+                    f'<article><div class="measure">{md(intro)}</div></article>'
+                    f'<ul class="idx-grid">{cards}</ul>'
+                    f'{related_html(essays, lang)}')
+            schemas = [{
+                "@context": "https://schema.org", "@type": "CollectionPage",
+                "name": title, "description": desc, "url": url,
+            }, {
+                "@context": "https://schema.org", "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": t("Stories"),
+                     "item": f"{SITE}{site_path(lang, '/stories/')}"},
+                    {"@type": "ListItem", "position": 2, "name": h1.rstrip("."), "item": url}]}]
+            out = ROOT / url[len(SITE):].strip("/")
+            out.mkdir(parents=True, exist_ok=True)
+            twin = len([st for st in stories_in[other] if keep(st)]) >= MIN_FACET_ITEMS
+            alt = f"{SITE}{site_path(other, f'/stories/{slug}/')}" if twin else None
+            (out / "index.html").write_text(page(f"{title} — {BRAND}", desc, url, body, jsonld(schemas),
+                                                 lang=lang, alt=alt))
+            hub_urls.append(url)
+            hub_nav_items[lang].append((url, nav))
 
     # ---- stories index: card grid with gradient covers
-    items = "".join(
-        f'<li class="idx-card">{story_cover(s, "104px")}'
-        f'<div class="row"><span class="chip amber">▶ {s["mins"]} min</span>'
-        f'<span class="sub">{html.escape(s["genre"])} · {html.escape(s["narrator"])}</span></div>'
-        f'<a href="/stories/{s["slug"]}/">{html.escape(s["title"])}</a>'
-        f'<p>{html.escape(s["blurb"])}</p></li>' for s in stories)
-    hub_nav = ("".join(f'<a class="chip" href="{u[len(SITE):]}">{n}</a>' for u, n in hub_nav_items)
-               if hub_nav_items else "")
-    body = (f'<div class="idx-head"><p class="eyebrow">Stories</p>'
-            f"<h1>Every story in the app.</h1>"
-            f'<p class="post-meta">Endings given away, nothing withheld.</p>'
-            f'<div class="chips" style="justify-content:center;margin-top:1.25rem">{hub_nav}</div></div>'
-            f'<ul class="idx-grid">{items}</ul>')
-    (ROOT / "stories" / "index.html").write_text(
-        page(f"Sleep stories — {BRAND}", "Every sleep story in the Lullable app: slow fiction, nature and "
-             "weather, folklore — read warmly and quieter every minute.", f"{SITE}/stories/", body))
+    for lang in LANGS:
+        t = lambda s: tr(s, lang)
+        other = "es" if lang == "en" else "en"
+        items = "".join(
+            f'<li class="idx-card">{story_cover(s, "104px")}'
+            f'<div class="row"><span class="chip amber">▶ {s["mins"]} min</span>'
+            f'<span class="sub">{html.escape(s["genre"])} · {html.escape(s["narrator"])}</span></div>'
+            f'<a href="{site_path(lang, "/stories/" + s["slug"] + "/")}">{html.escape(s["title"])}</a>'
+            f'<p>{html.escape(s["blurb"])}</p></li>' for s in stories_in[lang])
+        hub_nav = ("".join(f'<a class="chip" href="{u[len(SITE):]}">{n}</a>' for u, n in hub_nav_items[lang])
+                   if hub_nav_items[lang] else "")
+        body = (f'<div class="idx-head"><p class="eyebrow">{t("Stories")}</p>'
+                f"<h1>{t('Every story in the app.')}</h1>"
+                f'<p class="post-meta">{t("Endings given away, nothing withheld.")}</p>'
+                f'<div class="chips" style="justify-content:center;margin-top:1.25rem">{hub_nav}</div></div>'
+                f'<ul class="idx-grid">{items}</ul>')
+        path = site_path(lang, "/stories/")
+        (ROOT / path.strip("/")).mkdir(parents=True, exist_ok=True)
+        (ROOT / path.strip("/") / "index.html").write_text(
+            page(f"{t('Sleep stories')} — {BRAND}", t("Every sleep story in the Lullable app: slow fiction, nature and "
+                 "weather, folklore — read warmly and quieter every minute."), f"{SITE}{path}", body,
+                 lang=lang, alt=f"{SITE}{site_path(other, '/stories/')}"))
 
     # ---- standing pages (/privacy/, /terms/, /support/) — same claim gate as
     # the essays, since "not a medical device" is the one sentence we cannot
-    # get wrong. Anything dropped in legal/*.md becomes /<filename>/.
-    legal = [parse_story(p) for p in sorted((ROOT / "legal").glob("*.md"))]
-    for l in legal:
-        hits = prohibited_claims_in(l["body"])
-        if hits:
-            sys.exit(f"HARD FAIL {l['path']}: prohibited claim(s) {hits}")
-        url = f"{SITE}/{l['slug']}/"
-        out = ROOT / l["slug"]
-        out.mkdir(exist_ok=True)
-        # A page with a `tagline:` is a pitch, not a document: the sub-headline
-        # replaces "Last updated". `cta:` + `cta_href:` put the one action under
-        # the headline and again at the end, so it is the most obvious thing on
-        # the page at both places a reader decides.
-        meta_line = (html.escape(l["tagline"]) if l.get("tagline") else
-                     f'Last updated <time datetime="{l["updated"]}">{pretty(l["updated"])}</time>')
-        head_band = (f'<div class="post-head"><p class="eyebrow">{BRAND}</p>'
-                     f"<h1>{html.escape(l['title'])}</h1>"
-                     f'<p class="post-meta{" tagline" if l.get("tagline") else ""}">{meta_line}</p></div>')
-        cta_top = cta_end = ""
-        if l.get("cta") and l.get("cta_href"):
-            button = (f'<a href="{html.escape(l["cta_href"], quote=True)}">{html.escape(l["cta"])}</a>')
-            note = f'<p class="cta-note">{inline(l["cta_note"])}</p>' if l.get("cta_note") else ""
-            cta_top = f'<div class="cta cta-top">{button}{note}</div>\n'
-            cta_end = f'<div class="cta">{button}{note}</div>\n'
-        text = l["body"].replace("{{launch}}", launch_copy())
-        body = (f'<article>\n{head_band}\n{cta_top}<div class="measure">\n{md(text)}\n'
-                f'{cta_end}</div>\n</article>')
-        (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body))
+    # get wrong. Anything dropped in legal/*.md becomes /<filename>/, and its
+    # Spanish twin in legal/es/ becomes /es/<filename>/.
+    legal = {"en": [parse_story(p) for p in sorted((ROOT / "legal").glob("*.md"))],
+             "es": [{**parse_story(p), "path": f"es/{p.name}"}
+                    for p in sorted((ROOT / "legal" / "es").glob("*.md"))]}
+    for lang in LANGS:
+        t = lambda s: tr(s, lang)
+        other = "es" if lang == "en" else "en"
+        twins = {l["slug"] for l in legal[other]}
+        for l in legal[lang]:
+            hits = prohibited_claims_in(l["body"])
+            if hits:
+                sys.exit(f"HARD FAIL {l['path']}: prohibited claim(s) {hits}")
+            url = f"{SITE}{site_path(lang, f'/{l['slug']}/')}"
+            out = ROOT / url[len(SITE):].strip("/")
+            out.mkdir(parents=True, exist_ok=True)
+            # A page with a `tagline:` is a pitch, not a document: the sub-headline
+            # replaces "Last updated". `cta:` + `cta_href:` put the one action under
+            # the headline and again at the end, so it is the most obvious thing on
+            # the page at both places a reader decides.
+            meta_line = (html.escape(l["tagline"]) if l.get("tagline") else
+                         f'{t("Last updated")} <time datetime="{l["updated"]}">{pretty(l["updated"], lang)}</time>')
+            head_band = (f'<div class="post-head"><p class="eyebrow">{BRAND}</p>'
+                         f"<h1>{html.escape(l['title'])}</h1>"
+                         f'<p class="post-meta{" tagline" if l.get("tagline") else ""}">{meta_line}</p></div>')
+            cta_top = cta_end = ""
+            if l.get("cta") and l.get("cta_href"):
+                button = (f'<a href="{html.escape(l["cta_href"], quote=True)}">{html.escape(l["cta"])}</a>')
+                note = f'<p class="cta-note">{inline(l["cta_note"])}</p>' if l.get("cta_note") else ""
+                cta_top = f'<div class="cta cta-top">{button}{note}</div>\n'
+                cta_end = f'<div class="cta">{button}{note}</div>\n'
+            text = l["body"].replace("{{launch}}", launch_copy(lang))
+            body = (f'<article>\n{head_band}\n{cta_top}<div class="measure">\n{md(text)}\n'
+                    f'{cta_end}</div>\n</article>')
+            alt = f"{SITE}{site_path(other, f'/{l['slug']}/')}" if l["slug"] in twins else None
+            (out / "index.html").write_text(page(f"{l['title']} — {BRAND}", l["description"], url, body,
+                                                 lang=lang, alt=alt))
 
-    chrono_urls = build_chronotype()
-    app_url = build_app_page()
-    faq_url = build_faq_page()
+    chrono_urls = build_chronotype() + build_chronotype("es")
+    app_urls = [build_app_page(), build_app_page("es")]
+    faq_urls = [build_faq_page(), build_faq_page("es")]
 
     sync_go_rules()
 
     # ---- sitemap / rss / robots / llms
-    urls = ([f"{SITE}/", f"{SITE}/manifesto/", f"{SITE}/press/", f"{SITE}/sleep/", f"{SITE}/stories/"]
-            + [app_url, faq_url] + chrono_urls
-            + [f"{SITE}/{l['slug']}/" for l in legal]
-            + [f"{SITE}/sleep/{p['slug']}/" for p in posts]
-            + [f"{SITE}/stories/{s['slug']}/" for s in stories]
-            + hub_urls)
-    sm = "\n".join(f"<url><loc>{u}</loc></url>" for u in urls)
+    # English first, in the order it has always had, then Spanish. A URL whose
+    # twin exists in the other language lists both, and x-default is English.
+    def lang_urls(lang):
+        s = lambda path: f"{SITE}{site_path(lang, path)}"
+        mine = lambda us: [u for u in us if u.startswith(f"{SITE}/es/") == (lang == "es")]
+        return ([s("/"), s("/manifesto/"), s("/press/"), s("/sleep/"), s("/stories/")]
+                + mine(app_urls + faq_urls) + mine(chrono_urls)
+                + [s(f"/{l['slug']}/") for l in legal[lang]]
+                + [post_url(p) for p in posts_in[lang]]
+                + [s(f"/stories/{st['slug']}/") for st in stories_in[lang]]
+                + mine(hub_urls))
+    urls = lang_urls("en") + lang_urls("es")
+    have = set(urls)
+
+    def sitemap_entry(u):
+        path = u[len(SITE):]
+        twin = SITE + (path[3:] if path.startswith("/es/") else "/es" + path)
+        if twin not in have:
+            return f"<url><loc>{u}</loc></url>"
+        en, es = (twin, u) if path.startswith("/es/") else (u, twin)
+        return (f'<url><loc>{u}</loc>'
+                f'<xhtml:link rel="alternate" hreflang="en" href="{en}"/>'
+                f'<xhtml:link rel="alternate" hreflang="es-MX" href="{es}"/>'
+                f'<xhtml:link rel="alternate" hreflang="x-default" href="{en}"/></url>')
+    sm = "\n".join(sitemap_entry(u) for u in urls)
     (ROOT / "sitemap.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n'
-        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}\n</urlset>')
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        f'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{sm}\n</urlset>')
 
+    # The feed is the English Sleep Library, so it carries English posts only.
     rss_items = "".join(
         f"<item><title>{html.escape(p['title'])}</title>"
         f"<link>{SITE}/sleep/{p['slug']}/</link><guid>{SITE}/sleep/{p['slug']}/</guid>"
         f"<pubDate>{datetime.strptime(p['date'], '%Y-%m-%d').replace(tzinfo=timezone.utc).strftime('%a, %d %b %Y 21:00:00 GMT')}</pubDate>"
-        f"<description>{html.escape(p['description'])}</description></item>" for p in posts)
+        f"<description>{html.escape(p['description'])}</description></item>" for p in posts_in["en"])
     (ROOT / "rss.xml").write_text(
         f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>'
         f"<title>{BRAND} — The Sleep Library</title><link>{SITE}/sleep/</link>"
@@ -1412,7 +1614,7 @@ def build():
 
     (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 
-    post_lines = "\n".join(f"- [{p['title']}]({SITE}/sleep/{p['slug']}/): {p['description']}" for p in posts)
+    post_lines = "\n".join(f"- [{p['title']}]({post_url(p)}): {p['description']}" for p in posts)
     story_lines = "\n".join(f"- [{s['title']}]({SITE}/stories/{s['slug']}/): {s['mins']}-minute "
                             f"{s['genre'].lower()} sleep story. {s['blurb']}" for s in stories)
     (ROOT / "llms.txt").write_text(
@@ -1428,6 +1630,7 @@ def build():
         f"- [What the app does]({SITE}/app/): every feature question, answered in one sentence\n\n"
         f"- [FAQ]({SITE}/faq/): how it works, what it costs, and how it differs from Calm, podcasts and white noise\n\n"
 f"- [Creators]({SITE}/creators/): the creator and podcast partner program — one link, paid per download the App Store attributes to it\n\n"
+        f"- [En español]({SITE}/es/): the whole site in Mexican Spanish. The app and its stories are in English.\n\n"
         + "## What Lullable does\n"
         + "".join(f"- **{q}** {plain(a)}\n" for q, a in APP_FACTS) + "\n"
 
@@ -1440,11 +1643,11 @@ f"- [Creators]({SITE}/creators/): the creator and podcast partner program — on
         f"- [TikTok](https://www.tiktok.com/@getlullable): the same cards, in motion\n"
         f"- [YouTube](https://www.youtube.com/@lullableapp): full-length sleep stories to listen to\n"
         f"- [Facebook](https://www.facebook.com/profile.php?id=61594011460380): the same nightly cards\n\n"
-        f"## About\n- Published by Tecnolog\u00edas Stellar, S.A. de C.V. (Mexico City), "
+        f"## About\n- Published by Tecnologías Stellar, S.A. de C.V. (Mexico City), "
         f"built by stellartech.xyz. Contact: info@getlullable.com\n")
 
-    print(f"built {len(posts)} posts + {len(stories)} story pages -> sleep/ stories/ "
-          f"+ sitemap + rss + robots + llms.txt")
+    print(f"built {len(posts)} posts + {len(stories)} story pages ({len(stories_es)} in Spanish) "
+          f"-> sleep/ stories/ es/ + sitemap + rss + robots + llms.txt")
 
 # ---------------------------------------------------------------- scaffolds
 
@@ -1454,11 +1657,13 @@ def scaffold_post(slug, topic=None):
     if path.exists():
         sys.exit(f"{path.name} already exists")
     t = topic or {}
+    lang_line = f"lang: {t['lang']}\n" if t.get("lang") else ""
     q = f"question: {t.get('title', 'Optional — the search question this answers. Delete if none.')}\n" \
         if (t.get("type") == "question" or not topic) else ""
     path.write_text(f"""---
 title: {t.get('title', 'TITLE')}
 description: Meta description under 155 characters.
+{lang_line}
 {q}type: {t.get('type', 'question | definition | fact-world')}
 ---
 
@@ -1703,19 +1908,19 @@ def go_rules():
     return [store, home]
 
 
-def launch_copy():
+def launch_copy(lang="en"):
     """The one paragraph on /creators/ that depends on launch state. The app is
     live, so what is left to vary is whether Apple has issued our campaign tag
     yet — a creator must not be told their link is counting before it is. The
     markdown carries a {{launch}} token; the build substitutes the truth."""
     if not APPLE_PT:
-        return ("The app is on the App Store. Your link sends iPhones straight to the listing and "
-                "everyone else to our site. Apple issues our campaign tag a day or two after launch, "
-                "and downloads made before it exists cannot be tied to a code — so wait for our "
-                "email confirming your link is tagged before you push. Then go.")
-    return ("The app is on the App Store. Your link sends iPhones straight to the listing with "
-            "your tag attached, and everyone else to our site. Apple counts first-time downloads "
-            "per tag from the moment of the tap; there is nothing to wait for.")
+        return tr("The app is on the App Store. Your link sends iPhones straight to the listing and "
+                  "everyone else to our site. Apple issues our campaign tag a day or two after launch, "
+                  "and downloads made before it exists cannot be tied to a code — so wait for our "
+                  "email confirming your link is tagged before you push. Then go.", lang)
+    return tr("The app is on the App Store. Your link sends iPhones straight to the listing with "
+              "your tag attached, and everyone else to our site. Apple counts first-time downloads "
+              "per tag from the moment of the tap; there is nothing to wait for.", lang)
 
 
 def sync_go_rules():

@@ -14,6 +14,8 @@
 
 - [Creators](https://getlullable.com/creators/): the creator and podcast partner program — one link, paid per download the App Store attributes to it
 
+- [En español](https://getlullable.com/es/): the whole site in Mexican Spanish. The app and its stories are in English.
+
 ## What Lullable does
 - **What is Lullable?** Lullable is an iPhone app of long-form sleep stories for adults: 26 true, gently fascinating pieces — a Roman bathhouse at closing time, the life of a redwood, the rings of Saturn — read slowly and flatly by a named narrator, and engineered so you fall asleep partway through. It is on the App Store, free to download.
 - **Do the stories fade out on their own?** Yes. A sleep timer set to 15, 30, 45 or 60 minutes ends in a ten-second ramp down to silence rather than a hard stop. Every recording also ends that way on its own: the last thirty seconds of every story fade out. There is nothing to switch off.
@@ -43,7 +45,7 @@
 
 ## Essays
 - [A Calm alternative for people whose minds race](https://getlullable.com/sleep/calm-alternative-for-a-racing-mind/): Calm is a wellness platform with a sleep shelf inside it. What it does well, what the subscription really buys, and when narrower is the better trade.
-- [Por qué el colchón decide la noche](https://getlullable.com/sleep/por-que-el-colchon-decide-la-noche/): Qué puede y qué no puede hacer la superficie sobre la que duermes, qué cambió la espuma viscoelástica y por qué la firmeza media aparece una y otra vez.
+- [Por qué el colchón decide la noche](https://getlullable.com/es/sleep/por-que-el-colchon-decide-la-noche/): Qué puede y qué no puede hacer la superficie sobre la que duermes, qué cambió la espuma viscoelástica y por qué la firmeza media aparece una y otra vez.
 - [What to listen to when you can't sleep](https://getlullable.com/sleep/what-to-listen-to-when-you-cant-sleep/): Podcasts, audiobooks, music, sleep stories — what each one does to a mind at midnight, and what the research on bedtime music actually found.
 - [I want to sleep but my brain won't stop talking to itself](https://getlullable.com/sleep/i-want-to-sleep-but-my-brain-wont-stop-talking/): The midnight voice isn't a malfunction — it's thinking with nothing left to do. What researchers found when they asked people what was in their heads.
 - [How Lullable is made: where the facts come from, and how the voice is produced](https://getlullable.com/sleep/how-lullable-is-made/): The narration is synthesised, the material is true, and the build refuses to publish a figure without two sources. The whole pipeline, stated plainly.
