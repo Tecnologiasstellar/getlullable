@@ -520,7 +520,7 @@ def tr(s, lang):
 
 def page(title, desc, canonical, body, extra_head="", og_image=None, lang="en", alt=None):
     """`alt` is the same page in the other language, when there is one: it adds
-    the hreflang trio to the head and a one-word switcher to the footer. A page
+    the hreflang tags to the head and a one-word switcher to the footer. A page
     with no twin gets neither — hreflang only ever points at a real translation,
     and the switcher never drops a reader on some other page's homepage."""
     nav_href, nav_label = app_cta()
@@ -531,8 +531,12 @@ def page(title, desc, canonical, body, extra_head="", og_image=None, lang="en", 
     hreflang = switch = ""
     if alt:
         en, es = (canonical, alt) if lang == "en" else (alt, canonical)
+        # es-MX alone speaks to Spanish speakers in Mexico, and Google may send the
+        # rest (Spain, Colombia, the US) to x-default, the English page. The plain
+        # "es" makes this the page for all of them; same four tags in the sitemap.
         hreflang = (f'<link rel="alternate" hreflang="en" href="{en}">\n'
                     f'<link rel="alternate" hreflang="es-MX" href="{es}">\n'
+                    f'<link rel="alternate" hreflang="es" href="{es}">\n'
                     f'<link rel="alternate" hreflang="x-default" href="{en}">\n')
         other = "es" if lang == "en" else "en"
         switch = (f' · <a href="{alt[len(SITE):]}" hreflang="{HREFLANG[other]}" '
@@ -1594,6 +1598,7 @@ def build():
         return (f'<url><loc>{u}</loc>'
                 f'<xhtml:link rel="alternate" hreflang="en" href="{en}"/>'
                 f'<xhtml:link rel="alternate" hreflang="es-MX" href="{es}"/>'
+                f'<xhtml:link rel="alternate" hreflang="es" href="{es}"/>'
                 f'<xhtml:link rel="alternate" hreflang="x-default" href="{en}"/></url>')
     sm = "\n".join(sitemap_entry(u) for u in urls)
     (ROOT / "sitemap.xml").write_text(
