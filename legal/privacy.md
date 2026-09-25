@@ -1,12 +1,12 @@
 ---
 title: Privacy Policy
 description: What Lullable collects, which cookies run only if you allow them, and how to make us delete it all. Written plainly, with the short version first.
-updated: 2026-09-22
+updated: 2026-09-24
 ---
 
 ## The short version
 
-We collect one thing directly: your email address, and only if you hand it over.
+On this website we collect one thing directly: your email address, and only if you hand it over. In the app we keep the account Apple signs you in with and a record of what you have bought. What you listen to never leaves your phone.
 
 We also count how many people read each page, using a tool that sets no cookie and stores nothing on your device. It cannot tell one visitor from another, so there is nothing in it to ask you about.
 
@@ -30,11 +30,11 @@ This policy covers the getlullable.com website, the Lullable newsletter, and the
 
 ## What we collect
 
-**If you join the newsletter.** Your email address, and the date you gave it to us. That's the whole record. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). Every email we send has a one-click unsubscribe link that works without contacting anybody.
+**If you join the newsletter.** Your email address, and the date you gave it to us. That's the whole record we keep. It is stored with Sender, our newsletter provider (Sender.net, Lithuania, European Union). If you have accepted advertising cookies, the signup is also reported to Meta, so that Meta can tell whether an ad led to it: we send a scrambled, one-way (hashed) copy of your address — never the address itself — with your IP address, your browser type, Meta's own cookie identifiers and the creator code described below. Every email we send has a one-click unsubscribe link that works without contacting anybody.
 
 **When you visit the site.** Our host, Vercel, keeps standard server logs — IP address, browser and device type, the page requested, the time — for security and to keep the site up. Those logs are necessary to serve you a page at all, so they aren't optional, and we don't read them for marketing.
 
-**Creator links.** If you arrive through a link like getlullable.com/go/name, the name is a code for the creator who sent you. It travels in the address — as an App Store campaign tag on an iPhone or iPad, and as a ref= parameter in the web address otherwise — so we can pay that creator for the download. It sets no cookie and is stored nowhere, unless you then join the newsletter, in which case it is saved with your email as the signup's *source* (at Sender, with the same retention as the email itself) and never anywhere else.
+**Creator links.** If you arrive through a link like getlullable.com/go/name, the name is a code for the creator who sent you. It travels in the address — as an App Store campaign tag on an iPhone or iPad, and as a ref= parameter in the web address otherwise — so we can pay that creator for the download. It sets no cookie. Like every address you visit, it appears in our host's standard server logs; beyond that it is kept only if you then join the newsletter, in which case it is saved with your email as the signup's *source* (at Sender, with the same retention as the email itself) and, if you have accepted advertising cookies, travels with the signup report to Meta.
 
 **Fonts.** The site's typefaces are served from our own domain, not from Google Fonts or any other font service. Loading a page does not tell a third party that you were here.
 
@@ -52,9 +52,11 @@ A banner asks you on your first visit. Until you answer it, nothing in the optio
 
 **Counting visits, without cookies — always on.** Vercel Web Analytics tells us how many people read a page and which site sent them. It sets no cookie, stores nothing on your device, and builds no profile — there is no identifier that follows you from one site to the next, or from one day to the next. There is nothing personal in it to consent to, so it runs without asking, and it is the only measurement that does.
 
-**Analytics — only with your consent.** Google Analytics 4, which unlike the above does set cookies and does record your visit as a visit by *you*. It would tell us which essays people read and where they arrived from.
+**Analytics — only with your consent.** Google Analytics 4, which unlike the above does set cookies and does record your visit as a visit by *you*. It tells us which essays people read and where they arrived from.
 
-**Advertising — only with your consent.** Meta (Facebook and Instagram), TikTok, and Google Ads measurement tags. These tell an ad platform that a visit or a signup followed one of its ads, and allow it to show Lullable to you again elsewhere.
+**Advertising — only with your consent.** Meta (Facebook and Instagram) and Google Ads measurement tags, plus the signup report to Meta described above, which our server sends so that it still counts when a browser blocks Meta's tag. These tell an ad platform that a visit or a signup followed one of its ads, and allow it to show Lullable to you again elsewhere.
+
+**A launch directory's counter — only with your consent.** LaunchNest, a directory that lists Lullable, loads a one-pixel image from its own server once you accept, which tells it that our site was visited.
 
 **How to change your mind, at any time:**
 
@@ -63,7 +65,7 @@ A banner asks you on your first visit. Until you answer it, nothing in the optio
 - Clear cookies in your browser settings, or block them there entirely.
 - Or email [info@getlullable.com](mailto:info@getlullable.com) and we'll handle it.
 
-**As of the date at the top of this page, none of the optional tags above is actually switched on.** The banner, the categories and the machinery are in place and waiting; the analytics and advertising tools they describe have not been added yet. When one is, we will say so here and ask again, as the last section promises.
+**Every tool named above is switched on, and each optional one waits for your yes.** There are no others. If we add one, we will say so here first, as the section on changes promises.
 
 Refusing costs you nothing. There is no paywall, no nag, no reduced version of the site.
 
@@ -71,13 +73,15 @@ Refusing costs you nothing. There is no paywall, no nag, no reduced version of t
 
 **Signing in.** The app uses Sign in with Apple. Apple gives us an identifier for your account and an email address — which is Apple's private relay address if you chose to hide yours, and we're glad when you do. We never see your Apple password, and there is no separate Lullable password for anyone to lose.
 
-**What we store on our servers.** Your listening progress: which story you were in and how far you got. That is what resumes playback where you drifted off, and what makes "the last fact you heard" possible — it is the entire reason the app exists instead of a podcast feed.
+**What we store on our servers.** Your account — the identifier and email address Apple gives us — and a record of your purchases: which subscription, when, its App Store transaction IDs and its status, so that Premium follows your account and can be restored. The same servers deliver the stories, and a request for a Premium one is checked against your account. They run on Supabase, in the United States.
 
-**What stays on your device.** Downloaded audio and your playback preferences — volume, fade length, timers. Those never reach us.
+**What stays on your device.** Your listening progress — which story, how far you got, where to pick up — along with your favourites, playback preferences such as speed and the sleep timer, bedtime reminders, the nightly reflections, and downloaded audio. None of it reaches us; the morning screen reads it from your phone.
 
-**What the app does not contain.** No third-party SDKs of any kind: no analytics SDK, no crash-reporting SDK, no advertising or attribution SDK. Nothing in the app follows you across other apps or websites, which is why you will never see an App Tracking Transparency prompt from us — there is nothing for us to ask permission for. The analytics and advertising cookies described above are on the website only, and never in the app.
+**Anonymous counts.** The app sends a handful of daily totals — launches, playback starts and buffering, failed catalogue loads, crashes and freezes, and whether purchases synced — with no account, story, listening position or device identifier attached. They are deleted after 90 days. Crash details themselves stay with Apple, under whatever you chose in your iPhone's analytics settings.
 
-**Payments.** Subscriptions are sold and processed by Apple. We never see your card number and never receive your billing address. Apple tells us whether an account is entitled to premium content, and nothing else.
+**What the app contains, and what it doesn't.** One third-party SDK: Supabase's, which connects the app to its own servers. There is no analytics SDK, no crash-reporting SDK, and no advertising or attribution SDK. Nothing in the app follows you across other apps or websites, which is why you will never see an App Tracking Transparency prompt from us — there is nothing for us to ask permission for. The analytics and advertising cookies described above are on the website only, and never in the app.
+
+**Payments.** Subscriptions are sold and processed by Apple. We never see your card number and never receive your billing address. Apple sends us the record of each purchase — which subscription, when, its transaction IDs and its status — and nothing more.
 
 **Health data.** None. The app does not read HealthKit, does not track your sleep, and never asks how you slept.
 
@@ -85,12 +89,12 @@ Refusing costs you nothing. There is no paywall, no nag, no reduced version of t
 
 You can delete your account from inside the app, in its settings. No email, no form, no support conversation, and no waiting for us to approve it.
 
-Deleting removes your account record, the email or relay address attached to it, and your entire listening history from our servers straight away. Copies sitting in encrypted backups are overwritten within 30 days. It cannot be undone.
+Deleting removes your account, the email or relay address attached to it, and the link between you and your purchases from our servers straight away. It also withdraws the app's Sign in with Apple access and clears what the app kept on your phone: listening progress, favourites, reminders, reflections. Copies sitting in encrypted backups are overwritten within 30 days. It cannot be undone.
 
 Two things worth knowing before you tap it:
 
 - **Deleting your account does not cancel your subscription.** Only Apple can do that — Settings, your name, Subscriptions, on your device. Cancel there first, or you will go on being charged for an account that no longer exists.
-- Records we are legally required to keep, such as an invoice Apple issued, survive deletion for as long as Mexican tax law demands and are used for nothing else.
+- A bare record of each purchase — the subscription, its dates and its App Store transaction ID, no longer linked to you — survives deletion, because a refund, a dispute, fraud prevention or tax law may need it. It is kept only as long as those require and used for nothing else.
 
 If you'd rather we did it for you, write to [info@getlullable.com](mailto:info@getlullable.com).
 
@@ -99,39 +103,41 @@ If you'd rather we did it for you, write to [info@getlullable.com](mailto:info@g
 **Necessary purposes** — without these there is no service to speak of:
 
 - To send you the newsletter you asked for.
-- To keep the site running, fast, and free of abuse.
+- To run the site and the app — sign-in, Premium access, restoring purchases, delivering the audio — and to keep them fast, reliable and free of abuse.
 - To answer you when you write to us.
 - To meet legal, tax, and accounting obligations.
 
 **Optional purposes** — you can refuse these and lose nothing:
 
-- To measure which pages and episodes people actually finish.
+- To measure which pages people read and what brought them here.
 - To measure whether our advertising works, and to show Lullable again to people who visited.
 - To ask you for feedback, or to invite you to test something early.
 
 Refuse the optional ones through the cookie banner, by unsubscribing, or by writing to [info@getlullable.com](mailto:info@getlullable.com). Saying no does not affect anything in the first list.
 
-**Legal bases (GDPR).** Consent for the newsletter, for analytics and advertising cookies, and for the optional purposes — withdrawable at any moment, with no effect on what was lawful before you withdrew. Legitimate interest for site security and basic operation. Legal obligation for records we're required to keep.
+**Legal bases (GDPR).** Consent for the newsletter, for analytics and advertising cookies, and for the optional purposes — withdrawable at any moment, with no effect on what was lawful before you withdrew. Performance of our contract with you for your app account, your purchases and Premium access. Legitimate interest for site security, basic operation and the app's anonymous reliability counts. Legal obligation for records we're required to keep.
 
 ## Who else touches it
 
 We use a small number of providers, each doing one job, each bound to process data only as agreed:
 
 - **Vercel** — website hosting, server logs, and the cookieless visit counting described above (United States).
+- **Supabase** — the app's servers: sign-in, purchase records, audio delivery and the anonymous daily counts (United States).
 - **Sender** — newsletter delivery and subscriber list (Lithuania, European Union).
 - **Google** — Analytics 4 and Google Ads measurement, only with your consent (United States and elsewhere). Not our font provider: the typefaces are our own.
-- **Meta and TikTok** — advertising measurement and retargeting, only with your consent (United States and elsewhere).
-- **Apple** — app distribution, Sign in with Apple, and subscription payments.
+- **Meta** — advertising measurement and retargeting, including the signup report described above, only with your consent (United States and elsewhere).
+- **LaunchNest** — a launch directory that lists Lullable; its counting pixel loads only with your consent.
+- **Apple** — app distribution, Sign in with Apple, subscription payments, and the App Store campaign tags that creator links carry.
 
 That is the complete list. We do not sell personal data for money, and we have no interest in doing so. We disclose data to authorities only where a valid legal order requires it.
 
-**A word about the advertising platforms.** When you consent to advertising cookies, Meta, TikTok, and Google receive data about your visit and use it for their own purposes too, under their own policies, which we don't control. That is the honest trade of running ads at all, and it is exactly what the banner is asking you about.
+**A word about the advertising platforms.** When you consent to advertising cookies, Meta and Google receive data about your visit and use it for their own purposes too, under their own policies, which we don't control. That is the honest trade of running ads at all, and it is exactly what the banner is asking you about.
 
-**International transfers.** We are a Mexican company and our providers are largely in the United States, so your data is stored and processed outside Mexico and outside the European Economic Area. Transfers rely on your consent and on the standard contractual protections our providers offer. If you'd rather your data not be transferred this way, decline the banner and don't subscribe — and if something is already there, write to us and we'll remove it.
+**International transfers.** We are a Mexican company and our providers are largely in the United States, so your data is stored and processed outside Mexico and outside the European Economic Area. Transfers rely on your consent and on the standard contractual protections our providers offer. If you'd rather your data not be transferred this way, decline the banner, don't subscribe and don't sign in to the app — and if something is already there, write to us and we'll remove it.
 
 ## How long we keep it
 
-Your email stays on the list until you unsubscribe or ask us to delete it, and it is removed within 30 days of either. Your app account and listening history are kept while the account exists and are erased the moment you delete it, with backup copies overwritten within 30 days. Server logs roll off within 30 days at our host's default. Analytics data is kept for no more than 14 months. Data held by the advertising platforms follows their own retention periods, which are described in their policies and are typically shorter. Records we're legally required to retain — invoices, tax documents — are kept for the period Mexican law demands and no longer.
+Your email stays on the list until you unsubscribe or ask us to delete it, and it is removed within 30 days of either. Your app account and purchase records are kept while the account exists and are erased the moment you delete it, with backup copies overwritten within 30 days — except the unlinked purchase record described above. Your listening history is never on our servers at all. The app's anonymous daily counts are deleted after 90 days. Server logs roll off within 30 days at our website host's default, and on Supabase's default schedule for the app. Analytics data is kept for no more than 14 months. Data held by the advertising platforms follows their own retention periods, which are described in their policies and are typically shorter. Records we're legally required to retain — invoices, tax documents — are kept for the period Mexican law demands and no longer.
 
 ## Your rights
 
@@ -141,7 +147,7 @@ Wherever you live, you can ask us to show you what we hold, correct it, delete i
 
 **In the EU or UK (GDPR).** Access, rectification, erasure, restriction, portability, objection, and withdrawal of consent at any time. You may also complain to your national supervisory authority.
 
-**In California (CCPA/CPRA).** You have the right to know, delete, and correct, and the right to opt out of the sale or sharing of personal information. To be precise about a word that gets misused: **we do not sell personal information for money**, but running Meta, TikTok, and Google advertising tags counts as "sharing for cross-context behavioural advertising" under California law. You can opt out of it by declining or withdrawing consent in the cookie banner, or by sending a Global Privacy Control signal, which we honour automatically. We do not knowingly share the personal information of anyone under 16. We will never discriminate against you for exercising a right, and we extend these controls to every visitor regardless of whether California's thresholds apply to us.
+**In California (CCPA/CPRA).** You have the right to know, delete, and correct, and the right to opt out of the sale or sharing of personal information. To be precise about a word that gets misused: **we do not sell personal information for money**, but running Meta and Google advertising tags counts as "sharing for cross-context behavioural advertising" under California law. You can opt out of it by declining or withdrawing consent in the cookie banner, or by sending a Global Privacy Control signal, which we honour automatically. We do not knowingly share the personal information of anyone under 16. We will never discriminate against you for exercising a right, and we extend these controls to every visitor regardless of whether California's thresholds apply to us.
 
 ## Children
 
@@ -163,17 +169,17 @@ If we change something that matters — a new tool, a new purpose — we'll upda
 
 **Tecnologías Stellar, S.A. de C.V.**, con domicilio en Agrarismo 38, Col. Escandón, Ciudad de México, C.P. 11800, México, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
 
-**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y su avance de escucha; y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta. Si llega a través del enlace de un creador (getlullable.com/go/nombre), ese nombre viaja en la dirección para que podamos pagarle al creador por la descarga; no coloca ninguna cookie y solo se conserva, junto con su correo, si usted se suscribe al boletín.
+**Datos que tratamos.** Su correo electrónico, cuando usted lo proporciona voluntariamente; los datos de navegación que registran nuestros servidores (dirección IP, tipo de navegador y dispositivo, páginas visitadas, fecha y hora); en la aplicación, el identificador y correo electrónico que nos entrega Sign in with Apple —que puede ser una dirección privada de retransmisión— y el registro de sus compras (la suscripción, sus fechas y sus identificadores de transacción de la App Store); y, únicamente si usted lo autoriza mediante el aviso de cookies en el sitio web, datos de uso e identificadores publicitarios, incluido el aviso a Meta de su suscripción al boletín, que se envía con su correo convertido en un código irreversible (hash), su dirección IP y su navegador. Su avance de escucha, sus favoritos, sus recordatorios y sus reflexiones se quedan en su dispositivo; no los recibimos. La aplicación envía también conteos diarios anónimos de uso y de fallas, sin ningún identificador suyo. Medimos además el número de visitas a cada página mediante una herramienta sin cookies (Vercel Web Analytics) que no almacena nada en su dispositivo ni permite identificarle. Las tipografías del sitio se sirven desde nuestro propio dominio, no desde Google Fonts. No tratamos datos personales sensibles, ni datos de salud, ni datos financieros: los pagos los procesa Apple y nunca vemos su tarjeta. Si llega a través del enlace de un creador (getlullable.com/go/nombre), ese nombre viaja en la dirección para que podamos pagarle al creador por la descarga; no coloca ninguna cookie y, fuera de los registros normales del servidor, solo se conserva, junto con su correo, si usted se suscribe al boletín.
 
-**Eliminación de su cuenta.** Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato su cuenta, su correo electrónico y todo su historial de escucha. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.
+**Eliminación de su cuenta.** Puede eliminar su cuenta desde la propia aplicación, en sus ajustes; ello borra de inmediato de nuestros servidores su cuenta, su correo electrónico y el vínculo con sus compras, y borra de su dispositivo lo que la aplicación guardaba. Solo se conserva, sin vínculo con usted, el registro de cada compra que pueda requerirse para reembolsos, disputas, prevención de fraude u obligaciones fiscales. La cancelación de su suscripción se realiza por separado, en los ajustes de suscripciones de Apple.
 
-**Finalidades necesarias.** Enviarle el boletín y el aviso de lanzamiento que solicitó; operar y proteger el sitio; atender sus mensajes; cumplir obligaciones legales y fiscales.
+**Finalidades necesarias.** Enviarle el boletín que solicitó; operar y proteger el sitio y la aplicación, incluidos el inicio de sesión, el acceso a Premium y la restauración de compras; atender sus mensajes; cumplir obligaciones legales y fiscales.
 
 **Finalidades no necesarias.** Medir el uso del sitio, medir la efectividad de nuestra publicidad y mostrarle nuestros anuncios nuevamente, y solicitarle retroalimentación o invitarle a probar el producto de forma anticipada. Usted puede negarse a estas finalidades sin que ello afecte el servicio ni el acceso a ningún contenido.
 
 **Medios para limitar el uso o divulgación.** Rechace las cookies opcionales en el aviso que aparece en su primera visita, o cámbielo después desde el enlace en el pie de página; active la señal Global Privacy Control en su navegador; o escríbanos a [info@getlullable.com](mailto:info@getlullable.com).
 
-**Transferencias.** Sus datos se almacenan y procesan en Estados Unidos por nuestros proveedores de hosting, correo, analítica y publicidad (Vercel, Google, Meta, TikTok) y en la Unión Europea por nuestro proveedor de correo (Sender). Al proporcionarnos su correo electrónico y al aceptar las cookies opcionales usted acepta estas transferencias; si no las acepta, por favor rechace las cookies, no se suscriba, y escríbanos para eliminar cualquier dato existente.
+**Transferencias.** Sus datos se almacenan y procesan en Estados Unidos por nuestros proveedores de hosting, aplicación, analítica y publicidad (Vercel, Supabase, Apple, Google, Meta) y en la Unión Europea por nuestro proveedor de correo (Sender). Si usted acepta las cookies opcionales, LaunchNest, un directorio de lanzamientos, recibe también una señal de su visita. Al proporcionarnos su correo electrónico, al usar la aplicación y al aceptar las cookies opcionales usted acepta estas transferencias; si no las acepta, por favor rechace las cookies, no se suscriba, y escríbanos para eliminar cualquier dato existente.
 
 **Derechos ARCO y revocación del consentimiento.** Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos, así como revocar su consentimiento, enviando su solicitud a [info@getlullable.com](mailto:info@getlullable.com) con su nombre, medio de contacto, acreditación de identidad y la descripción clara de lo que solicita. Responderemos en un plazo máximo de 20 días hábiles, sin costo alguno.
 
